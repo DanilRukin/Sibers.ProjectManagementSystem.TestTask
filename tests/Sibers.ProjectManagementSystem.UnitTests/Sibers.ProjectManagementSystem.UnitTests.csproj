@@ -22,4 +22,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Sibers.ProjectManagementSystem.SharedKernel\Sibers.ProjectManagementSystem.SharedKernel.csproj" />
+  </ItemGroup>
+
 </Project>
