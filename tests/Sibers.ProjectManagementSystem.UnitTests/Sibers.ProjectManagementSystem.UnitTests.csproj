@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Sibers.ProjectManagementSystem.Domain\Sibers.ProjectManagementSystem.Domain.csproj" />
     <ProjectReference Include="..\..\src\Sibers.ProjectManagementSystem.SharedKernel\Sibers.ProjectManagementSystem.SharedKernel.csproj" />
   </ItemGroup>
 

@@ -38,11 +38,10 @@ namespace Sibers.ProjectManagementSystem.Domain.ProjectAgregate
 
         }
 
-        public Project(int id, string name, DateTime startDate, DateTime endDate, Priority priority, string nameOfTheCustomerCompany, string nameOfTheContractorComapny)
+        public Project(string name, DateTime startDate, DateTime endDate, Priority priority, string nameOfTheCustomerCompany, string nameOfTheContractorComapny)
         {
             if (startDate >= endDate)
                 throw new ArgumentException($"Start date ('{startDate}') is later or equal to end date ('{endDate}')");
-            Id = id;
             StartDate = startDate;
             EndDate = endDate;
             ChangeName(name);

@@ -69,9 +69,8 @@ namespace Sibers.ProjectManagementSystem.Domain.EmployeeAgregate
 
         protected Employee() { }
 
-        public Employee(int id, PersonalData personalData, Email email)
+        public Employee(PersonalData personalData, Email email)
         {
-            Id = id;
             PersonalData = personalData ?? throw new ArgumentNullException("Personal data is null");
             Email = email ?? throw new ArgumentNullException("Email is null");
         }
