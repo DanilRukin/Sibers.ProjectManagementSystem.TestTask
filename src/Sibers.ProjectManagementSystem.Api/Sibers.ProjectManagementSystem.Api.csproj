@@ -8,15 +8,17 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Sibers.ProjectManagementSystem.Application\Sibers.ProjectManagementSystem.Application.csproj" />
+    <ProjectReference Include="..\Sibers.ProjectManagementSystem.Data.MSSQL\Sibers.ProjectManagementSystem.Data.MSSQL.csproj" />
     <ProjectReference Include="..\Sibers.ProjectManagementSystem.Data\Sibers.ProjectManagementSystem.Data.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>

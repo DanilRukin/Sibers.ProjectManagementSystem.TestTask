@@ -17,7 +17,7 @@ namespace Sibers.ProjectManagementSystem.Data.DataProfiles
 
         public override void ConfigureDbContextOptionsBuilder(DbContextOptionsBuilder builder)
         {
-            throw new NotImplementedException();
+            builder.UseInMemoryDatabase(ConnectionString);
         }
     }
 }

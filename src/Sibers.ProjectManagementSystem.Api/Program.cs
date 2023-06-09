@@ -1,3 +1,4 @@
+using Sibers.ProjectManagementSystem.Application;
 using Sibers.ProjectManagementSystem.Api.Services;
 using Sibers.ProjectManagementSystem.Data;
 using Sibers.ProjectManagementSystem.Data.DataProfiles;
@@ -19,6 +20,7 @@ namespace Sibers.ProjectManagementSystem.Api
             // Add services to the container.
 
             builder.Services
+                .AddApplicationModule()
                 .AddScoped<IDomainEventDispatcher, DomainEventDispatcher>()
                 .AddDbContext<ProjectManagementSystemContext>(dataProfile.ConfigureDbContextOptionsBuilder);
 

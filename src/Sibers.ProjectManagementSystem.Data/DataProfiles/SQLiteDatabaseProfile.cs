@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 using Sibers.ProjectManagementSystem.Data.DataProfiles.Base;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ namespace Sibers.ProjectManagementSystem.Data.DataProfiles
 {
     public class SQLiteDatabaseProfile : DataProfile
     {
+        private SqliteConnection _connection;
         public SQLiteDatabaseProfile(string name, string connectionString, bool useSeedData, bool migrateDatabase, bool createDatabase) :
             base(name, connectionString, useSeedData, migrateDatabase, createDatabase)
         {
@@ -17,7 +19,9 @@ namespace Sibers.ProjectManagementSystem.Data.DataProfiles
 
         public override void ConfigureDbContextOptionsBuilder(DbContextOptionsBuilder builder)
         {
-            throw new NotImplementedException();
+            _connection = new SqliteConnection(ConnectionString);
+            _connection.Open();
+            builder.UseSqlite(_connection);
         }
     }
 }
