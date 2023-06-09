@@ -10,9 +10,11 @@ namespace Sibers.ProjectManagementSystem.Data.DataProfiles
 {
     public class SqlServerDatabaseProfile : DataProfile
     {
-        public SqlServerDatabaseProfile(string name, string connectionString, bool useSeedData, bool migrateDatabase, bool createDatabase) :
+        public string MigrationAssembly { get; private set; }
+        public SqlServerDatabaseProfile(string name, string connectionString, bool useSeedData, bool migrateDatabase, bool createDatabase, string migrationAssembly) :
             base(name, connectionString, useSeedData, migrateDatabase, createDatabase)
         {
+            MigrationAssembly = migrationAssembly;
         }
 
         public override void ConfigureDbContextOptionsBuilder(DbContextOptionsBuilder builder)

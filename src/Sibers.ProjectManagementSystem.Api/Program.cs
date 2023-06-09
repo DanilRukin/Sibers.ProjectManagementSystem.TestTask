@@ -6,6 +6,8 @@ namespace Sibers.ProjectManagementSystem.Api
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            IConfiguration configuration = builder.Configuration;
+
 
             // Add services to the container.
 
