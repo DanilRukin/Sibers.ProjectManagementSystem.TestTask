@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Sibers.ProjectManagementSystem.Data\Sibers.ProjectManagementSystem.Data.csproj" />
+  </ItemGroup>
+
 </Project>
