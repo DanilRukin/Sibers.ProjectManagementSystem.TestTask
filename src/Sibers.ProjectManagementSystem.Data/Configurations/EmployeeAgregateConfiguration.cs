@@ -28,7 +28,8 @@ namespace Sibers.ProjectManagementSystem.Data.Configurations
 
             builder.HasMany<EmployeeOnProject>(DataConstants.EMPLOYEE_ON_PROJECTS)
                 .WithOne(eop => eop.Employee)
-                .HasForeignKey(eop => eop.EmployeeId);
+                .HasForeignKey(eop => eop.EmployeeId)
+                .OnDelete(DeleteBehavior.Cascade);
             builder.Navigation(DataConstants.EMPLOYEE_ON_PROJECTS)
                 .UsePropertyAccessMode(PropertyAccessMode.Field);
         }

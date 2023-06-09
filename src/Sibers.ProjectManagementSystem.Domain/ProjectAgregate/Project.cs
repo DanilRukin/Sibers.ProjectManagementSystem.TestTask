@@ -30,9 +30,6 @@ namespace Sibers.ProjectManagementSystem.Domain.ProjectAgregate
             ?.Select(ep => ep.Employee)
             ?.FirstOrDefault();
 
-        private List<Task> _tasks = new List<Task>();
-        public IReadOnlyCollection<Task> Tasks => _tasks.AsReadOnly();
-
         protected Project()
         {
 
