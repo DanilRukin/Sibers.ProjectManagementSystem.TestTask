@@ -17,4 +17,9 @@
     <ProjectReference Include="..\Sibers.ProjectManagementSystem.Domain\Sibers.ProjectManagementSystem.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="EmployeeAgregate\Commands\" />
+    <Folder Include="EmployeeAgregate\Queries\" />
+  </ItemGroup>
+
 </Project>
