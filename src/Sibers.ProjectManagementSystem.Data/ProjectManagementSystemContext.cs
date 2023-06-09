@@ -14,7 +14,7 @@ using Sibers.ProjectManagementSystem.Domain;
 
 namespace Sibers.ProjectManagementSystem.Data
 {
-    public class ProjectManagementSystemContext : DbContext
+    public class ProjectManagementSystemContext : DbContext, IEmployeeFactory, IProjectFactory
     {
         IDomainEventDispatcher _domainEventDispatcher;
         public ProjectManagementSystemContext(IDomainEventDispatcher domainEventDispatcher, DbContextOptions<ProjectManagementSystemContext> options) : base(options)
@@ -39,6 +39,22 @@ namespace Sibers.ProjectManagementSystem.Data
                 .Where(e => e.DomainEvents.Any())
                 .ToArray();
             await _domainEventDispatcher.DispatchAndClearEvents(events);
+        }
+
+        public Project Create(string name, DateTime startDate, DateTime endDate, Priority priority, string nameOfTheCustomerCompany, string nameOfTheContractorComapny)
+        {
+            Project project = new Project(name, startDate, endDate, priority, nameOfTheCustomerCompany, nameOfTheContractorComapny);
+            Projects.Add(project);
+            SaveEntitiesAsync(new CancellationToken());
+            return project;
+        }
+
+        public Employee Create(PersonalData personalData, Email email)
+        {
+            Employee employee = new Employee(personalData, email);
+            Employees.Add(employee);
+            SaveEntitiesAsync(new CancellationToken());
+            return employee;
         }
     }
 }
