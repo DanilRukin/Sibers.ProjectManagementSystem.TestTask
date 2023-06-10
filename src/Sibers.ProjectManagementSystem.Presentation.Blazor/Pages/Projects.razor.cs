@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects;
@@ -6,7 +7,9 @@ using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Dtos;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Extensions;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Projects.Commands;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Projects.Queries;
+using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.ViewModels;
 using Sibers.ProjectManagementSystem.SharedKernel.Results;
+
 
 namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Pages
 {
@@ -21,7 +24,10 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Pages
         [Inject]
         public IMediator Mediator { get; set; }
 
-        private ICollection<ProjectDto> _projects;
+        [Inject]
+        public IMapper Mapper { get; set; }
+
+        private ICollection<ProjectViewModel> _projects;
 
         protected override async Task OnInitializedAsync()
         {
@@ -36,11 +42,11 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Pages
                 if (!response.IsSuccess)
                 {
                     Snackbar.Add("Не удалось загрузить проекты.", Severity.Info);
-                    _projects = new List<ProjectDto>();
+                    _projects = new List<ProjectViewModel>();
                 }
                 else
                 {
-                    _projects = response.Value.ToList();
+                    _projects = Mapper.Map<IEnumerable<ProjectDto>, ICollection<ProjectViewModel>>(response.Value);
                 }
             }
             catch (Exception e)
@@ -54,7 +60,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Pages
             var dialog = DialogService.Show<CreateProjectDialog>("Создание проекта");
             using var task = dialog.Result;
             var result = await task;
-            if (result != null && !result.Cancelled && (result.Data is ProjectDto createdProject))
+            if (result != null && !result.Cancelled && (result.Data is ProjectViewModel createdProject))
             {
                 _projects.Add(createdProject);
             }
@@ -99,7 +105,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Pages
 
         protected async Task OnProjectEdit(int projectId)
         {
-            ProjectDto? project = _projects.FirstOrDefault(p => p.Id == projectId);
+            ProjectViewModel? project = _projects.FirstOrDefault(p => p.Id == projectId);
             DialogParameters parameters = new DialogParameters();
             parameters.Add(nameof(EditProjectDialog.ProjectToEdit), project);
             var dialog = DialogService.Show<EditProjectDialog>("Управление проектом", parameters);
@@ -118,7 +124,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Pages
                     else
                     {
                         _projects.RemoveWithCriterion(p => p.Id == projectId);
-                        _projects.Add(updatedProjectResult.Value);
+                        _projects.Add(Mapper.Map<ProjectViewModel>(updatedProjectResult.Value));
                     }
                 }
             }

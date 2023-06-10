@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Employees;
@@ -6,7 +7,9 @@ using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Dtos;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Employees.Queries;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Extensions;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Projects.Queries;
+using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.ViewModels;
 using Sibers.ProjectManagementSystem.SharedKernel.Results;
+
 
 namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
 {
@@ -21,6 +24,9 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
         [Inject]
         public ISnackbar Snackbar { get; set; }
 
+        [Inject]
+        public IMapper Mapper { get; set; }
+
         [CascadingParameter]
         private MudDialogInstance MudDialog { get; set; }
 
@@ -31,7 +37,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
         private string _managerFullName;
 
         [Parameter]
-        public ProjectDto Project { get; set; }
+        public ProjectViewModel Project { get; set; }
 
         private DateTime? _projectStartDate;
         private DateTime? _projectEndDate;
@@ -57,8 +63,8 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
             }
         }
 
-        void Ok() => MudDialog.Close(DialogResult.Ok(true));
-        void Cancel() => MudDialog.Cancel();
+        private void Ok() => MudDialog.Close(DialogResult.Ok(true));
+        private void Cancel() => MudDialog.Cancel();
 
         private async Task LoadEmployees()
         {
@@ -70,7 +76,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
             }
             else
             {
-                Project = projectResult.Value;
+                Project = Mapper.Map<ProjectViewModel>(projectResult.Value);
                 Project.EmployeesIds.Remove(Project.ManagerId);
                 GetRangeOfEmployeesQuery employeesQuery = new GetRangeOfEmployeesQuery(Project.EmployeesIds.Select(id => new EmployeeIncludeOptions(id, false)));
                 Result<IEnumerable<EmployeeDto>> result = await Mediator.Send(employeesQuery);

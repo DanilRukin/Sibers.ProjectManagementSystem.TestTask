@@ -35,7 +35,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
         private string _managerFullName = "";
 
         [Parameter]
-        public ProjectDto ProjectToEdit { get; set; } = new ProjectDto();
+        public ProjectViewModel ProjectToEdit { get; set; } = new ProjectViewModel();
 
 
         private async Task LoadProject()
@@ -56,7 +56,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
                 }
                 else
                 {
-                    ProjectToEdit = result.Value;
+                    ProjectToEdit = Mapper.Map<ProjectViewModel>(result.Value);
                 }
             }
         }
@@ -148,11 +148,11 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
 
         private async Task<Result> UpdateProjectsDataOnServer()
         {
-            UpdateProjectsDataCommand command = new(ProjectToEdit);
+            UpdateProjectsDataCommand command = new(Mapper.Map<ProjectDto>(ProjectToEdit));
             var result = await Mediator.Send(command);
             if (result.IsSuccess)
             {
-                ProjectToEdit = result.Value;
+                ProjectToEdit = Mapper.Map<ProjectViewModel>(result.Value);
                 return Result.Success();
             }
             else

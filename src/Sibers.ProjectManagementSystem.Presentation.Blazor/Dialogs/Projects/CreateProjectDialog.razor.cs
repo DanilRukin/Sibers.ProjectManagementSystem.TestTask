@@ -6,7 +6,7 @@ using Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Employees;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Dtos;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Extensions;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Projects.Commands;
-
+using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.ViewModels;
 
 namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
 {
@@ -31,8 +31,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
         private EmployeeDto _manager = new EmployeeDto();
         private string _managerFullName = "";
 
-        private ProjectDto project = new ProjectDto();
-        private bool _loading = false;
+        private ProjectViewModel project = new ProjectViewModel();
         private DateTime? _projectStartDate = DateTime.Now;
         private DateTime? _projectEndDate = DateTime.Now;
 
@@ -104,14 +103,14 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
             {
                 project.StartDate = _projectStartDate.Value;
                 project.EndDate = _projectEndDate.Value;
-                CreateProjectCommand command = new(project);
+                CreateProjectCommand command = new(Mapper.Map<ProjectDto>(project));
                 var result = await Mediator.Send(command);
                 if (result.IsSuccess)
                 {
                     await AddEmployeesToProject(result.Value.Id);
                     await AddManagerToProject(result.Value.Id);
                     Snackbar.Add("Проект успешно создан", Severity.Success);
-                    MudDialog.Close(DialogResult.Ok(result.Value));
+                    MudDialog.Close(DialogResult.Ok(Mapper.Map<ProjectViewModel>(result.Value)));
                 }
                 else
                     throw new Exception(result.Errors.AsOneString());
