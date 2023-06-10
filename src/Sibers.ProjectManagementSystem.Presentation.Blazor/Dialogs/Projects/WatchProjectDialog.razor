@@ -1,0 +1,94 @@
+﻿@using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Dtos;
+<MudDialog DisableSidePadding="true">
+    <DialogContent>
+        <MudContainer Style="max-height: 700px; overflow-y: scroll">
+            @if (Project == null)
+            {
+                <MudProgressCircular Indeterminate="true"></MudProgressCircular>
+            }
+            else
+            {
+                <MudText GutterBottom="true" Typo="Typo.h4" Align="Align.Center">@Project.Name (приоритет @Project.Priority)</MudText>
+                <MudDivider Class="mb-4 mt-2" />
+                <MudGrid>
+                    <MudItem xs="3">
+                        <MudText>Заказчик</MudText>
+                        <MudText Typo="Typo.h5">@Project.NameOfTheCustomerCompany</MudText>
+                    </MudItem>
+                    <MudItem xs="3">
+                        <MudText>Разработчик</MudText>
+                        <MudText Typo="Typo.h5">@Project.NameOfTheContractorCompany</MudText>
+                    </MudItem>
+                    <MudItem xs="3">
+                        <MudText>Дата начала</MudText>
+                        <MudText Typo="Typo.h5">@DateFormat(Project.StartDate)</MudText>
+                    </MudItem>
+                    <MudItem xs="3">
+                        <MudText>Дата окончания</MudText>
+                        <MudText Typo="Typo.h5">@DateFormat(Project.EndDate)</MudText>
+                    </MudItem>
+                </MudGrid>
+                <MudText GutterBottom="true" Typo="Typo.h5" Class="mt-5">Руководитель</MudText>
+                <MudText>
+                    @_managerFullName
+                    @if (_manager != null && _manager.Id != 0)
+                    {
+                        <MudIconButton Color="Color.Dark" Variant="Variant.Text" Icon="@Icons.Filled.RemoveRedEye" @onclick="@(() => OnEmployeeWatch(_manager.Id))" />
+                    }
+                </MudText>
+
+                <MudDivider Class="mb-5" />
+                <MudText GutterBottom="true" Typo="Typo.h5">Сотрудники на проекте</MudText>
+                @if (_employees == null)
+                {
+                    <MudProgressCircular Indeterminate="true"></MudProgressCircular>
+                }
+                else
+                {
+                    <MudTable Items="_employees" FixedHeader="true" FixedFooter="true" Hover="true" SortLabel="Sort by">
+                        <HeaderContent>
+                            <MudTh>
+                                <MudTableSortLabel SortBy="new Func<EmployeeDto, object>(e => e.Id)">
+                                    Id
+                                </MudTableSortLabel>
+                            </MudTh>
+                            <MudTh>
+                                <MudTableSortLabel SortBy="new Func<EmployeeDto, object>(e => e.FirstName)">
+                                    Фамилия
+                                </MudTableSortLabel>
+                            </MudTh>
+                            <MudTh>
+                                <MudTableSortLabel SortBy="new Func<EmployeeDto, object>(e => e.LastName)">
+                                    Имя
+                                </MudTableSortLabel>
+                            </MudTh>
+                            <MudTh>
+                                <MudTableSortLabel SortBy="new Func<EmployeeDto, object>(e => e.Patronymic)">
+                                    Отчество
+                                </MudTableSortLabel>
+                            </MudTh>
+                            <MudTh>
+                                <MudTableSortLabel SortBy="new Func<EmployeeDto, object>(e => e.Email)">
+                                    Email
+                                </MudTableSortLabel>
+                            </MudTh>
+                        </HeaderContent>
+                        <RowTemplate Context="emp">
+                            <MudTd DataLabel="Id">@emp.Id</MudTd>
+                            <MudTd DataLabel="FirstName">@emp.FirstName</MudTd>
+                            <MudTd DataLabel="LastName">@emp.LastName</MudTd>
+                            <MudTd DataLabel="Patronymic">@emp.Patronymic</MudTd>
+                            <MudTd DataLabel="Email">@emp.Email</MudTd>
+                        </RowTemplate>
+                        <PagerContent>
+                            <MudTablePager PageSizeOptions="new int[] { 10, 25, 50, 100 }" />
+                        </PagerContent>
+                    </MudTable>
+                }
+            }
+        </MudContainer>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Color="Color.Primary" OnClick="Ok">Назад</MudButton>
+    </DialogActions>
+</MudDialog>

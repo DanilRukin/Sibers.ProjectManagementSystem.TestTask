@@ -1,0 +1,85 @@
+﻿@page "/projects"
+@using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Dtos;
+
+
+<PageTitle>Все проекты компании</PageTitle>
+<MudFab Style="position:fixed; bottom:10px; right:10px;" Color="Color.Success"
+        StartIcon="@Icons.Material.Filled.Add" @onclick="OnCreateProject" />
+<MudText Typo="Typo.h3" GutterBottom="true">Все проекты компании</MudText>
+
+@if (_projects == null)
+{
+    <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+}
+else
+{
+    @if (_projects.Count() == 0)
+    {
+        <MudText Typo="Typo.h5" GutterBottom="true">Здесь ничего нет</MudText>
+    }
+    else
+    {
+        <MudTable Style="height:stretch;" Items="_projects" FixedHeader="true" FixedFooter="true" Hover="true" SortLabel="Sort by">
+            <HeaderContent>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<ProjectDto, object>(e => e.Id)">
+                        Id
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<ProjectDto, object>(e => e.Name)">
+                        Название проекта
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<ProjectDto, object>(e => e.NameOfTheCustomerCompany)">
+                        Компания-заказчик
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<ProjectDto, object>(e => e.NameOfTheContractorCompany)">
+                        Компания-исполнитель
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<ProjectDto, object>(e => e.StartDate)">
+                        Дата начала проекта
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<ProjectDto, object>(e => e.EndDate)">
+                        Дата окончания проекта
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<ProjectDto, object>(e => e.Priority)">
+                        Приоритет
+                    </MudTableSortLabel>
+                </MudTh>
+                <MudTh Style="width:200px;">
+                    Действие
+                </MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd>@context.Id</MudTd>
+                <MudTd>@context.Name</MudTd>
+                <MudTd>@context.NameOfTheCustomerCompany</MudTd>
+                <MudTd>@context.NameOfTheContractorCompany</MudTd>
+                <MudTd>@context.StartDate</MudTd>
+                <MudTd>@context.EndDate</MudTd>
+                <MudTd>@context.Priority</MudTd>
+                <MudTd>
+                    <MudIconButton Color="Color.Info" Variant="Variant.Filled" Icon="@Icons.Filled.RemoveRedEye" @onclick="@(() => OnWatchProject(context.Id))">
+                    </MudIconButton>
+                    <MudIconButton Color="Color.Success" Variant="Variant.Filled" Icon="@Icons.Filled.Edit" @onclick="@(() => OnProjectEdit(context.Id))">
+                    </MudIconButton>
+                    <MudIconButton Color="Color.Error" Variant="Variant.Filled" Icon="@Icons.Filled.Delete" @onclick="@(() => OnProjectDeleting(context.Id))">
+                    </MudIconButton>
+                </MudTd>
+            </RowTemplate>
+            <PagerContent>
+                <MudTablePager PageSizeOptions="new int[] { 10, 25, 50, 100 }" />
+            </PagerContent>
+        </MudTable>
+    }
+}
