@@ -1,0 +1,67 @@
+﻿@using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Dtos;
+<MudDialog>
+    <DialogContent>
+        <MudContainer>
+            @if (EmployeesList == null)
+            {
+                <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+            }
+            else
+            {
+                @if (!Multiselection)
+                {
+                    <MudText GutterBottom="true" Typo="Typo.h4">
+                        Выбранный сотрудник
+                    </MudText>
+                    <MudText GutterBottom="true">
+                        @_selectedEmployee?.FirstName @_selectedEmployee?.LastName @_selectedEmployee?.Patronymic
+                    </MudText>
+                }
+                <MudTable Style="height:stretch;" Items="EmployeesList" FixedHeader="true" FixedFooter="true"
+                      Hover="true" SortLabel="Sort by" MultiSelection="Multiselection"
+                      @bind-SelectedItems="_selectedEmployees" @bind-SelectedItem="_selectedEmployee">
+                    <HeaderContent>
+                        <MudTh>
+                            <MudTableSortLabel SortBy="new Func<EmployeeDto, object>(e => e.Id)">
+                                Id
+                            </MudTableSortLabel>
+                        </MudTh>
+                        <MudTh>
+                            <MudTableSortLabel SortBy="new Func<EmployeeDto, object>(e => e.FirstName)">
+                                Фамилия
+                            </MudTableSortLabel>
+                        </MudTh>
+                        <MudTh>
+                            <MudTableSortLabel SortBy="new Func<EmployeeDto, object>(e => e.LastName)">
+                                Имя
+                            </MudTableSortLabel>
+                        </MudTh>
+                        <MudTh>
+                            <MudTableSortLabel SortBy="new Func<EmployeeDto, object>(e => e.Patronymic)">
+                                Отчество
+                            </MudTableSortLabel>
+                        </MudTh>
+                        <MudTh>
+                            <MudTableSortLabel SortBy="new Func<EmployeeDto, object>(e => e.Email)">
+                                Email
+                            </MudTableSortLabel>
+                        </MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd DataLabel="Id">@context.Id</MudTd>
+                        <MudTd DataLabel="FirstName">@context.FirstName</MudTd>
+                        <MudTd DataLabel="LastName">@context.LastName</MudTd>
+                        <MudTd DataLabel="Patronymic">@context.Patronymic</MudTd>
+                        <MudTd DataLabel="Email">@context.Email</MudTd>
+                    </RowTemplate>
+                    <PagerContent>
+                        <MudTablePager PageSizeOptions="new int[] { 10, 25, 50, 100 }" />
+                    </PagerContent>
+                </MudTable>
+            }
+        </MudContainer>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Submit">Выбрать</MudButton>
+    </DialogActions>
+</MudDialog>

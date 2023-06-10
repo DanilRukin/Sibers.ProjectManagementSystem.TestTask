@@ -1,0 +1,57 @@
+﻿<MudDialog>
+    <DialogContent>
+        <MudContainer>
+            @if (EmployeeToWatch == null)
+            {
+                <MudProgressCircular Indeterminate="true"></MudProgressCircular>
+            }
+            else
+            {
+                <MudText GutterBottom="true" Typo="Typo.h6">
+                    Фамилия Имя Отчество
+                </MudText>
+                <MudText GutterBottom="true" Typo="Typo.h4">
+                    @EmployeeToWatch.FirstName @EmployeeToWatch.LastName @EmployeeToWatch.Patronymic
+                </MudText>
+                <MudText GutterBottom="true" Typo="Typo.h6">
+                    Email
+                </MudText>
+                <MudText GutterBottom="true" Typo="Typo.h4">
+                    @EmployeeToWatch.Email
+                </MudText>
+                <MudText Typo="Typo.h5" GutterBottom="true" Class="mt-5">
+                    Задействован на проектах
+                </MudText>
+                @if (EmployeeToWatch.ProjectsIds == null)
+                {
+                    <MudProgressCircular Indeterminate="true"></MudProgressCircular>
+                }
+                else
+                {
+                    <MudTable Items="_projects" Hover="true">
+                        <HeaderContent>
+                            <MudTh>
+                                Название проекта
+                            </MudTh>
+                            <MudTh>
+                                Роль на проекте
+                            </MudTh>
+                        </HeaderContent>
+                        <RowTemplate Context="ep">
+                            <MudTd DataLabel="Название проекта">@ep.Name</MudTd>
+                            <MudTd DataLabel="Роль на проекте">
+                                @(() => @ep.ManagerId == EmployeeToWatch.Id ? "Менеджер" : "Сотрудник")
+                            </MudTd>
+                        </RowTemplate>
+                        <PagerContent>
+                            <MudTablePager PageSizeOptions="new int[] { 5, 10, 15}" />
+                        </PagerContent>
+                    </MudTable>
+                }
+            }
+        </MudContainer>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Назад</MudButton>
+    </DialogActions>
+</MudDialog>

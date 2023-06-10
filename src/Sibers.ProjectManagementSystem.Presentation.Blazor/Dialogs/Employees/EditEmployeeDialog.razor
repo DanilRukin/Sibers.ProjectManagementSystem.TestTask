@@ -1,0 +1,65 @@
+﻿<MudDialog>
+    <DialogContent>
+        <MudContainer>
+            @if (EmployeeToEdit == null)
+            {
+                <MudProgressCircular Indeterminate="true"></MudProgressCircular>
+            }
+            else
+            {
+                <EditForm Model="@EmployeeToEdit">
+                    <MudTextField Class="mb-3" Label="Фамилия" @bind-Value="EmployeeToEdit.FirstName" Required="true"
+                              RequiredError="Это обязательное поле!" />
+                    <MudTextField Class="mb-3" Label="Имя" @bind-Value="EmployeeToEdit.LastName" Required="true"
+                              RequiredError="Это обязательное поле!" />
+                    <MudTextField Class="mb-3" Label="Отчество" @bind-Value="EmployeeToEdit.Patronymic" Required="true"
+                              RequiredError="Это обязательное поле!" />
+                    <MudTextField Class="mb-3" Label="Email" @bind-Value="EmployeeToEdit.Email" Required="true"
+                              RequiredError="Это обязательное поле!" />
+
+                    <MudText Typo="Typo.h5" GutterBottom="true" Class="mt-3">
+                        Задействован на проектах
+                    </MudText>
+                    @if (_employeesProjects == null)
+                    {
+                        <MudProgressCircular Indeterminate="true"></MudProgressCircular>
+                    }
+                    else
+                    {
+                        <MudTable Items="_employeesProjects" Hover="true">
+                            <HeaderContent>
+                                <MudTh>
+                                    Название проекта
+                                </MudTh>
+                                <MudTh>
+                                    Роль на проекте
+                                </MudTh>
+                                <MudTh>
+                                    Действие
+                                </MudTh>
+                            </HeaderContent>
+                            <RowTemplate Context="p">
+                                <MudTd DataLabel="Название проекта">@p.Name</MudTd>
+                                <MudTd DataLabel="Роль на проекте">
+                                    @(() => p.ManagerId == EmployeeToEdit.Id ? "Руководитель" : "Сотрудник")
+                                </MudTd>
+                                <MudTd DataLabel="Действие">
+                                    <MudButton Color="Color.Info" Variant="Variant.Filled" @onclick="@(() => OnProjectEditing(p.Id))">
+                                        Редактировать
+                                    </MudButton>
+                                </MudTd>
+                            </RowTemplate>
+                            <PagerContent>
+                                <MudTablePager PageSizeOptions="new int[] { 5, 10, 15}" />
+                            </PagerContent>
+                        </MudTable>
+                    }
+                </EditForm>
+            }
+        </MudContainer>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Отмена</MudButton>
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Submit">Принять</MudButton>
+    </DialogActions>
+</MudDialog>

@@ -3,23 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sibers.ProjectManagementSystem.SharedKernel", "src\Sibers.ProjectManagementSystem.SharedKernel\Sibers.ProjectManagementSystem.SharedKernel.csproj", "{A1957726-E0DB-4ADA-BDA0-3650FC64572E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sibers.ProjectManagementSystem.SharedKernel", "src\Sibers.ProjectManagementSystem.SharedKernel\Sibers.ProjectManagementSystem.SharedKernel.csproj", "{A1957726-E0DB-4ADA-BDA0-3650FC64572E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sibers.ProjectManagementSystem.Domain", "src\Sibers.ProjectManagementSystem.Domain\Sibers.ProjectManagementSystem.Domain.csproj", "{9A7B6265-F159-472A-873D-7C12B31DDF13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sibers.ProjectManagementSystem.Domain", "src\Sibers.ProjectManagementSystem.Domain\Sibers.ProjectManagementSystem.Domain.csproj", "{9A7B6265-F159-472A-873D-7C12B31DDF13}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sibers.ProjectManagementSystem.UnitTests", "tests\Sibers.ProjectManagementSystem.UnitTests\Sibers.ProjectManagementSystem.UnitTests.csproj", "{F17E5B18-DB95-4E9E-B689-0C180B9EBCA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sibers.ProjectManagementSystem.UnitTests", "tests\Sibers.ProjectManagementSystem.UnitTests\Sibers.ProjectManagementSystem.UnitTests.csproj", "{F17E5B18-DB95-4E9E-B689-0C180B9EBCA2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sibers.ProjectManagementSystem.Application", "src\Sibers.ProjectManagementSystem.Application\Sibers.ProjectManagementSystem.Application.csproj", "{2C7C0F79-48F6-4B6B-A9B7-5E7720683B7F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sibers.ProjectManagementSystem.Application", "src\Sibers.ProjectManagementSystem.Application\Sibers.ProjectManagementSystem.Application.csproj", "{2C7C0F79-48F6-4B6B-A9B7-5E7720683B7F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sibers.ProjectManagementSystem.IntegrationTests", "tests\Sibers.ProjectManagementSystem.IntegrationTests\Sibers.ProjectManagementSystem.IntegrationTests.csproj", "{860000C8-7A04-48CD-9CAE-95328AF89EBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sibers.ProjectManagementSystem.IntegrationTests", "tests\Sibers.ProjectManagementSystem.IntegrationTests\Sibers.ProjectManagementSystem.IntegrationTests.csproj", "{860000C8-7A04-48CD-9CAE-95328AF89EBA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sibers.ProjectManagementSystem.Data", "src\Sibers.ProjectManagementSystem.Data\Sibers.ProjectManagementSystem.Data.csproj", "{0636B1AE-DE17-4F52-B198-A08D44F422D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sibers.ProjectManagementSystem.Data", "src\Sibers.ProjectManagementSystem.Data\Sibers.ProjectManagementSystem.Data.csproj", "{0636B1AE-DE17-4F52-B198-A08D44F422D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sibers.ProjectManagementSystem.Data.MSSQL", "src\Sibers.ProjectManagementSystem.Data.MSSQL\Sibers.ProjectManagementSystem.Data.MSSQL.csproj", "{D649BAE3-5610-4733-893F-7FC346E41F7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sibers.ProjectManagementSystem.Data.MSSQL", "src\Sibers.ProjectManagementSystem.Data.MSSQL\Sibers.ProjectManagementSystem.Data.MSSQL.csproj", "{D649BAE3-5610-4733-893F-7FC346E41F7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sibers.ProjectManagementSystem.Presentation.Blazor", "src\Sibers.ProjectManagementSystem.Presentation.Blazor\Sibers.ProjectManagementSystem.Presentation.Blazor.csproj", "{ECF9EE87-86AF-4755-B60D-906C67A47EFB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sibers.ProjectManagementSystem.Presentation.Blazor", "src\Sibers.ProjectManagementSystem.Presentation.Blazor\Sibers.ProjectManagementSystem.Presentation.Blazor.csproj", "{ECF9EE87-86AF-4755-B60D-906C67A47EFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sibers.ProjectManagementSystem.Api", "src\Sibers.ProjectManagementSystem.Api\Sibers.ProjectManagementSystem.Api.csproj", "{A3D933C3-D966-4579-8779-5C22A33B6550}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sibers.ProjectManagementSystem.Api", "src\Sibers.ProjectManagementSystem.Api\Sibers.ProjectManagementSystem.Api.csproj", "{A3D933C3-D966-4579-8779-5C22A33B6550}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

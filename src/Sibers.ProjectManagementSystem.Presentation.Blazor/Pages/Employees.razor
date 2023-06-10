@@ -1,0 +1,74 @@
+﻿@page "/employees"
+
+@using MediatR
+@using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Dtos;
+@using Sibers.ProjectManagementSystem.SharedKernel
+@using Sibers.ProjectManagementSystem.SharedKernel.Results
+
+
+<PageTitle>Все сотрудники компании</PageTitle>
+<MudFab Style="position:fixed; bottom:10px; right:10px;" Color="Color.Success"
+        StartIcon="@Icons.Material.Filled.Add" @onclick="OnEmployeeCreate" />
+<MudText Typo="Typo.h3" GutterBottom="true">Все сотрудники компании</MudText>
+
+@if (_employeesList == null)
+{
+    <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+}
+else if (_employeesList.Count == 0)
+{
+    <MudText Typo="Typo.h5" GutterBottom="true">Здесь ничего нет</MudText>
+}
+else
+{
+    <MudTable Style="height:stretch;" Items="_employeesList" FixedHeader="true" FixedFooter="true" Hover="true" SortLabel="Sort by">
+        <HeaderContent>
+            <MudTh>
+                <MudTableSortLabel SortBy="new Func<EmployeeDto, object>(e => e.Id)">
+                    Id
+                </MudTableSortLabel>
+            </MudTh>
+            <MudTh>
+                <MudTableSortLabel SortBy="new Func<EmployeeDto, object>(e => e.FirstName)">
+                    Фамилия
+                </MudTableSortLabel>
+            </MudTh>
+            <MudTh>
+                <MudTableSortLabel SortBy="new Func<EmployeeDto, object>(e => e.LastName)">
+                    Имя
+                </MudTableSortLabel>
+            </MudTh>
+            <MudTh>
+                <MudTableSortLabel SortBy="new Func<EmployeeDto, object>(e => e.Patronymic)">
+                    Отчество
+                </MudTableSortLabel>
+            </MudTh>
+            <MudTh>
+                <MudTableSortLabel SortBy="new Func<EmployeeDto, object>(e => e.Email)">
+                    Email
+                </MudTableSortLabel>
+            </MudTh>
+            <MudTh>
+                Действие
+            </MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Id">@context.Id</MudTd>
+            <MudTd DataLabel="FirstName">@context.FirstName</MudTd>
+            <MudTd DataLabel="LastName">@context.LastName</MudTd>
+            <MudTd DataLabel="Patronymic">@context.Patronymic</MudTd>
+            <MudTd DataLabel="Email">@context.Email</MudTd>
+            <MudTd>
+                <MudIconButton Color="Color.Info" Variant="Variant.Filled" Icon="@Icons.Filled.RemoveRedEye" @onclick="@(() => OnEmployeeWatch(context))">
+                </MudIconButton>
+                <MudIconButton Color="Color.Success" Variant="Variant.Filled" Icon="@Icons.Filled.Edit" @onclick="() => OnEmployeeEdit(context.Id)">
+                </MudIconButton>
+                <MudIconButton Color="Color.Error" Variant="Variant.Filled" Icon="@Icons.Filled.Delete" @onclick="@(() => OnEmployeeDelete(context))">
+                </MudIconButton>
+            </MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager PageSizeOptions="new int[] { 10, 25, 50, 100 }" />
+        </PagerContent>
+    </MudTable>
+}
