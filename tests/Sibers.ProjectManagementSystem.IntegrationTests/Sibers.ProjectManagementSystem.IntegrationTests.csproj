@@ -22,4 +22,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Sibers.ProjectManagementSystem.Api\Sibers.ProjectManagementSystem.Api.csproj" />
+    <ProjectReference Include="..\..\src\Sibers.ProjectManagementSystem.Application\Sibers.ProjectManagementSystem.Application.csproj" />
+  </ItemGroup>
+
 </Project>

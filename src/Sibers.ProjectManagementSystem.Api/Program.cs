@@ -47,6 +47,12 @@ namespace Sibers.ProjectManagementSystem.Api
 
             app.MapControllers();
 
+            app.UseCors(builder => builder
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .SetIsOriginAllowed(origin => true)
+            .AllowCredentials());
+
             app.Run();
         }
     }
