@@ -28,12 +28,30 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
         [CascadingParameter]
         MudDialogInstance MudDialog { get; set; }
 
+        /// <summary>
+        /// Все сотрудники на проекте - отображаемые
+        /// </summary>
         private ICollection<EmployeeViewModel> _employeesOnProject = new List<EmployeeViewModel>();
-        private ICollection<EmployeeViewModel> _initialSetOfEmployees = new List<EmployeeViewModel>();
-        private EmployeeViewModel? _manager;  // текущий менеджер
-        private EmployeeViewModel? _oldManager;  // менеджер, который был изначально
-        private string _managerFullName = "";
 
+        /// <summary>
+        /// Изначальный набор сотрудников на проекте
+        /// </summary>
+        private ICollection<EmployeeViewModel> _initialSetOfEmployees = new List<EmployeeViewModel>();
+
+        /// <summary>
+        /// Текущий менеджер (изменяемый, отображаемый)
+        /// </summary>
+        private EmployeeViewModel? _manager;
+
+        /// <summary>
+        /// Изначальный менеджер
+        /// </summary>
+        private EmployeeViewModel? _oldManager;
+
+        private string _managerFullName = "";
+        /// <summary>
+        /// Проект для редактирования
+        /// </summary>
         [Parameter]
         public ProjectViewModel ProjectToEdit { get; set; } = new ProjectViewModel();
 
@@ -61,7 +79,6 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
             }
         }
 
-        private bool _loading = false;
         private DateTime? _projectStartDate;
         private DateTime? _projectEndDate;
 
@@ -203,9 +220,6 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
         {
             if (_manager == null)
                 return Result.Error("New manager was null!");
-            //Func<EmployeeDto, bool> criterion = new Func<EmployeeDto, bool>(e => e.Id == _manager.Id);
-            //if (_employeesOnProject.Any(criterion))
-            //    _employeesOnProject.RemoveWithCriterion(criterion);
             if (!_initialSetOfEmployees.Any(e => e.Id == _manager.Id))  // если менеджера не было на проекте вообще
             {
                 AddEmployeeCommand addCommand = new(ProjectToEdit.Id, _manager.Id); // add him/her on a server
@@ -242,12 +256,6 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
                 return Result.Error("Result of demote command was null!");
             if (!demoteResult.IsSuccess)
                 return demoteResult;
-
-            // old manager was added as employee on a server, so we must remove _oldManager from collections
-            //Func<EmployeeDto, bool> criterion = new Func<EmployeeDto, bool>(e => e.Id == _oldManager.Id);
-            //if (_employeesOnProject.Contains(criterion))
-            //    _employeesOnProject.RemoveWithCriterion(criterion);
-            // TODO: добавить менеджера в коллекцию сотрудников как сотрудника, т.е. просто обновить представление
             return Result.Success();
         }
 
@@ -334,10 +342,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
             {
                 if (result.Data is EmployeeViewModel futureManager)
                 {
-                    //if (_manager != null)
-                    //    _employeesOnProject.Add(_manager);
                     _manager = futureManager;  // old manager in _oldManager. 
-                    //_employeesOnProject.Remove(futureManager);
                     _managerFullName = $"{_manager.FirstName} {_manager.LastName} {_manager.Patronymic}";
                 }
             }
