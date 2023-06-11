@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects;
@@ -7,12 +8,16 @@ using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Employee
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Employees.Queries;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Extensions;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Projects.Queries;
+using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.ViewModels;
 using Sibers.ProjectManagementSystem.SharedKernel.Results;
 
 namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Employees
 {
     public partial class EditEmployeeDialog
     {
+        [Inject]
+        public IMapper Mapper { get; set; }
+
         [Inject]
         public IMediator Mediator { get; set; }
 
@@ -25,15 +30,14 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Employees
         [CascadingParameter]
         MudDialogInstance MudDialog { get; set; }
 
-        private bool Loading { get; set; }
 
         ///<summary>
         /// Employee to edit
         /// </summary>
         [Parameter]
-        public EmployeeDto EmployeeToEdit { get; set; }
+        public EmployeeViewModel EmployeeToEdit { get; set; }
 
-        private ICollection<ProjectDto> _employeesProjects;
+        private ICollection<ProjectViewModel> _employeesProjects;
 
         protected override async Task OnInitializedAsync()
         {
@@ -72,7 +76,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Employees
                     return Result.Error("Не удалось загрузить данные сотрудника.");
                 else
                 {
-                    EmployeeToEdit = response.Value;
+                    EmployeeToEdit = Mapper.Map<EmployeeViewModel>(response.Value);
                     return Result.Success();
                 }
             }
@@ -90,14 +94,14 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Employees
                 return Result.Error($"Не удалось загрузить проекты сотрудника. Причина: {response.Errors.AsOneString()}");
             else
             {
-                _employeesProjects = response.Value.ToList();
+                _employeesProjects = Mapper.Map<IEnumerable<ProjectDto>, ICollection<ProjectViewModel>>(response.Value);
                 return Result.Success();
             }
         }
 
         private async Task OnProjectEditing(int projectId)
         {
-            ProjectDto? projectToEdit = _employeesProjects.FirstOrDefault(p => p.Id == projectId);
+            ProjectViewModel? projectToEdit = _employeesProjects.FirstOrDefault(p => p.Id == projectId);
             if (projectToEdit == null)
             {
                 Snackbar.Add($"Не удается получить проект с id: {projectId}", Severity.Warning);
@@ -114,11 +118,11 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Employees
                     if (ok)
                     {
                         GetProjectByIdQuery query = new(new ProjectIncludeOptions(projectId, true));
-                        ProjectDto project = await Mediator.Send(query);
-                        if (project != null)
+                        Result<ProjectDto> projectResult = await Mediator.Send(query);
+                        if (projectResult.IsSuccess)
                         {
                             _employeesProjects.RemoveWithCriterion(p => p.Id == projectId);
-                            _employeesProjects.Add(project);
+                            _employeesProjects.Add(Mapper.Map<ProjectViewModel>(projectResult.Value));
                             Snackbar.Add("Данные проекта обновлены.", Severity.Success);
                         }
                         else
@@ -132,7 +136,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Employees
 
         private async Task Submit()
         {
-            UpdateEmployeesDataCommand command = new(EmployeeToEdit);
+            UpdateEmployeesDataCommand command = new(Mapper.Map<EmployeeDto>(EmployeeToEdit));
             Result<EmployeeDto> updateResult = await Mediator.Send(command);
             if (updateResult.IsSuccess)
             {

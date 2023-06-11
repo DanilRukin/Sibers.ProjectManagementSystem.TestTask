@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Employees;
@@ -6,6 +7,7 @@ using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Dtos;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Employees.Commands;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Employees.Queries;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Extensions;
+using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.ViewModels;
 using Sibers.ProjectManagementSystem.SharedKernel.Results;
 
 namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Pages
@@ -21,7 +23,10 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Pages
         [Inject]
         public IMediator Mediator { get; set; }
 
-        private ICollection<EmployeeDto> _employeesList;
+        [Inject]
+        public IMapper Mapper { get; set; }
+
+        private ICollection<EmployeeViewModel> _employeesList;
 
         protected override async Task OnInitializedAsync()
         {
@@ -35,12 +40,12 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Pages
                 GetAllEmployeesQuery query = new GetAllEmployeesQuery(false);
                 Result<IEnumerable<EmployeeDto>> result = await Mediator.Send(query);
                 if (result == null)
-                    _employeesList = new List<EmployeeDto>();
+                    _employeesList = new List<EmployeeViewModel>();
                 else if (result.IsSuccess)
-                    _employeesList = result.Value.ToList();
+                    _employeesList = Mapper.Map<IEnumerable<EmployeeDto>, ICollection<EmployeeViewModel>>(result.Value);
                 else
                 {
-                    _employeesList = new List<EmployeeDto>();
+                    _employeesList = new List<EmployeeViewModel>();
                     Snackbar.Add(result.Errors.AsOneString(), Severity.Error);
                 }
             }
@@ -52,22 +57,15 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Pages
 
         private async Task OnEmployeeEdit(int employeeId)
         {
-            EmployeeDto? employeeToEdit = _employeesList.FirstOrDefault(e => e.Id == employeeId);
+            EmployeeViewModel? employeeToEdit = _employeesList.FirstOrDefault(e => e.Id == employeeId);
             if (employeeToEdit == null)
             {
                 Snackbar.Add("Не удалось получить сотрудника для редактирования.", Severity.Warning);
                 return;
             }
-            DialogOptions options = new DialogOptions
-            {
-                CloseButton = true,
-                CloseOnEscapeKey = true,
-                MaxWidth = MaxWidth.Medium,
-                FullWidth = true
-            };
             DialogParameters parameters = new DialogParameters();
             parameters.Add(nameof(EditEmployeeDialog.EmployeeToEdit), employeeToEdit);
-            var dialog = DialogService.Show<EditEmployeeDialog>("Управление сотрудником", parameters, options);
+            var dialog = DialogService.Show<EditEmployeeDialog>("Управление сотрудником", parameters);
             using var task = dialog.Result;
             var result = await task;
             if (result != null && !result.Cancelled && (result.Data is bool ok))
@@ -77,7 +75,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Pages
                 if (updatedResult.IsSuccess)
                 {
                     _employeesList.RemoveWithCriterion(e => e.Id == employeeId);
-                    _employeesList.Add(updatedResult.Value);
+                    _employeesList.Add(Mapper.Map<EmployeeViewModel>(updatedResult.Value));
                 }
                 else
                 {
@@ -87,7 +85,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Pages
             }
         }
 
-        private void OnEmployeeWatch(EmployeeDto employee)
+        private void OnEmployeeWatch(EmployeeViewModel employee)
         {
             DialogParameters parameters = new DialogParameters();
             parameters.Add(nameof(WatchEmployeeDialog.EmployeeToWatch), employee);
@@ -99,13 +97,13 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Pages
             var dialog = DialogService.Show<CreateEmployeeDialog>("Создание сотрудника");
             using var task = dialog.Result;
             var result = await task;
-            if (result != null && !result.Cancelled && (result.Data is EmployeeDto employee))
+            if (result != null && !result.Cancelled && (result.Data is EmployeeViewModel employee))
             {
                 _employeesList.Add(employee);
             }
         }
 
-        private async Task OnEmployeeDelete(EmployeeDto employee)
+        private async Task OnEmployeeDelete(EmployeeViewModel employee)
         {
             bool? result = await DialogService.ShowMessageBox(
                 title: $"Удаление сотрудника '{employee.FirstName} {employee.LastName} {employee.Patronymic}'",

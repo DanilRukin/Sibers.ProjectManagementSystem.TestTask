@@ -1,5 +1,5 @@
 ﻿@page "/projects"
-@using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Dtos;
+@using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.ViewModels;
 
 
 <PageTitle>Все проекты компании</PageTitle>
@@ -22,37 +22,37 @@ else
         <MudTable Style="height:stretch;" Items="_projects" FixedHeader="true" FixedFooter="true" Hover="true" SortLabel="Sort by">
             <HeaderContent>
                 <MudTh>
-                    <MudTableSortLabel SortBy="new Func<ProjectDto, object>(e => e.Id)">
+                    <MudTableSortLabel SortBy="new Func<ProjectViewModel, object>(e => e.Id)">
                         Id
                     </MudTableSortLabel>
                 </MudTh>
                 <MudTh>
-                    <MudTableSortLabel SortBy="new Func<ProjectDto, object>(e => e.Name)">
+                    <MudTableSortLabel SortBy="new Func<ProjectViewModel, object>(e => e.Name)">
                         Название проекта
                     </MudTableSortLabel>
                 </MudTh>
                 <MudTh>
-                    <MudTableSortLabel SortBy="new Func<ProjectDto, object>(e => e.NameOfTheCustomerCompany)">
+                    <MudTableSortLabel SortBy="new Func<ProjectViewModel, object>(e => e.NameOfTheCustomerCompany)">
                         Компания-заказчик
                     </MudTableSortLabel>
                 </MudTh>
                 <MudTh>
-                    <MudTableSortLabel SortBy="new Func<ProjectDto, object>(e => e.NameOfTheContractorCompany)">
+                    <MudTableSortLabel SortBy="new Func<ProjectViewModel, object>(e => e.NameOfTheContractorCompany)">
                         Компания-исполнитель
                     </MudTableSortLabel>
                 </MudTh>
                 <MudTh>
-                    <MudTableSortLabel SortBy="new Func<ProjectDto, object>(e => e.StartDate)">
+                    <MudTableSortLabel SortBy="new Func<ProjectViewModel, object>(e => e.StartDate)">
                         Дата начала проекта
                     </MudTableSortLabel>
                 </MudTh>
                 <MudTh>
-                    <MudTableSortLabel SortBy="new Func<ProjectDto, object>(e => e.EndDate)">
+                    <MudTableSortLabel SortBy="new Func<ProjectViewModel, object>(e => e.EndDate)">
                         Дата окончания проекта
                     </MudTableSortLabel>
                 </MudTh>
                 <MudTh>
-                    <MudTableSortLabel SortBy="new Func<ProjectDto, object>(e => e.Priority)">
+                    <MudTableSortLabel SortBy="new Func<ProjectViewModel, object>(e => e.Priority)">
                         Приоритет
                     </MudTableSortLabel>
                 </MudTh>

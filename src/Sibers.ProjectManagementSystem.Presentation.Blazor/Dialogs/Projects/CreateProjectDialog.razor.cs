@@ -27,8 +27,8 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
         [CascadingParameter]
         private MudDialogInstance MudDialog { get; set; }
 
-        private ICollection<EmployeeDto> _employeesOnProject = new List<EmployeeDto>();
-        private EmployeeDto _manager = new EmployeeDto();
+        private ICollection<EmployeeViewModel> _employeesOnProject = new List<EmployeeViewModel>();
+        private EmployeeViewModel _manager = new EmployeeViewModel();
         private string _managerFullName = "";
 
         private ProjectViewModel project = new ProjectViewModel();
@@ -46,7 +46,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
             var result = await task;
             if (!result.Cancelled)
             {
-                if (result.Data is IEnumerable<EmployeeDto> employees)
+                if (result.Data is IEnumerable<EmployeeViewModel> employees)
                 {
                     foreach (var item in employees)
                     {
@@ -74,7 +74,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
                 var result = await task;
                 if (!result.Cancelled)
                 {
-                    if (result.Data is EmployeeDto employee)
+                    if (result.Data is EmployeeViewModel employee)
                     {
                         _manager = employee;
                         _managerFullName = employee.FirstName + employee.LastName + employee.Patronymic;

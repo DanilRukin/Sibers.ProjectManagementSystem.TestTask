@@ -28,10 +28,10 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
         [CascadingParameter]
         MudDialogInstance MudDialog { get; set; }
 
-        private ICollection<EmployeeDto> _employeesOnProject = new List<EmployeeDto>();
-        private ICollection<EmployeeDto> _initialSetOfEmployees = new List<EmployeeDto>();
-        private EmployeeDto? _manager;  // текущий менеджер
-        private EmployeeDto? _oldManager;  // менеджер, который был изначально
+        private ICollection<EmployeeViewModel> _employeesOnProject = new List<EmployeeViewModel>();
+        private ICollection<EmployeeViewModel> _initialSetOfEmployees = new List<EmployeeViewModel>();
+        private EmployeeViewModel? _manager;  // текущий менеджер
+        private EmployeeViewModel? _oldManager;  // менеджер, который был изначально
         private string _managerFullName = "";
 
         [Parameter]
@@ -101,7 +101,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
             var result = await task;
             if (result != null && !result.Cancelled)
             {
-                if (result.Data is IEnumerable<EmployeeDto> employees)
+                if (result.Data is IEnumerable<EmployeeViewModel> employees)
                 {
                     foreach (var employee in employees)
                     {
@@ -261,13 +261,13 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
                 Result<IEnumerable<EmployeeDto>> result = await Mediator.Send(query);
                 if (!result.IsSuccess)
                 {
-                    _employeesOnProject = new List<EmployeeDto>();
+                    _employeesOnProject = new List<EmployeeViewModel>();
                     Snackbar.Add($"Не удалось получить данные сотрудников. Причина: {result.Errors.AsOneString()}", Severity.Info);
                 }
                 else
                 {
-                    _employeesOnProject = result.Value.ToList();
-                    _initialSetOfEmployees = result.Value.ToList();
+                    _employeesOnProject = Mapper.Map<IEnumerable<EmployeeDto>, ICollection<EmployeeViewModel>>(result.Value);
+                    _initialSetOfEmployees = Mapper.Map<IEnumerable<EmployeeDto>, ICollection<EmployeeViewModel>>(result.Value);
                 }
             }
             catch (Exception e)
@@ -295,7 +295,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
                     var response = await Mediator.Send(query);
                     if (response.IsSuccess)
                     {
-                        _manager = response.Value;
+                        _manager = Mapper.Map<EmployeeViewModel>(response.Value);
                     }
                 }
             }
@@ -332,7 +332,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
             var result = await task;
             if (result != null && !result.Cancelled)
             {
-                if (result.Data is EmployeeDto futureManager)
+                if (result.Data is EmployeeViewModel futureManager)
                 {
                     //if (_manager != null)
                     //    _employeesOnProject.Add(_manager);

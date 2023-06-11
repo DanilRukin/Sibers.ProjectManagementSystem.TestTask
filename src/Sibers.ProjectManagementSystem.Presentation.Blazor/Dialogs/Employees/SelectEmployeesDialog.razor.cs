@@ -1,15 +1,20 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Dtos;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Employees.Queries;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Extensions;
+using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.ViewModels;
 using Sibers.ProjectManagementSystem.SharedKernel.Results;
 
 namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Employees
 {
     public partial class SelectEmployeesDialog
     {
+        [Inject]
+        public IMapper Mapper { get; set; }
+
         [Inject]
         public IMediator Mediator { get; set; }
 
@@ -22,7 +27,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Employees
         /// Employees to show. Can be initialized from client's code
         /// </summary>
         [Parameter]
-        public IEnumerable<EmployeeDto> EmployeesList { get; set; } = new List<EmployeeDto>();
+        public IEnumerable<EmployeeViewModel> EmployeesList { get; set; } = new List<EmployeeViewModel>();
 
         /// <summary>
         /// Indicates the need for multiple employees selection. Default is true.
@@ -46,16 +51,16 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Employees
         /// Employees wich must not be showed if <see cref="LoadEmloyees"/> is true
         /// </summary>
         [Parameter]
-        public ICollection<EmployeeDto> ExcludedEmployeesList { get; set; } = new List<EmployeeDto>();
+        public ICollection<EmployeeViewModel> ExcludedEmployeesList { get; set; } = new List<EmployeeViewModel>();
 
-        private EmployeeDto _selectedEmployee;
+        private EmployeeViewModel _selectedEmployee;
 
         protected override async Task OnInitializedAsync()
         {
             if (LoadEmloyees)
                 await LoadEmployees();
         }
-        private HashSet<EmployeeDto> _selectedEmployees = new HashSet<EmployeeDto>();
+        private HashSet<EmployeeViewModel> _selectedEmployees = new HashSet<EmployeeViewModel>();
 
         private async Task LoadEmployees()
         {
@@ -96,9 +101,9 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Employees
                 }
             }
             if (employees == null)
-                EmployeesList = new List<EmployeeDto>();
+                EmployeesList = new List<EmployeeViewModel>();
             else
-                EmployeesList = employees.ToList();
+                EmployeesList = Mapper.Map<IEnumerable<EmployeeDto>, IEnumerable<EmployeeViewModel>>(employees);
         }
 
         private void Submit()

@@ -32,8 +32,8 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
 
         private string DateFormat(DateTime date) => $"{date.Day}.{date.Month}.{date.Year}";
 
-        private ICollection<EmployeeDto> _employees = new List<EmployeeDto>();
-        private EmployeeDto _manager = new EmployeeDto();
+        private ICollection<EmployeeViewModel> _employees = new List<EmployeeViewModel>();
+        private EmployeeViewModel _manager = new EmployeeViewModel();
         private string _managerFullName;
 
         [Parameter]
@@ -43,10 +43,10 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
         private DateTime? _projectEndDate;
 
 
-        private void OnEmployeeWatch(int employeeId)
+        private void OnEmployeeWatch(int employeeId) // TODO: use EmployeeViewModel
         {
             DialogParameters parameters = new DialogParameters();
-            parameters.Add(nameof(WatchEmployeeDialog.EmployeeToWatch), new EmployeeDto { Id = employeeId });
+            parameters.Add(nameof(WatchEmployeeDialog.EmployeeToWatch), new EmployeeViewModel { Id = employeeId });
             var dialog = DialogService.Show<WatchEmployeeDialog>("Просмотр сотрудника", parameters);
         }
 
@@ -66,7 +66,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
         private void Ok() => MudDialog.Close(DialogResult.Ok(true));
         private void Cancel() => MudDialog.Cancel();
 
-        private async Task LoadEmployees()
+        private async Task LoadEmployees() // TODO: use EmployeeViewModel
         {
             GetProjectByIdQuery projectQuery = new GetProjectByIdQuery(new ProjectIncludeOptions(Project.Id, true));
             Result<ProjectDto> projectResult = await Mediator.Send(projectQuery);
@@ -83,16 +83,16 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
                 if (!result.IsSuccess)
                 {
                     Snackbar.Add($"Не удалось загрузить данные сотрудников. Причина: {result.Errors.AsOneString()}", Severity.Error);
-                    _employees = new List<EmployeeDto>();
+                    _employees = new List<EmployeeViewModel>();
                 }
                 else
-                    _employees = result.Value.ToList();
+                    _employees = Mapper.Map<IEnumerable<EmployeeDto>, ICollection<EmployeeViewModel>>(result.Value);
                 GetEmployeeByIdQuery managerQuery = new GetEmployeeByIdQuery(new EmployeeIncludeOptions(Project.ManagerId, false));
                 var managerResult = await Mediator.Send(managerQuery);
                 if (!managerResult.IsSuccess)
-                    _manager = new EmployeeDto();
+                    _manager = new EmployeeViewModel();
                 else
-                    _manager = managerResult.Value;
+                    _manager = Mapper.Map<EmployeeViewModel>(managerResult.Value);
             }
         }
     }

@@ -75,7 +75,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Pages
             {
                 Snackbar.Add($"Ошибка при загрузке данных проекта. Причина: {projectResult.Errors.AsOneString()}", Severity.Error);
             }
-            parameters.Add("Project", projectResult.Value);
+            parameters.Add(nameof(WatchProjectDialog.Project), Mapper.Map<ProjectViewModel>(projectResult.Value));
             var dialog = DialogService.Show<WatchProjectDialog>("Информация о проекте", parameters);
         }
 

@@ -2,6 +2,7 @@
 
 @using MediatR
 @using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Dtos;
+@using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.ViewModels;
 @using Sibers.ProjectManagementSystem.SharedKernel
 @using Sibers.ProjectManagementSystem.SharedKernel.Results
 
@@ -24,27 +25,27 @@ else
     <MudTable Style="height:stretch;" Items="_employeesList" FixedHeader="true" FixedFooter="true" Hover="true" SortLabel="Sort by">
         <HeaderContent>
             <MudTh>
-                <MudTableSortLabel SortBy="new Func<EmployeeDto, object>(e => e.Id)">
+                <MudTableSortLabel SortBy="new Func<EmployeeViewModel, object>(e => e.Id)">
                     Id
                 </MudTableSortLabel>
             </MudTh>
             <MudTh>
-                <MudTableSortLabel SortBy="new Func<EmployeeDto, object>(e => e.FirstName)">
+                <MudTableSortLabel SortBy="new Func<EmployeeViewModel, object>(e => e.FirstName)">
                     Фамилия
                 </MudTableSortLabel>
             </MudTh>
             <MudTh>
-                <MudTableSortLabel SortBy="new Func<EmployeeDto, object>(e => e.LastName)">
+                <MudTableSortLabel SortBy="new Func<EmployeeViewModel, object>(e => e.LastName)">
                     Имя
                 </MudTableSortLabel>
             </MudTh>
             <MudTh>
-                <MudTableSortLabel SortBy="new Func<EmployeeDto, object>(e => e.Patronymic)">
+                <MudTableSortLabel SortBy="new Func<EmployeeViewModel, object>(e => e.Patronymic)">
                     Отчество
                 </MudTableSortLabel>
             </MudTh>
             <MudTh>
-                <MudTableSortLabel SortBy="new Func<EmployeeDto, object>(e => e.Email)">
+                <MudTableSortLabel SortBy="new Func<EmployeeViewModel, object>(e => e.Email)">
                     Email
                 </MudTableSortLabel>
             </MudTh>

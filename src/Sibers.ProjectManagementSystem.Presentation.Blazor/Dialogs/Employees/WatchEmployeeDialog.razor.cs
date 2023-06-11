@@ -1,16 +1,21 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Dtos;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Employees.Queries;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Extensions;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Projects.Queries;
+using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.ViewModels;
 using Sibers.ProjectManagementSystem.SharedKernel.Results;
 
 namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Employees
 {
     public partial class WatchEmployeeDialog
     {
+        [Inject]
+        public IMapper Mapper { get; set; }
+
         [Inject]
         public IMediator Mediator { get; set; }
 
@@ -24,9 +29,9 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Employees
         /// Employee to watch
         /// </summary>
         [Parameter]
-        public EmployeeDto EmployeeToWatch { get; set; }
+        public EmployeeViewModel EmployeeToWatch { get; set; }
 
-        private ICollection<ProjectDto> _projects;
+        private ICollection<ProjectViewModel> _projects;
 
         protected override async Task OnInitializedAsync()
         {
@@ -47,7 +52,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Employees
                     }
                     else
                     {
-                        EmployeeToWatch = employeeResult.Value;
+                        EmployeeToWatch = Mapper.Map<EmployeeViewModel>(employeeResult.Value);
                     }
                 }
                 GetRangeOfProjectsQuery projectsQuery = new GetRangeOfProjectsQuery(EmployeeToWatch.ProjectsIds.Select(id => new ProjectIncludeOptions(id, true)));
@@ -55,15 +60,15 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Employees
                 if (!projectsResult.IsSuccess)
                 {
                     Snackbar.Add($"Не удалось загрузить проекты сотрудника. Причина: {projectsResult.Errors.AsOneString()}", Severity.Error);
-                    _projects = new List<ProjectDto>();
+                    _projects = new List<ProjectViewModel>();
                 }
                 else
-                    _projects = projectsResult.Value.ToList();
+                    _projects = Mapper.Map<IEnumerable<ProjectDto>, ICollection<ProjectViewModel>>(projectsResult.Value);
             }
             else
             {
                 Snackbar.Add("Не удалось получить сотрудника.", Severity.Warning);
-                EmployeeToWatch = new EmployeeDto();
+                EmployeeToWatch = new EmployeeViewModel();
             }
         }
 

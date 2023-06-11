@@ -1,4 +1,4 @@
-﻿@using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Dtos;
+﻿@using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.ViewModels;
 <MudDialog>
     <DialogContent>
         <MudContainer Style="max-height: 700px; overflow-y: scroll; width:max-content;">
@@ -56,27 +56,27 @@
                     <MudTable Items="_employeesOnProject" FixedHeader="true" FixedFooter="true" Hover="true" SortLabel="Sort by">
                         <HeaderContent>
                             <MudTh>
-                                <MudTableSortLabel SortBy="new Func<EmployeeDto, object>(e => e.Id)">
+                                <MudTableSortLabel SortBy="new Func<EmployeeViewModel, object>(e => e.Id)">
                                     Id
                                 </MudTableSortLabel>
                             </MudTh>
                             <MudTh>
-                                <MudTableSortLabel SortBy="new Func<EmployeeDto, object>(e => e.FirstName)">
+                                <MudTableSortLabel SortBy="new Func<EmployeeViewModel, object>(e => e.FirstName)">
                                     Фамилия
                                 </MudTableSortLabel>
                             </MudTh>
                             <MudTh>
-                                <MudTableSortLabel SortBy="new Func<EmployeeDto, object>(e => e.LastName)">
+                                <MudTableSortLabel SortBy="new Func<EmployeeViewModel, object>(e => e.LastName)">
                                     Имя
                                 </MudTableSortLabel>
                             </MudTh>
                             <MudTh>
-                                <MudTableSortLabel SortBy="new Func<EmployeeDto, object>(e => e.Patronymic)">
+                                <MudTableSortLabel SortBy="new Func<EmployeeViewModel, object>(e => e.Patronymic)">
                                     Отчество
                                 </MudTableSortLabel>
                             </MudTh>
                             <MudTh>
-                                <MudTableSortLabel SortBy="new Func<EmployeeDto, object>(e => e.Email)">
+                                <MudTableSortLabel SortBy="new Func<EmployeeViewModel, object>(e => e.Email)">
                                     Email
                                 </MudTableSortLabel>
                             </MudTh>
