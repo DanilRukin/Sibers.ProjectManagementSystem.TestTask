@@ -41,7 +41,7 @@
                             <RowTemplate Context="p">
                                 <MudTd DataLabel="Название проекта">@p.Name</MudTd>
                                 <MudTd DataLabel="Роль на проекте">
-                                    @(() => p.ManagerId == EmployeeToEdit.Id ? "Руководитель" : "Сотрудник")
+                                    @ShowRole(p)
                                 </MudTd>
                                 <MudTd DataLabel="Действие">
                                     <MudButton Color="Color.Info" Variant="Variant.Filled" @onclick="@(() => OnProjectEditing(p.Id))">

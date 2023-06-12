@@ -149,5 +149,8 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Employees
             }
         }
         void Cancel() => MudDialog.Cancel();
+
+        private string ShowRole(ProjectViewModel model) => model.ManagerId == EmployeeToEdit.Id ? "Менеджер" : "Сотрудник";
+
     }
 }

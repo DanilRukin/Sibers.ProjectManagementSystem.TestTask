@@ -1,4 +1,5 @@
-﻿<MudDialog>
+﻿@using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.ViewModels;
+<MudDialog>
     <DialogContent>
         <MudContainer>
             @if (EmployeeToWatch == null)
@@ -40,7 +41,7 @@
                         <RowTemplate Context="ep">
                             <MudTd DataLabel="Название проекта">@ep.Name</MudTd>
                             <MudTd DataLabel="Роль на проекте">
-                                @(() => @ep.ManagerId == EmployeeToWatch.Id ? "Менеджер" : "Сотрудник")
+                                @ShowRole(ep)
                             </MudTd>
                         </RowTemplate>
                         <PagerContent>

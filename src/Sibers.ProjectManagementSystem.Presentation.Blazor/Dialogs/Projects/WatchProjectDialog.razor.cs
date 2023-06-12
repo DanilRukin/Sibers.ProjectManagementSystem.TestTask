@@ -39,10 +39,6 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
         [Parameter]
         public ProjectViewModel Project { get; set; }
 
-        private DateTime? _projectStartDate;
-        private DateTime? _projectEndDate;
-
-
         private void OnEmployeeWatch(int employeeId) // TODO: use EmployeeViewModel
         {
             DialogParameters parameters = new DialogParameters();
