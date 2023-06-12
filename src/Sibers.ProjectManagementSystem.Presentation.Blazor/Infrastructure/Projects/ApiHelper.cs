@@ -1,4 +1,9 @@
-﻿using System.Text;
+﻿using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Projects.Queries;
+using System.Net.Http.Json;
+using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Web;
 
 namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Projects
 {
@@ -12,18 +17,21 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Proj
                 => $"{_api}/{id}/{includeEmployees}";
             public static string All(bool includeEmployees = false)
                 => $"{_api}/all?includeEmployees={includeEmployees}";
-            public static string Range()
-                => $"{_api}/range";
+            public static string Range(IEnumerable<ProjectIncludeOptions> options, string optionParameterName)
+                => $"{_api}/range?{ToQuery(options, optionParameterName)}";
             public static string Tasks(int projectId)
                 => $"{_api}/{projectId}/tasks";
 
-            private static string ToQuery(IEnumerable<int> ids, string idsName)
+            private static string ToQuery(IEnumerable<ProjectIncludeOptions> options, string optionParameterName)
             {
-                StringBuilder builder = new StringBuilder(ids.Count() * idsName.Length);
-                foreach (var id in ids)
+                int index = 0;
+                StringBuilder builder = new StringBuilder(options.Count() * optionParameterName.Length);
+                foreach (var option in options)
                 {
-                    builder.Append($"{idsName}={id}&");
-                };
+                    builder.Append($"{optionParameterName}[{index}].{nameof(ProjectIncludeOptions.ProjectId)}={option.ProjectId}&" +
+                        $"{optionParameterName}[{index}].{nameof(ProjectIncludeOptions.IncludeEmployees)}={option.IncludeEmployees}&");
+                    index++;
+                }
                 string result = builder.ToString();
                 return result.Remove(result.Length - 1, 1);
             }

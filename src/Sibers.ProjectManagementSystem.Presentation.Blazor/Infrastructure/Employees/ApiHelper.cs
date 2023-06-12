@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Employees.Queries;
+using System.Text;
 
 namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Employees
 {
@@ -11,15 +12,18 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Empl
                 => $"{Api}/{employeeId}/{includeProjects}";
             public static string All(bool includeAdditionalData = false)
                 => $"{Api}/all/{includeAdditionalData}";
-            public static string Range()
-                => $"{Api}/range";
+            public static string Range(IEnumerable<EmployeeIncludeOptions> options, string optionParameterName)
+                => $"{Api}/range?{ToQuery(options, optionParameterName)}";
 
-            private static string ToQuery(IEnumerable<int> ids, string idsName)
+            private static string ToQuery(IEnumerable<EmployeeIncludeOptions> options, string optionParameterName)
             {
-                StringBuilder builder = new StringBuilder(ids.Count() * idsName.Length);
-                foreach (var id in ids)
+                int index = 0;
+                StringBuilder builder = new StringBuilder(options.Count() * optionParameterName.Length);
+                foreach (var option in options)
                 {
-                    builder.Append($"{idsName}={id}&");
+                    builder.Append($"{optionParameterName}[{index}].{nameof(EmployeeIncludeOptions.EmployeeId)}={option.EmployeeId}&" +
+                        $"{optionParameterName}[{index}].{nameof(EmployeeIncludeOptions.IncludeProjects)}={option.IncludeProjects}&");
+                    index++;
                 }
                 string result = builder.ToString();
                 return result.Remove(result.Length - 1, 1);

@@ -10,7 +10,7 @@ namespace Sibers.ProjectManagementSystem.Application.EmployeeAgregate
 {
     internal class EmployeeAgregateEmployeeDtoProfile : Profile
     {
-        internal EmployeeAgregateEmployeeDtoProfile() 
+        public EmployeeAgregateEmployeeDtoProfile() 
         {
             CreateMap<Employee, EmployeeDto>()
                 .ForMember(dto => dto.FirstName, opt => opt.MapFrom(src => src.PersonalData.FirstName))

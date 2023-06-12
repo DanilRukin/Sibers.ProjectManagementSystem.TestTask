@@ -21,12 +21,11 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Empl
             {
                 if (request.Options.Count() <= 0)
                     return Result.Success(new List<EmployeeDto>().AsEnumerable());
-                string route = ApiHelper.Get.Range();
+                string route = ApiHelper.Get.Range(request.Options, "options");
                 var response = await _client.SendAsync(new HttpRequestMessage
                 {
                     Method = HttpMethod.Get,
                     RequestUri = new Uri(route, UriKind.Relative),
-                    Content = JsonContent.Create(request.Options),
                 });
                 var result = await response
                     .EnsureSuccessStatusCode()

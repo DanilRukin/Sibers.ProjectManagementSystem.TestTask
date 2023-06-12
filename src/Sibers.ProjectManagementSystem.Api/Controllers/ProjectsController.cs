@@ -52,7 +52,7 @@ namespace Sibers.ProjectManagementSystem.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<ProjectDto>>> GetRange([FromBody] IEnumerable<ProjectIncludeOptions> options)
+        public async Task<ActionResult<IEnumerable<ProjectDto>>> GetRange([FromQuery(Name = "options")]IEnumerable<ProjectIncludeOptions> options)
         {
             GetRangeOfProjectsQuery query = new GetRangeOfProjectsQuery(options);
             var response = await _mediator.Send(query);

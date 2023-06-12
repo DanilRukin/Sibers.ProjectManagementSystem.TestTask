@@ -19,14 +19,16 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Proj
         {
             try
             {
-                string route = ApiHelper.Get.Range();
-                var response = await _client.SendAsync(new HttpRequestMessage
+                if (request.Options.Count() <= 0)
+                    return Result.Success(new List<ProjectDto>().AsEnumerable());
+                string route = ApiHelper.Get.Range(request.Options, "options");
+                HttpRequestMessage message = new HttpRequestMessage()
                 {
                     Method = HttpMethod.Get,
                     RequestUri = new Uri(route, UriKind.Relative),
+                };
 
-                    Content = JsonContent.Create(request.Options),
-                });
+                var response = await _client.SendAsync(message);
                 if (response == null)
                     return Result<IEnumerable<ProjectDto>>.Error("Не был получен ответ с сервера.");
                 var result = await response

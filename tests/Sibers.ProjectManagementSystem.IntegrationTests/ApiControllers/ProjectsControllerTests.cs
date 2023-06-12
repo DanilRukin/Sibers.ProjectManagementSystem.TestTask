@@ -1,7 +1,5 @@
 ﻿using Azure.Core;
 using Sibers.ProjectManagementSystem.Api;
-using Sibers.ProjectManagementSystem.API;
-using Sibers.ProjectManagementSystem.Application.Dtos;
 using Sibers.ProjectManagementSystem.Application.ProjectAgregate;
 using Sibers.ProjectManagementSystem.Data;
 using Sibers.ProjectManagementSystem.Domain.EmployeeAgregate;
@@ -41,7 +39,6 @@ namespace Sibers.ProjectManagementSystem.IntegrationTests.ApiControllers
                 StartDate = startDate,
                 EndDate = endDate,
                 EmployeesIds = new List<int>(),
-                TasksIds = new List<Guid>(),
             };
             
             var response = await _client.PostAsJsonAsync<ProjectDto>(Post.Create(), requestBody);

@@ -34,7 +34,7 @@ namespace Sibers.ProjectManagementSystem.Api.Controllers
                 return ResultErrorsHandler.Handle(response);
         }
 
-        [HttpGet("{id:int}/{includeAdditionalData:bool}")]
+        [HttpGet("{id:int}/{includeProjects:bool}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -49,12 +49,12 @@ namespace Sibers.ProjectManagementSystem.Api.Controllers
                 return ResultErrorsHandler.Handle(response);
         }
 
-        [HttpGet("range/{includeAdditionalData:bool}")]
+        [HttpGet("range")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetRangeOfEmployees([FromBody] IEnumerable<EmployeeIncludeOptions> options)
+        public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetRangeOfEmployees([FromQuery] IEnumerable<EmployeeIncludeOptions> options)
         {
             GetRangeOfEmployeesQuery query = new GetRangeOfEmployeesQuery(options);
             var response = await _mediator.Send(query);
@@ -64,7 +64,7 @@ namespace Sibers.ProjectManagementSystem.Api.Controllers
                 return ResultErrorsHandler.Handle(response);
         }
 
-        [HttpGet("all/{includeAdditionalData:bool}")]
+        [HttpGet("all/{includeProjects:bool}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
