@@ -3,33 +3,45 @@
 <PageTitle>Домашняя страница</PageTitle>
 
 <MudText Typo="Typo.h1" GutterBottom="true">Добро пожаловать!</MudText>
-<MudText Class="mb-8">Добро пожаловать в систему управления проектами <b>ProjectManagementSystem</b>, созданную, как тестовое задание для <b>Sibesr</b></MudText>
+<MudText Class="mb-8">Добро пожаловать в систему управления проектами <b>ProjectManagementSystem</b>, созданную, как тестовое задание для <b>Sibers</b></MudText>
 
 <MudDivider />
 <br />
 <br />
 <br />
 <MudText Typo="Typo.h3" GutterBottom="true">ЧТО СДЕЛАНО</MudText>
-<MudText Typo="Typo.body2">
+<MudText Typo="Typo.body1">
     Тестовое задание выполенено в минимальном виде, т.к. для выполнения в максимальном виде (с дополнительными заданиями 1 и 2) мне необходимо больше времени.<br/>
-    Разработана и спроектирована схема БД - представлена и описана в файле <b>schema_description.docx</b><br />
+    Разработана и спроектирована схема БД - представлена и описана в файле <b>schema_description.docx</b>. Схема создана с учетом дополнительного задания № 1 (добавлены задачи).
+    <br />
+    <br />
     <MudAlert Severity="Severity.Warning">
         Внимание: это только графическое представление БД, необходимое для понимания связей. Имена столбцов/индексов/таблиц могут отличаться, т.к. я использовал подход CodeFirst
     </MudAlert><br />
     <MudAlert Severity="Severity.Info">
         Информация: Для просмотра фактической схемы лучше использовать специальные средства, например,
-        <MudLink Href="https://learn.microsoft.com/ru-ru/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16" Typo="Typo.body2" Color="Color.Inherit"><b>SqlServerManagementStudio</b></MudLink> или
-        <MudLink Href="https://www.jetbrains.com/datagrip/" Typo="Typo.body2" Color="Color.Inherit"><b>DataGrip</b></MudLink>
+        <MudLink Href="https://learn.microsoft.com/ru-ru/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16" Typo="Typo.body1" Color="Color.Inherit"><b>SqlServerManagementStudio</b></MudLink> или
+        <MudLink Href="https://www.jetbrains.com/datagrip/" Typo="Typo.body1" Color="Color.Inherit"><b>DataGrip</b></MudLink>
     </MudAlert><br />
     Разработана программа  для занесения данных о проектах в базу данных и дальнейшей работы с этими данными.
+    <br />
 </MudText>
+<MudText Typo="Typo.body1">
+    ПО предоставляет следующие возможности:
+</MudText>
+<MudList Clickable="false">
+    <MudListItem Text="Возможность создавать/просматривать/редактировать/удалять информацию о проектах" Icon="@Icons.Material.Filled.Circle" IconColor="Color.Primary" />
+    <MudListItem Text="Возможность создавать/просматривать/редактировать/удалять информацию о сотрудниках" Icon="@Icons.Material.Filled.Circle" IconColor="Color.Primary" />
+    <MudListItem Text="Возможность добавлять и удалять сотрудников c проекта (связь многие-ко-многим)" Icon="@Icons.Material.Filled.Circle" IconColor="Color.Primary" />
+    <MudListItem Text="Для просмотра проектов предусмотрены различные способы фильтрации" Icon="@Icons.Material.Filled.Circle" IconColor="Color.Primary" />
+</MudList>
 <br />
 <MudDivider />
 <br />
 <br />
 <br />
 <MudText Typo="Typo.h3" GutterBottom="true">КАК ПРЕДСТАВЛЕН РЕЗУЛЬТАТ</MudText>
-<MudText Typo="Typo.body2">
+<MudText Typo="Typo.body1">
     Описать, как и каким образом представлен результат
 </MudText>
 <br />
@@ -38,7 +50,7 @@
 <br />
 <br />
 <MudText Typo="Typo.h3" GutterBottom="true">ПЕРЕД ЗАПУСКОМ</MudText>
-<MudText Typo="Typo.body2">
+<MudText Typo="Typo.body1">
     На сервере SQL Server создайте пустую тестовую схему, имя которой укажите в профиле <b>SqlServerProfile</b> (далее)
 </MudText>
 <br />
@@ -47,9 +59,9 @@
 <br />
 <br />
 <MudText Typo="Typo.h3" GutterBottom="true">ОПИСАНИЕ РАБОТЫ С ПРИЛОЖЕНИЕМ</MudText>
-<MudAlert Severity="Severity.Warning" ContentAlignment="HorizontalAlignment.Start">Внимание: Вы находитесь в клиентском приложении</MudAlert>
+<MudAlert Severity="Severity.Warning">Внимание: Вы находитесь в клиентском приложении</MudAlert>
 <br />
-<MudText Typo="Typo.body2">
+<MudText Typo="Typo.body1">
     Приложение состоит из трех частей:   
 </MudText>
 <MudList Clickable="false">
@@ -60,9 +72,9 @@
 <br/>
 <br/>
 <MudText Typo="Typo.h4" GutterBottom="true">Клиентская часть</MudText>
-<MudText Typo="Typo.body2">
+<MudText Typo="Typo.body1">
     Клиентская часть представлена одностраничным веб-приложением, написанным с использованием библиотеки компонетов 
-    <MudLink Href="https://mudblazor.com" Typo="Typo.body2" Color="Color.Inherit"><b>MudBlazor</b></MudLink> (Фреймворк Blazor) <br/>
+    <MudLink Href="https://mudblazor.com" Typo="Typo.body1" Color="Color.Inherit"><b>MudBlazor</b></MudLink> (Фреймворк Blazor) <br/>
     Используемая версия MudBlazor: 6.4.1 <br />
     Клиент обращается к серверной части приложения (к Web API). Базовый адрес сервера описан в файле <b>appsettings.json</b> в папке <b>wwwroot</b>. Значение по умолчанию: http://localhost:5108.
     Если вы запустите API на другой машине (не на локальном компьютере) и/или на другом порту, то необходимо изменить Базовый адрес на правильный, иначе,
@@ -71,14 +83,14 @@
 <br />
 <br />
 <MudText Typo="Typo.h4" GutterBottom="true">Серверная часть</MudText>
-<MudText Typo="Typo.body2">
+<MudText Typo="Typo.body1">
     Это API приложения. Именно сюда 'стучится' клиентское приложение Blazor. По умолчанию, API запускается по адресу http://localhost:5108, но этот параметр можно изменить в файле
     launchSettings.json, либо в файле appsettings.json. <br />
 </MudText>
-<MudText Typo="Typo.body2">
+<MudText Typo="Typo.body1">
     Файл appsettings.json содержит несколько секций:
 </MudText>
-<MudList>
+<MudList Clickable="false">
     <MudListItem Text="Logging - овтечает за настройку логгирования" Icon="@Icons.Material.Filled.Circle" IconColor="Color.Primary" />
     <MudListItem Text="AllowedHosts - указывает, с каких адресов можно обращаться к серверу " Icon="@Icons.Material.Filled.Circle" IconColor="Color.Primary" />
     <MudListItem Text="Profiles - содержит профили хранилищ для использования" Icon="@Icons.Material.Filled.Circle" IconColor="Color.Primary" InitiallyExpanded="true">
@@ -96,7 +108,7 @@
 <br />
 <br />
 <MudText Typo="Typo.h5" GutterBottom="true">Profiles</MudText>
-<MudText Typo="Typo.body2">
+<MudText Typo="Typo.body1">
     Каждый профиль содержит минимум 4 свойства:
 </MudText>
 <MudList Clickable="false">
@@ -105,13 +117,13 @@
     <MudListItem Text="MigrateDatabase - если UseSeedData установлен в true, то указывает применять ли миграции" Icon="@Icons.Material.Filled.Circle" IconColor="Color.Primary" />
     <MudListItem Text="CreateDatabase - если UseSeedData установлен в true, то указывает создавать ли БД 'внаглую'" Icon="@Icons.Material.Filled.Circle" IconColor="Color.Primary" />
 </MudList>
-<MudText Typo="Typo.body2">
+<MudText Typo="Typo.body1">
     Вам необходимо в UseProfile указать любой из предоставленных профилей (SqlServerProfile, SQLiteProfile, InMemoryProfile).
     Т.к. необходима работа с SQL Server, то в UseProfile указываем SqlServerProfile.
 </MudText>
 <br />
 <br />
-<MudText Typo="Typo.h5" GutterBottom="true">Рекомандации по настройке профиля SqlServerProfile</MudText>
+<MudText Typo="Typo.h5" GutterBottom="true">Рекомендации по настройке профиля SqlServerProfile</MudText>
 <MudList Clickable="false">
     <MudListItem Text=" ConnectionString - здесь поменяйте адрес сервера с базой данных (схемой), имя пользователя, пароль и порт при необходимости" Icon="@Icons.Material.Filled.Circle" IconColor="Color.Primary" />
     <MudListItem Icon="@Icons.Material.Filled.Circle" IconColor="Color.Primary" >
@@ -122,14 +134,14 @@
     <MudListItem Text="CreateDatabase - установите в false" Icon="@Icons.Material.Filled.Circle" IconColor="Color.Primary" />
     <MudListItem Text="MigrationAssembly - не трогайте. Это путь к сборке, в которой содержится сгенерированных Ef Core код миграций." Icon="@Icons.Material.Filled.Circle" IconColor="Color.Primary" />
 </MudList>
-<MudText Typo="Typo.body2">
+<MudText Typo="Typo.body1">
     Если захотите поменять хранилище, то просто установите UseProfile с нужным именем профиля (SQLiteProfile - НЕ НАДО) <br/>
     Для просмотра логов в папке с приложением есть, либо будет создана папка Logs, в которой находится соответствующий файл. В нем можно посмотреть какие запросы "летят" в БД.
 </MudText>
 <br />
 <br />
 <MudText Typo="Typo.h4" GutterBottom="true">База данных</MudText>
-<MudText Typo="Typo.body2">
+<MudText Typo="Typo.body1">
     Это хранилище данных. По заданию необходимо использовать SQL Server, либо SQLite. Изменить хранилище вы можете так, как описано в разделе <b>Серверная часть</b>.<br/>
     Для тестов можно использовать и хранилище в памяти.
 </MudText>
@@ -139,4 +151,4 @@
 <br />
 <br />
 <MudText Typo="Typo.h4" GutterBottom="true">ССЫЛКИ</MudText>
-<MudAlert NoIcon="true" Severity="Severity.Info">GitHub репозиторий проекта: <MudLink Href="https://github.com/DanilRukin/Sibers.ProjectManagementSystem.TestTask/tree/dev" Typo="Typo.body2" Color="Color.Inherit"><b>ProjectManagementSystem</b></MudLink> </MudAlert>
+<MudAlert NoIcon="true" Severity="Severity.Info">GitHub репозиторий проекта: <MudLink Href="https://github.com/DanilRukin/Sibers.ProjectManagementSystem.TestTask/tree/dev" Typo="Typo.body1" Color="Color.Inherit"><b>ProjectManagementSystem</b></MudLink> </MudAlert>
