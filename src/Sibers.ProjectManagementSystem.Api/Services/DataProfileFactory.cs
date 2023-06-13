@@ -27,6 +27,12 @@ namespace Sibers.ProjectManagementSystem.Api.Services
                 return new SqlServerDatabaseProfile(profileName, connectionString, useSeedData,
                     migrateDatabase, createDatabase, migrationAssembly);
             }
+            else if (profileName == "PostgresProfile")
+            {
+                string migrationAssembly = profile[nameof(SqlServerDatabaseProfile.MigrationAssembly)];
+                return new PostgresDatabaseProfile(profileName, connectionString, useSeedData,
+                    migrateDatabase, createDatabase, migrationAssembly);
+            }
             else if (profileName == "SQLiteProfile")
             {
                 return new SQLiteDatabaseProfile(profileName, connectionString, useSeedData,

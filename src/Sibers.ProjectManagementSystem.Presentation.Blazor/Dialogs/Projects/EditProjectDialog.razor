@@ -10,15 +10,13 @@
             {
                 <EditForm Model="@ProjectToEdit">
                     <MudText GutterBottom="true" Typo="Typo.h5">Общая информация</MudText>
-                    <MudTextField Class="mb-3" Label="Id" @bind-Value="ProjectToEdit.Id" Required="true"
-                              RequiredError="Это обязательное поле!" />
                     <MudTextField Class="mb-3" Label="Name" @bind-Value="ProjectToEdit.Name" Required="true"
                               RequiredError="Это обязательное поле!" />
                     <MudTextField Class="mb-3" Label="NameOfCustomerCompany" @bind-Value="ProjectToEdit.NameOfTheCustomerCompany" Required="true"
                               RequiredError="Это обязательное поле!" />
                     <MudTextField Class="mb-3" Label="NameOfContractorCompany" @bind-Value="ProjectToEdit.NameOfTheContractorCompany" Required="true"
                               RequiredError="Это обязательное поле!" />
-                    <MudNumericField Class="mb-3" Label="Priority" @bind-Value="ProjectToEdit.Priority" Required="true"
+                    <MudNumericField Min="0" Class="mb-3" Label="Priority" @bind-Value="ProjectToEdit.Priority" Required="true"
                                  RequiredError="Это обязательное поле!" />
                     <MudGrid Class="mb-3">
                         <MudItem xs="6">

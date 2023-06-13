@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Sibers.ProjectManagementSystem.Application\Sibers.ProjectManagementSystem.Application.csproj" />
     <ProjectReference Include="..\Sibers.ProjectManagementSystem.Data.MSSQL\Sibers.ProjectManagementSystem.Data.MSSQL.csproj" />
+    <ProjectReference Include="..\Sibers.ProjectManagementSystem.Data.Postgres\Sibers.ProjectManagementSystem.Data.Postgres.csproj" />
     <ProjectReference Include="..\Sibers.ProjectManagementSystem.Data\Sibers.ProjectManagementSystem.Data.csproj" />
   </ItemGroup>
 

@@ -10,7 +10,7 @@
                               RequiredError="Это обязательное поле!" />
                 <MudTextField Class="mb-3" Label="Название компании-исполнителя" @bind-Value="project.NameOfTheContractorCompany" Required="true"
                               RequiredError="Это обязательное поле!" />
-                <MudNumericField Class="mb-3" Label="Приоритет" @bind-Value="project.Priority" Required="true"
+                <MudNumericField Class="mb-3" Min="0" Label="Приоритет" @bind-Value="project.Priority" Required="true"
                                  RequiredError="Это обязательное поле!" />
                 <MudGrid Class="mb-3">
                     <MudItem xs="6">
