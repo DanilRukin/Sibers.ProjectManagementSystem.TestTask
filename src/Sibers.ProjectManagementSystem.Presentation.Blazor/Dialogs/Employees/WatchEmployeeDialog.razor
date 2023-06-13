@@ -8,18 +8,15 @@
             }
             else
             {
-                <MudText GutterBottom="true" Typo="Typo.h6">
-                    Фамилия Имя Отчество
-                </MudText>
-                <MudText GutterBottom="true" Typo="Typo.h4">
+                <MudText Align="Align.Center" GutterBottom="true" Typo="Typo.h4">
                     @EmployeeToWatch.FirstName @EmployeeToWatch.LastName @EmployeeToWatch.Patronymic
                 </MudText>
-                <MudText GutterBottom="true" Typo="Typo.h6">
-                    Email
-                </MudText>
-                <MudText GutterBottom="true" Typo="Typo.h4">
-                    @EmployeeToWatch.Email
-                </MudText>
+                @if(!string.IsNullOrWhiteSpace(EmployeeToWatch.Email))
+                {
+                    <MudText Align="Align.Center" GutterBottom="true" Typo="Typo.h6">
+                        (@EmployeeToWatch.Email)
+                    </MudText>
+                }                
                 <MudText Typo="Typo.h5" GutterBottom="true" Class="mt-5">
                     Задействован на проектах
                 </MudText>
