@@ -63,11 +63,6 @@
             <MudTable Items="_employeesOnProject" FixedHeader="true" FixedFooter="true" Hover="true" SortLabel="Sort by">
                 <HeaderContent>
                     <MudTh>
-                        <MudTableSortLabel SortBy="new Func<EmployeeViewModel, object>(e => e.Id)">
-                            Id
-                        </MudTableSortLabel>
-                    </MudTh>
-                    <MudTh>
                         <MudTableSortLabel SortBy="new Func<EmployeeViewModel, object>(e => e.FirstName)">
                             Фамилия
                         </MudTableSortLabel>
@@ -92,10 +87,9 @@
                     </MudTh>
                 </HeaderContent>
                 <RowTemplate Context="emp">
-                    <MudTd DataLabel="Id">@emp.Id</MudTd>
-                    <MudTd DataLabel="FirstName">@emp.FirstName</MudTd>
-                    <MudTd DataLabel="LastName">@emp.LastName</MudTd>
-                    <MudTd DataLabel="Patronymic">@emp.Patronymic</MudTd>
+                    <MudTd DataLabel="Фамилия">@emp.FirstName</MudTd>
+                    <MudTd DataLabel="Имя">@emp.LastName</MudTd>
+                    <MudTd DataLabel="Отчество">@emp.Patronymic</MudTd>
                     <MudTd DataLabel="Email">@emp.Email</MudTd>
                     <MudTd>
                         <MudButton Color="Color.Error" Variant="Variant.Filled" @onclick="(() => OnEmployeeRemovingFromProject(emp.Id))">

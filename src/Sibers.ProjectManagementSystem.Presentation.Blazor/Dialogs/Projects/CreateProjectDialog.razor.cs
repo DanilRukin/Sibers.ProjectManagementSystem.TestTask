@@ -32,9 +32,6 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
         private string _managerFullName = "";
 
         private ProjectViewModel project = new ProjectViewModel();
-        private DateTime? _projectStartDate = DateTime.Now;
-        private DateTime? _projectEndDate = DateTime.Now;
-
 
         private async Task OnEmplyeesSelecting()
         {
@@ -101,8 +98,6 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
         {
             try
             {
-                project.StartDate = _projectStartDate.Value;
-                project.EndDate = _projectEndDate.Value;
                 CreateProjectCommand command = new(Mapper.Map<ProjectDto>(project));
                 var result = await Mediator.Send(command);
                 if (result.IsSuccess)

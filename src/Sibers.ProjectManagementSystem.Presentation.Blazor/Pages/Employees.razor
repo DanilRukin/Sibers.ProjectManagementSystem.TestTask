@@ -25,11 +25,6 @@ else
     <MudTable Style="height:stretch;" Items="_employeesList" FixedHeader="true" FixedFooter="true" Hover="true" SortLabel="Sort by">
         <HeaderContent>
             <MudTh>
-                <MudTableSortLabel SortBy="new Func<EmployeeViewModel, object>(e => e.Id)">
-                    Id
-                </MudTableSortLabel>
-            </MudTh>
-            <MudTh>
                 <MudTableSortLabel SortBy="new Func<EmployeeViewModel, object>(e => e.FirstName)">
                     Фамилия
                 </MudTableSortLabel>
@@ -54,17 +49,16 @@ else
             </MudTh>
         </HeaderContent>
         <RowTemplate>
-            <MudTd DataLabel="Id">@context.Id</MudTd>
-            <MudTd DataLabel="FirstName">@context.FirstName</MudTd>
-            <MudTd DataLabel="LastName">@context.LastName</MudTd>
-            <MudTd DataLabel="Patronymic">@context.Patronymic</MudTd>
+            <MudTd DataLabel="Фамилия">@context.FirstName</MudTd>
+            <MudTd DataLabel="Имя">@context.LastName</MudTd>
+            <MudTd DataLabel="Отчество">@context.Patronymic</MudTd>
             <MudTd DataLabel="Email">@context.Email</MudTd>
             <MudTd>
-                <MudIconButton Color="Color.Info" Variant="Variant.Filled" Icon="@Icons.Filled.RemoveRedEye" @onclick="@(() => OnEmployeeWatch(context))">
+                <MudIconButton Color="Color.Info" Variant="Variant.Filled" Icon="@Icons.Material.Filled.RemoveRedEye" @onclick="@(() => OnEmployeeWatch(context))">
                 </MudIconButton>
-                <MudIconButton Color="Color.Success" Variant="Variant.Filled" Icon="@Icons.Filled.Edit" @onclick="() => OnEmployeeEdit(context.Id)">
+                <MudIconButton Color="Color.Success" Variant="Variant.Filled" Icon="@Icons.Material.Filled.Edit" @onclick="() => OnEmployeeEdit(context.Id)">
                 </MudIconButton>
-                <MudIconButton Color="Color.Error" Variant="Variant.Filled" Icon="@Icons.Filled.Delete" @onclick="@(() => OnEmployeeDelete(context))">
+                <MudIconButton Color="Color.Error" Variant="Variant.Filled" Icon="@Icons.Material.Filled.Delete" @onclick="@(() => OnEmployeeDelete(context))">
                 </MudIconButton>
             </MudTd>
         </RowTemplate>

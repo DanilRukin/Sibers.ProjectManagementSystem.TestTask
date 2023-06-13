@@ -22,11 +22,6 @@ else
         <MudTable Style="height:stretch;" Items="_projects" FixedHeader="true" FixedFooter="true" Hover="true" SortLabel="Sort by">
             <HeaderContent>
                 <MudTh>
-                    <MudTableSortLabel SortBy="new Func<ProjectViewModel, object>(e => e.Id)">
-                        Id
-                    </MudTableSortLabel>
-                </MudTh>
-                <MudTh>
                     <MudTableSortLabel SortBy="new Func<ProjectViewModel, object>(e => e.Name)">
                         Название проекта
                     </MudTableSortLabel>
@@ -61,7 +56,6 @@ else
                 </MudTh>
             </HeaderContent>
             <RowTemplate>
-                <MudTd>@context.Id</MudTd>
                 <MudTd>@context.Name</MudTd>
                 <MudTd>@context.NameOfTheCustomerCompany</MudTd>
                 <MudTd>@context.NameOfTheContractorCompany</MudTd>
@@ -69,11 +63,11 @@ else
                 <MudTd>@context.EndDate</MudTd>
                 <MudTd>@context.Priority</MudTd>
                 <MudTd>
-                    <MudIconButton Color="Color.Info" Variant="Variant.Filled" Icon="@Icons.Filled.RemoveRedEye" @onclick="@(() => OnWatchProject(context.Id))">
+                    <MudIconButton Color="Color.Info" Variant="Variant.Filled" Icon="@Icons.Material.Filled.RemoveRedEye" @onclick="@(() => OnWatchProject(context.Id))">
                     </MudIconButton>
-                    <MudIconButton Color="Color.Success" Variant="Variant.Filled" Icon="@Icons.Filled.Edit" @onclick="@(() => OnProjectEdit(context.Id))">
+                    <MudIconButton Color="Color.Success" Variant="Variant.Filled" Icon="@Icons.Material.Filled.Edit" @onclick="@(() => OnProjectEdit(context.Id))">
                     </MudIconButton>
-                    <MudIconButton Color="Color.Error" Variant="Variant.Filled" Icon="@Icons.Filled.Delete" @onclick="@(() => OnProjectDeleting(context.Id))">
+                    <MudIconButton Color="Color.Error" Variant="Variant.Filled" Icon="@Icons.Material.Filled.Delete" @onclick="@(() => OnProjectDeleting(context.Id))">
                     </MudIconButton>
                 </MudTd>
             </RowTemplate>
