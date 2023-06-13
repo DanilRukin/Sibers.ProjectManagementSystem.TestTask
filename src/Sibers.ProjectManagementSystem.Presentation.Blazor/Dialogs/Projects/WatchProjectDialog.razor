@@ -11,32 +11,30 @@
                 <MudText GutterBottom="true" Typo="Typo.h4" Align="Align.Center">@Project.Name (приоритет @Project.Priority)</MudText>
                 <MudDivider Class="mb-4 mt-2" />
                 <MudGrid>
-                    <MudItem xs="3">
+                    <MudItem xs="6">
                         <MudText>Заказчик</MudText>
                         <MudText Typo="Typo.h5">@Project.NameOfTheCustomerCompany</MudText>
                     </MudItem>
-                    <MudItem xs="3">
+                    <MudItem xs="6">
                         <MudText>Разработчик</MudText>
                         <MudText Typo="Typo.h5">@Project.NameOfTheContractorCompany</MudText>
                     </MudItem>
-                    <MudItem xs="3">
+                    <MudItem xs="6">
                         <MudText>Дата начала</MudText>
                         <MudText Typo="Typo.h5">@DateFormat(Project.StartDate)</MudText>
                     </MudItem>
-                    <MudItem xs="3">
+                    <MudItem xs="6">
                         <MudText>Дата окончания</MudText>
                         <MudText Typo="Typo.h5">@DateFormat(Project.EndDate)</MudText>
                     </MudItem>
                 </MudGrid>
-                <MudText GutterBottom="true" Typo="Typo.h5" Class="mt-5">Руководитель</MudText>
-                <MudText>
-                    @_managerFullName
+                <MudText GutterBottom="true" Typo="Typo.h5" Class="mt-5">
+                    Руководитель: @_managerFullName
                     @if (_manager != null && _manager.Id != 0)
                     {
-                        <MudIconButton Color="Color.Dark" Variant="Variant.Text" Icon="@Icons.Filled.RemoveRedEye" @onclick="@(() => OnEmployeeWatch(_manager.Id))" />
+                        <MudIconButton Color="Color.Dark" Variant="Variant.Text" Icon="@Icons.Material.Filled.RemoveRedEye" @onclick="@(() => OnEmployeeWatch(_manager.Id))" />
                     }
                 </MudText>
-
                 <MudDivider Class="mb-5" />
                 <MudText GutterBottom="true" Typo="Typo.h5">Сотрудники на проекте</MudText>
                 @if (_employees == null)

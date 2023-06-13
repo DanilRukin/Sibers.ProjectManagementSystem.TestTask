@@ -22,13 +22,13 @@
                                  RequiredError="Это обязательное поле!" />
                     <MudGrid Class="mb-3">
                         <MudItem xs="6">
-                            <MudDatePicker Class="mud-width-full" Label="Дата начала проекта" Editable="true" @bind-Date="_projectStartDate"
-                                       Mask="@(new DateMask("dd.MM.yyyy"))" DateFormat="dd.MM.yyyy" Placeholder="Дата"
+                            <MudDatePicker Class="mud-width-full" Label="Дата начала проекта" Editable="true" @bind-Date="ProjectToEdit.StartDate"
+                                       Mask="@(new DateMask("dd.MM.yyyy"))" DateFormat="dd.MM.yyyy" Placeholder="Дата начала"
                                        Required="true" RequiredError="Это обязательное поле!" />
                         </MudItem>
                         <MudItem xs="6">
-                            <MudDatePicker Class="mud-width-full" Label="Дата окончания проекта" Editable="true" @bind-Date="_projectEndDate"
-                                       Mask="@(new DateMask("dd.MM.yyyy"))" DateFormat="dd.MM.yyyy" Placeholder="Дата"
+                            <MudDatePicker Class="mud-width-full" Label="Дата окончания проекта" Editable="true" @bind-Date="ProjectToEdit.EndDate"
+                                       Mask="@(new DateMask("dd.MM.yyyy"))" DateFormat="dd.MM.yyyy" Placeholder="Дата окончания"
                                        Required="true" RequiredError="Это обязательное поле!" />
                         </MudItem>
                     </MudGrid>

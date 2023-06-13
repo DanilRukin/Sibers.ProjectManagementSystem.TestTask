@@ -35,8 +35,8 @@ namespace Sibers.ProjectManagementSystem.Application.ProjectAgregate.Commands
                 project.ChangeContractorCompanyName(request.Project.NameOfTheContractorCompany);
                 project.ChangeCustomerCompanyName(request.Project.NameOfTheCustomerCompany);
                 project.ChangeName(request.Project.Name);
-                project.ChangeStartDate(request.Project.StartDate);
                 project.ChangeEndDate(request.Project.EndDate);
+                project.ChangeStartDate(request.Project.StartDate);               
                 await _context.SaveEntitiesAsync(cancellationToken);
                 return Result.Success<ProjectDto>(_mapper.Map<ProjectDto>(project));
             }

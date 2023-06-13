@@ -30,7 +30,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
         [CascadingParameter]
         private MudDialogInstance MudDialog { get; set; }
 
-        private string DateFormat(DateTime date) => $"{date.Day}.{date.Month}.{date.Year}";
+        private string DateFormat(DateTime? date) => date == null ? "" : $"{date.Value.Day}.{date.Value.Month}.{date.Value.Year}";
 
         private ICollection<EmployeeViewModel> _employees = new List<EmployeeViewModel>();
         private EmployeeViewModel _manager = new EmployeeViewModel();
@@ -39,7 +39,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
         [Parameter]
         public ProjectViewModel Project { get; set; }
 
-        private void OnEmployeeWatch(int employeeId) // TODO: use EmployeeViewModel
+        private void OnEmployeeWatch(int employeeId)
         {
             DialogParameters parameters = new DialogParameters();
             parameters.Add(nameof(WatchEmployeeDialog.EmployeeToWatch), new EmployeeViewModel { Id = employeeId });
@@ -62,7 +62,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
         private void Ok() => MudDialog.Close(DialogResult.Ok(true));
         private void Cancel() => MudDialog.Cancel();
 
-        private async Task LoadEmployees() // TODO: use EmployeeViewModel
+        private async Task LoadEmployees()
         {
             GetProjectByIdQuery projectQuery = new GetProjectByIdQuery(new ProjectIncludeOptions(Project.Id, true));
             Result<ProjectDto> projectResult = await Mediator.Send(projectQuery);
