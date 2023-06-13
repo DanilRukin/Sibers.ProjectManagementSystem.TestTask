@@ -31,6 +31,13 @@ namespace Sibers.ProjectManagementSystem.Data
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
 
+        protected override void ConfigureConventions(ModelConfigurationBuilder builder)
+        {
+            base.ConfigureConventions(builder);
+            builder.Properties<DateTime>()
+                .HaveConversion<Converters.DateTimeUtcConverter>();
+        }
+
         public async Task SaveEntitiesAsync(CancellationToken cancellationToken)
         {
             var result = await base.SaveChangesAsync(cancellationToken);
@@ -41,20 +48,37 @@ namespace Sibers.ProjectManagementSystem.Data
             await _domainEventDispatcher.DispatchAndClearEvents(events);
         }
 
-        public Project Create(string name, DateTime startDate, DateTime endDate, Priority priority, string nameOfTheCustomerCompany, string nameOfTheContractorComapny)
+        public async Task<Project> CreateProject(string name, DateTime startDate, DateTime endDate, Priority priority, string nameOfTheCustomerCompany, string nameOfTheContractorComapny)
         {
             Project project = new Project(name, startDate, endDate, priority, nameOfTheCustomerCompany, nameOfTheContractorComapny);
             Projects.Add(project);
-            SaveEntitiesAsync(new CancellationToken());
+            await SaveEntitiesAsync(new CancellationToken());
             return project;
         }
 
-        public Employee Create(PersonalData personalData, Email email)
+        Project IProjectFactory.Create(string name, DateTime startDate, DateTime endDate, Priority priority, string nameOfTheCustomerCompany, string nameOfTheContractorComapny)
+        {
+            Project project = new Project(name, startDate, endDate, priority, nameOfTheCustomerCompany, nameOfTheContractorComapny);
+            Projects.Add(project);
+            SaveEntitiesAsync(new CancellationToken()).Wait();
+            return project;
+        }
+
+        public async Task<Employee> CreateEmployee(PersonalData personalData, Email email)
         {
             Employee employee = new Employee(personalData, email);
             Employees.Add(employee);
-            SaveEntitiesAsync(new CancellationToken());
+            await SaveEntitiesAsync(new CancellationToken());
             return employee;
         }
+
+        Employee IEmployeeFactory.Create(PersonalData personalData, Email email)
+        {
+            Employee employee = new Employee(personalData, email);
+            Employees.Add(employee);
+            SaveEntitiesAsync(new CancellationToken()).Wait();
+            return employee;
+        }
+        
     }
 }

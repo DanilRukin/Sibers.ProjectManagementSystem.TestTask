@@ -27,7 +27,7 @@ namespace Sibers.ProjectManagementSystem.Application.ProjectAgregate.Commands
         {
             try
             {
-                Project project = ((IProjectFactory)_context).Create(request.Project.Name, request.Project.StartDate, request.Project.EndDate,
+                Project project = await _context.CreateProject(request.Project.Name, request.Project.StartDate, request.Project.EndDate,
                     new Priority(request.Project.Priority), request.Project.NameOfTheCustomerCompany, request.Project.NameOfTheContractorCompany);
                 return Result.Success(_mapper.Map<ProjectDto>(project));
             }

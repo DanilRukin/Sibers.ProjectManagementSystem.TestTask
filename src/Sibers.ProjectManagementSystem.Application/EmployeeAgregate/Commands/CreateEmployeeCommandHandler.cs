@@ -26,7 +26,7 @@ namespace Sibers.ProjectManagementSystem.Application.EmployeeAgregate.Commands
         {
             try
             {
-                Employee employee = ((IEmployeeFactory)_context).Create(
+                Employee employee = await _context.CreateEmployee(
                     new PersonalData(request.EmployeeDto.FirstName, request.EmployeeDto.LastName, request.EmployeeDto.Patronymic),
                     new Email(request.EmployeeDto.Email));
                 return Result<EmployeeDto>.Success(_mapper.Map<EmployeeDto>(employee));
