@@ -11,22 +11,14 @@
             {
                 @if (!Multiselection)
                 {
-                    <MudText GutterBottom="true" Typo="Typo.h4">
-                        Выбранный сотрудник
-                    </MudText>
-                    <MudText GutterBottom="true">
-                        @_selectedEmployee?.FirstName @_selectedEmployee?.LastName @_selectedEmployee?.Patronymic
+                    <MudText GutterBottom="true" Typo="Typo.h5">
+                        Выбранный сотрудник:  @_selectedEmployee?.FirstName @_selectedEmployee?.LastName @_selectedEmployee?.Patronymic
                     </MudText>
                 }
-                <MudTable Style="height:stretch;" Items="EmployeesList" FixedHeader="true" FixedFooter="true"
+                <MudTable Style="height:stretch;" Items="EmployeesList" FixedHeader="true" FixedFooter="true" Height="400px"
                       Hover="true" SortLabel="Sort by" MultiSelection="Multiselection"
                       @bind-SelectedItems="_selectedEmployees" @bind-SelectedItem="_selectedEmployee">
                     <HeaderContent>
-                        <MudTh>
-                            <MudTableSortLabel SortBy="new Func<EmployeeViewModel, object>(e => e.Id)">
-                                Id
-                            </MudTableSortLabel>
-                        </MudTh>
                         <MudTh>
                             <MudTableSortLabel SortBy="new Func<EmployeeViewModel, object>(e => e.FirstName)">
                                 Фамилия
@@ -49,10 +41,9 @@
                         </MudTh>
                     </HeaderContent>
                     <RowTemplate>
-                        <MudTd DataLabel="Id">@context.Id</MudTd>
-                        <MudTd DataLabel="FirstName">@context.FirstName</MudTd>
-                        <MudTd DataLabel="LastName">@context.LastName</MudTd>
-                        <MudTd DataLabel="Patronymic">@context.Patronymic</MudTd>
+                        <MudTd DataLabel="Фамилия">@context.FirstName</MudTd>
+                        <MudTd DataLabel="Имя">@context.LastName</MudTd>
+                        <MudTd DataLabel="Отчество">@context.Patronymic</MudTd>
                         <MudTd DataLabel="Email">@context.Email</MudTd>
                     </RowTemplate>
                     <PagerContent>

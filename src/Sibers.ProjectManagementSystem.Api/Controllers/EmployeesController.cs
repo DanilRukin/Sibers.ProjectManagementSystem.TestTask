@@ -93,5 +93,20 @@ namespace Sibers.ProjectManagementSystem.Api.Controllers
             else
                 return ResultErrorsHandler.Handle(response);
         }
+
+        [HttpDelete("{employeeId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> Delete(int employeeId)
+        {
+            DeleteEmployeeCommand query = new(employeeId);
+            var response = await _mediator.Send(query);
+            if (response.IsSuccess)
+                return Ok();
+            else
+                return ResultErrorsHandler.Handle(response);
+        }
     }
 }
