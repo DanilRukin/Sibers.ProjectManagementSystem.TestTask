@@ -61,6 +61,7 @@ namespace Sibers.ProjectManagementSystem.IntegrationTests.ApiControllers
         [Fact]
         public async Task GetAll_IncludeAdditionalData_GetAllFromDatabase()
         {
+            _factory.ResetDatabase();
             var result = await _client.GetFromJsonAsync<IEnumerable<ProjectDto>>(Get.All(true));
 
             Assert.NotNull(result);
@@ -213,6 +214,7 @@ namespace Sibers.ProjectManagementSystem.IntegrationTests.ApiControllers
         [Fact]
         public async Task DemoteManager_EmployeeIsNotAManager_ReturnsBadRequestWithMessage()
         {
+            _factory.ResetDatabase();
             int projectId = SeedData.Project1.Id;
             string message = "Project has no manager. You have to promote one of the employees to manager.";
 
@@ -314,7 +316,7 @@ namespace Sibers.ProjectManagementSystem.IntegrationTests.ApiControllers
             internal static string ById(int id, bool includeAdditionalData = false) 
                 => $"{_api}/{id}/{includeAdditionalData}";
             internal static string All(bool includeAdditionalData = false) 
-                => $"{_api}/all?includeAdditionalData={includeAdditionalData}";
+                => $"{_api}/all?includeEmployees={includeAdditionalData}";
         }
 
         private static class Put
@@ -326,7 +328,7 @@ namespace Sibers.ProjectManagementSystem.IntegrationTests.ApiControllers
             internal static string FireManager(int projectId, string reason)
                 => $"{_api}/firemanager/{projectId}/{reason}";
             internal static string DemoteManager(int projectId, string reason)
-                => $"{_api}/demotemanager/{projectId}/{reason}";
+                => $"{_api}/demotemanager/{projectId}?reason={reason}";
             internal static string PromoteEmployeeToManager(int projectId, int employeeId)
                 => $"{_api}/promoteemployee/{projectId}/{employeeId}";
             internal static string TransferEmployee(int currentProjectId, int futureProjectId, int employeeId)

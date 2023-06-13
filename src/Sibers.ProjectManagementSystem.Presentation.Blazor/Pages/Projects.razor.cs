@@ -79,10 +79,10 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Pages
             var dialog = DialogService.Show<WatchProjectDialog>("Информация о проекте", parameters);
         }
 
-        private async Task OnProjectDeleting(int projectId)
+        private async Task OnProjectDeleting(int projectId, string name)
         {
             bool? result = await DialogService.ShowMessageBox(
-                title: $"Удаление проекта {projectId}",
+                title: $"Удаление проекта {name}",
                 markupMessage: new MarkupString("Вы действительно хотите удалить проект? Действие невозможно будет отменить"),
                 yesText: "Удалить",
                 cancelText: "Отмена"

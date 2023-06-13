@@ -42,8 +42,18 @@
 <br />
 <MudText Typo="Typo.h3" GutterBottom="true">КАК ПРЕДСТАВЛЕН РЕЗУЛЬТАТ</MudText>
 <MudText Typo="Typo.body1">
-    Описать, как и каким образом представлен результат
+    Результат представлен архивом со следующими файлами:
 </MudText>
+<MudList Clickable="false">
+    <MudListItem Text="Api - папка с файлами Web Api для публикации на web сервере" Icon="@Icons.Material.Filled.Circle" IconColor="Color.Primary" />
+    <MudListItem Text="Client - папка с файлами клиентского приложения для публикации на web сервере" Icon="@Icons.Material.Filled.Circle" IconColor="Color.Primary" />
+    <MudListItem Text="SourceCode - папка с исходным кодом приложения" Icon="@Icons.Material.Filled.Circle" IconColor="Color.Primary" />
+    <MudListItem Text="forms.docx - файл со снимками экранных форм в формате .docx" Icon="@Icons.Material.Filled.Circle" IconColor="Color.Primary" />
+    <MudListItem Text="forms.pdf - файл со снимками экранных форм в формате .pdf" Icon="@Icons.Material.Filled.Circle" IconColor="Color.Primary" />
+    <MudListItem Text="readme.txt - файл с описанием приложения (копия этой страницы)" Icon="@Icons.Material.Filled.Circle" IconColor="Color.Primary" />
+    <MudListItem Text="schema_description.docx - файл с описанием схемы данных в формате .docx" Icon="@Icons.Material.Filled.Circle" IconColor="Color.Primary" />
+    <MudListItem Text="schema_description.pdf - файл с описанием схемы данных в формате .pdf" Icon="@Icons.Material.Filled.Circle" IconColor="Color.Primary" />
+</MudList>
 <br />
 <MudDivider />
 <br />
@@ -58,7 +68,7 @@
 <br />
 <br />
 <br />
-<MudText Typo="Typo.h3" GutterBottom="true">ОПИСАНИЕ РАБОТЫ С ПРИЛОЖЕНИЕМ</MudText>
+<MudText Typo="Typo.h3" GutterBottom="true">ОПИСАНИЕ РАБОТЫ С ПРИЛОЖЕНИЕМ И ЗАПУСК</MudText>
 <MudAlert Severity="Severity.Warning">Внимание: Вы находитесь в клиентском приложении</MudAlert>
 <br />
 <MudText Typo="Typo.body1">
@@ -91,7 +101,7 @@
     Файл appsettings.json содержит несколько секций:
 </MudText>
 <MudList Clickable="false">
-    <MudListItem Text="Logging - овтечает за настройку логгирования" Icon="@Icons.Material.Filled.Circle" IconColor="Color.Primary" />
+    <MudListItem Text="Logging - отвечает за настройку логгирования" Icon="@Icons.Material.Filled.Circle" IconColor="Color.Primary" />
     <MudListItem Text="AllowedHosts - указывает, с каких адресов можно обращаться к серверу " Icon="@Icons.Material.Filled.Circle" IconColor="Color.Primary" />
     <MudListItem Text="Profiles - содержит профили хранилищ для использования" Icon="@Icons.Material.Filled.Circle" IconColor="Color.Primary" InitiallyExpanded="true">
         <NestedList>
@@ -147,9 +157,94 @@
     Для тестов можно использовать и хранилище в памяти.
 </MudText>
 <br />
+<br />
+<MudText Typo="Typo.h4" GutterBottom="true">Запуск</MudText>
+<MudText>
+    Для запуска приложения необходимо проделать следующие действия:
+</MudText>
+<MudList Clickable="false">
+    <MudListItem Icon="@Icons.Material.Filled.Circle" IconColor="Color.Primary">
+        Настроить IIS для последюущей публикации <br />
+        <MudAlert Severity="Severity.Info">
+            Информация: для настройки IIS используйте следущие ресурсы:<br />
+            <MudLink Href="https://learn.microsoft.com/ru-ru/iis/manage/creating-websites/scenario-build-a-static-website-on-iis" Typo="Typo.body1" Color="Color.Inherit">
+                <b>Build a Static Website on IIS</b>
+            </MudLink> <br />
+        </MudAlert>
+    </MudListItem>
+    <MudListItem Text="Создайте и настройте сервер СУБД" Icon="@Icons.Material.Filled.Circle" IconColor="Color.Primary" />
+    <MudListItem Icon="@Icons.Material.Filled.Circle" IconColor="Color.Primary">
+        Скопируйте файлы из папки Api на сервер и разверните Api приложения <br />
+        <MudAlert Severity="Severity.Info">
+            Информация: для развертывания API используйте следущие ресурсы:<br />
+            <MudLink Href="https://youtu.be/Lt3wve_nb0g" Typo="Typo.body1" Color="Color.Inherit">
+                <b>How To Publish ASP.NET Core Web API to IIS</b>
+            </MudLink> <br />
+        </MudAlert>
+    </MudListItem>
+    <MudListItem Icon="@Icons.Material.Filled.Circle" IconColor="Color.Primary">
+        Скопируйте файлы из папки Client на сервер и разверните клиентское приложение <br />
+        <MudAlert Severity="Severity.Info">
+            Информация: для развертывания клиента используйте следущие ресурсы:<br />
+            <MudLink Href="https://learn.microsoft.com/ru-ru/aspnet/core/blazor/host-and-deploy/webassembly?view=aspnetcore-7.0" Typo="Typo.body1" Color="Color.Inherit">
+                <b>Размещение и рзвертывание ASP.NET Core Blazor WebAssembly</b>
+            </MudLink> <br />
+            <MudLink Href="https://learn.microsoft.com/ru-ru/aspnet/core/blazor/host-and-deploy/webassembly?view=aspnetcore-7.0#iis:~:text=%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20Azure.-,IIS,-IIS%20%D0%BC%D0%BE%D0%B6%D0%BD%D0%BE%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D1%8C" Typo="Typo.body1" Color="Color.Inherit">
+                <b>IIS</b>
+            </MudLink> <br />
+            <MudLink Href="https://ilovedotnet.org/blogs/blazor-wasm-publishing-to-iis/" Typo="Typo.body1" Color="Color.Inherit">
+                <b>Blazor WASM Publishing to IIS</b>
+            </MudLink> <br />
+            <MudLink Href="https://youtu.be/15-TzypV2HU" Typo="Typo.body1" Color="Color.Inherit">
+                <b>Deploying a Blazor WebAssembly Standalone in IIS</b>
+            </MudLink>
+        </MudAlert>
+    </MudListItem>
+    <MudListItem Text="В API приложении в файле appsettings.json настройте подключение к БД (как описано выше)" Icon="@Icons.Material.Filled.Circle" IconColor="Color.Primary" />
+    <MudListItem Text="В клиентском приложении в файле appsettings.json укажите правильный путь к API в секции ApiBaseAddress" Icon="@Icons.Material.Filled.Circle" IconColor="Color.Primary" />
+    <MudListItem Text="Сначала запустите сервер СУБД, затем запустите API и только затем запустите клиентское приложение" Icon="@Icons.Material.Filled.Circle" IconColor="Color.Primary" />
+</MudList>
+<br />
+<br />
 <MudDivider />
 <br />
 <br />
 <br />
 <MudText Typo="Typo.h4" GutterBottom="true">ССЫЛКИ</MudText>
-<MudAlert NoIcon="true" Severity="Severity.Info">GitHub репозиторий проекта: <MudLink Href="https://github.com/DanilRukin/Sibers.ProjectManagementSystem.TestTask/tree/dev" Typo="Typo.body1" Color="Color.Inherit"><b>ProjectManagementSystem</b></MudLink> </MudAlert>
+<MudList Clickable="false">
+    <MudListItem Icon="@Icons.Material.Filled.Circle" IconColor="Color.Primary">
+        <MudLink Href="https://github.com/DanilRukin/Sibers.ProjectManagementSystem.TestTask/tree/dev" Typo="Typo.body1" Color="Color.Inherit">
+            <b>GitHub репозиторий проекта</b>
+        </MudLink>
+    </MudListItem>
+    <MudListItem Icon="@Icons.Material.Filled.Circle" IconColor="Color.Primary">
+        <MudLink Href="https://learn.microsoft.com/ru-ru/aspnet/core/blazor/host-and-deploy/webassembly?view=aspnetcore-7.0" Typo="Typo.body1" Color="Color.Inherit">
+            <b>Размещение и рзвертывание ASP.NET Core Blazor WebAssembly</b>
+        </MudLink>
+    </MudListItem>
+    <MudListItem Icon="@Icons.Material.Filled.Circle" IconColor="Color.Primary">
+        <MudLink Href="https://learn.microsoft.com/ru-ru/aspnet/core/blazor/host-and-deploy/webassembly?view=aspnetcore-7.0#iis:~:text=%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20Azure.-,IIS,-IIS%20%D0%BC%D0%BE%D0%B6%D0%BD%D0%BE%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D1%8C" Typo="Typo.body1" Color="Color.Inherit">
+            <b>IIS</b>
+        </MudLink>
+    </MudListItem>
+    <MudListItem Icon="@Icons.Material.Filled.Circle" IconColor="Color.Primary">
+        <MudLink Href="https://ilovedotnet.org/blogs/blazor-wasm-publishing-to-iis/" Typo="Typo.body1" Color="Color.Inherit">
+            <b>Blazor WASM Publishing to IIS</b>
+        </MudLink>
+    </MudListItem>
+    <MudListItem Icon="@Icons.Material.Filled.Circle" IconColor="Color.Primary">
+        <MudLink Href="https://youtu.be/15-TzypV2HU" Typo="Typo.body1" Color="Color.Inherit">
+            <b>Deploying a Blazor WebAssembly Standalone in IIS</b>
+        </MudLink>
+    </MudListItem>
+    <MudListItem Icon="@Icons.Material.Filled.Circle" IconColor="Color.Primary">
+        <MudLink Href="https://youtu.be/Lt3wve_nb0g" Typo="Typo.body1" Color="Color.Inherit">
+            <b>How To Publish ASP.NET Core Web API to IIS</b>
+        </MudLink>
+    </MudListItem>
+    <MudListItem Icon="@Icons.Material.Filled.Circle" IconColor="Color.Primary">
+        <MudLink Href="https://learn.microsoft.com/ru-ru/iis/manage/creating-websites/scenario-build-a-static-website-on-iis" Typo="Typo.body1" Color="Color.Inherit">
+            <b>Build a Static Website on IIS</b>
+        </MudLink>
+    </MudListItem>
+</MudList>
