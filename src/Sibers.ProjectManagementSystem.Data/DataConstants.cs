@@ -13,5 +13,11 @@ namespace Sibers.ProjectManagementSystem.Data
 
         internal const string EMPLOYEES_TABLE_NAME = "Employees";
         internal const string PROJECTS_TABLE_NAME = "Projects";
+        internal const string TASKS_TABLE_NAME = "Tasks";
+
+        internal const string EXECUTABLE_TASKS = "_executableTasks";
+        internal const string CREATED_TASKS = "_createdTasks";
+
+        internal const string PROJECT_HAS_TASKS = "_tasks";
     }
 }

@@ -11,6 +11,7 @@ using Sibers.ProjectManagementSystem.SharedKernel.Interfaces;
 using Sibers.ProjectManagementSystem.Domain.ProjectAgregate;
 using Sibers.ProjectManagementSystem.Domain.EmployeeAgregate;
 using Sibers.ProjectManagementSystem.Domain;
+using Sibers.ProjectManagementSystem.Domain.TaskEntity;
 
 namespace Sibers.ProjectManagementSystem.Data
 {
@@ -25,6 +26,7 @@ namespace Sibers.ProjectManagementSystem.Data
         public DbSet<Project> Projects { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<EmployeeOnProject> EmployeesOnProjects { get; set; }
+        public DbSet<Domain.TaskEntity.Task> Tasks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

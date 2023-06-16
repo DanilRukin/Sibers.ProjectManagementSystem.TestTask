@@ -20,5 +20,15 @@ namespace Sibers.ProjectManagementSystem.Data
         {
             return employees.Include(DataConstants.EMPLOYEE_ON_PROJECTS);
         }
+
+        public static IQueryable<Employee> IncludeCreatedTasks(this IQueryable<Employee> employees)
+        {
+            return employees.Include(DataConstants.CREATED_TASKS);
+        }
+
+        public static IQueryable<Employee> IncludeExecutableTasks(this IQueryable<Employee> employees)
+        {
+            return employees.Include(DataConstants.EXECUTABLE_TASKS);
+        }
     }
 }

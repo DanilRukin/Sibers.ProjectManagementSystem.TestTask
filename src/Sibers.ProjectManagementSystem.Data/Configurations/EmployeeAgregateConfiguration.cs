@@ -32,6 +32,16 @@ namespace Sibers.ProjectManagementSystem.Data.Configurations
                 .OnDelete(DeleteBehavior.Cascade);
             builder.Navigation(DataConstants.EMPLOYEE_ON_PROJECTS)
                 .UsePropertyAccessMode(PropertyAccessMode.Field);
+
+            builder.HasMany<Domain.TaskEntity.Task>(DataConstants.CREATED_TASKS)
+                .WithOne()
+                .HasForeignKey(t => t.AuthorEmployeeId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany<Domain.TaskEntity.Task>(DataConstants.EXECUTABLE_TASKS)
+                .WithOne()
+                .HasForeignKey(t => t.ContractorEmployeeId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
