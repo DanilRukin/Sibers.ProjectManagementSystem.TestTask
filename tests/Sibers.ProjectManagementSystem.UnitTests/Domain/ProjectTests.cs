@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Task = Sibers.ProjectManagementSystem.Domain.TaskEntity.Task;
+using TaskStatus = Sibers.ProjectManagementSystem.Domain.TaskEntity.TaskStatus;
 
 namespace Sibers.ProjectManagementSystem.UnitTests.Domain
 {
@@ -274,6 +276,112 @@ namespace Sibers.ProjectManagementSystem.UnitTests.Domain
             Assert.DoesNotContain(employee, project.Employees);
             Assert.Empty(employee.OnTheseProjectsIsEmployee);
             Assert.Empty(employee.OnTheseProjectsIsManager);
+        }
+
+        [Fact]
+        public void ChangeTasksContractor_NoSuchEmployeeOnProject_ShouldThrowInvalidOperationExceptionWithSpecifiedMessage()
+        {
+            Project project = GetNextProject();
+            Employee employee = GetNextEmployee();
+            project.AddEmployee(employee);
+            Task task = employee.CreateTask(project, "name");           
+            Employee employee1 = GetNextEmployee();
+            int contractorId = employee1.Id;
+            string message = $"No such employee (id: {contractorId}) on this project. Employee must work on project " +
+                $"to become a contractor.";
+
+            var ex = Assert.Throws<InvalidOperationException>(() => project.ChangeTasksContractor(task, employee1));
+            Assert.Equal(message, ex.Message);
+        }
+
+        [Fact]
+        public void ChangeTasksContractor_ContractorIsAuthor_AuthorMustWorkOnProjectButHeWasnt_ShouldThrowInvalidOperationExceptionWithSpecifiedMessage()
+        {
+            Project project = GetNextProject();
+            Employee employee = GetNextEmployee();
+            Task task = employee.CreateTask(project, "name");
+            string message = $"No such employee (id: {employee.Id}) on this project. Employee must work on project " +
+                $"to become a contractor.";
+
+            var ex = Assert.Throws<InvalidOperationException>(() => project.ChangeTasksContractor(task, employee));
+            Assert.Equal(message, ex.Message);
+        }
+
+        [Fact]
+        public void ChangeTasksContractor_ItIsNotProjectsTask_ShouldThrowInvalidOperationExceptionWithSpecifiedMessage()
+        {
+            Project project = GetNextProject();
+            Employee employee = GetNextEmployee();
+            project.AddEmployee(employee);
+            Task task = employee.CreateTask(project, "name");
+            Project project_2 = GetNextProject();
+            Task task_2 = employee.CreateTask(project_2, "name");
+            string message = $"No such task (id: {task_2.Id}) on a project.";
+
+            var ex = Assert.Throws<InvalidOperationException>(() => project.ChangeTasksContractor(task_2, employee));
+            Assert.Equal(message, ex.Message);
+        }
+
+        [Fact]
+        public void ChangeTasksContractor_TaskIsNull_ShouldThrowInvalidOperationExceptionWithSpecifiedMessage()
+        {
+            Project project = GetNextProject();
+            Employee employee = GetNextEmployee();
+            project.AddEmployee(employee);
+            Task task = employee.CreateTask(project, "name");
+            string message = $"Task is null.";
+
+            var ex = Assert.Throws<InvalidOperationException>(() => project.ChangeTasksContractor(null, employee));
+            Assert.Equal(message, ex.Message);
+        }
+
+        [Fact]
+        public void ChangeTasksContractor_ContractorChanged()
+        {
+            Project project = GetNextProject();
+            Employee employee = GetNextEmployee();
+            project.AddEmployee(employee);
+            Task task = employee.CreateTask(project, "name");
+            project.ChangeTasksContractor(task, employee);
+
+            Assert.Equal(employee.Id, project.Tasks.First(t => t.Id == task.Id).ContractorEmployeeId);
+            Assert.Contains(task, employee.ExecutableTasks);
+        }
+
+        [Fact]
+        public void ChangeTasksContractor_ChangingBetweenTwoEmployees_ContractorChanged()
+        {
+            Project project = GetNextProject();
+            Employee author = GetNextEmployee();
+            Employee oldContractor = GetNextEmployee();
+            Employee newContractor = GetNextEmployee();
+            project.AddEmployee(oldContractor);
+            project.AddEmployee(newContractor);
+            Task task = author.CreateTask(project, "name");
+            project.ChangeTasksContractor(task, oldContractor);
+
+            project.ChangeTasksContractor(task, newContractor);
+
+            Assert.Empty(oldContractor.ExecutableTasks);
+            Assert.Contains(task, newContractor.ExecutableTasks);
+            Assert.Equal(task.ContractorEmployeeId, newContractor.Id);
+        }
+
+        [Fact]
+        public void RemoveContractorOfTask_ContractorRemoved()
+        {
+            Project project = GetNextProject();
+            Employee author = GetNextEmployee();
+            Employee contractor = GetNextEmployee();
+            Task task = author.CreateTask(project, "name");
+            project.AddEmployee(contractor);
+            project.ChangeTasksContractor(task, contractor);
+
+            project.RemoveContractorOfTask(task);
+
+            Assert.Contains(task, project.Tasks);
+            Assert.Empty(contractor.ExecutableTasks);
+            Assert.Null(task.ContractorEmployeeId);
         }
     }
 }

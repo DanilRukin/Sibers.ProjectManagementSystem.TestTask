@@ -14,6 +14,12 @@ namespace Sibers.ProjectManagementSystem.Domain.EmployeeAgregate
         public PersonalData PersonalData { get; set; }
         public Email Email { get; set; }
 
+        private List<TaskEntity.Task> _createdTasks = new List<TaskEntity.Task>();
+        public IReadOnlyCollection<TaskEntity.Task> CreatedTasks => _createdTasks.AsReadOnly();
+
+        private List<TaskEntity.Task> _executableTasks = new List<TaskEntity.Task>();
+        public IReadOnlyCollection<TaskEntity.Task> ExecutableTasks => _executableTasks.AsReadOnly();
+
         public IReadOnlyCollection<Project> OnTheseProjectsIsEmployee => _employeeOnProjects
             .Where(ep => ep.Role == EmployeeRoleOnProject.Employee)
             .Select(ep => ep.Project)
@@ -103,6 +109,77 @@ namespace Sibers.ProjectManagementSystem.Domain.EmployeeAgregate
             if (!email.Contains("@"))
                 throw new ArgumentException("Email does not contain '@'");
             Email = new Email(email);
+        }
+
+        public TaskEntity.Task CreateTask(Project project, string name, Priority priority = null, string description = "")
+        {
+            if (project == null)
+                throw new ArgumentNullException(nameof(project));
+            TaskEntity.Task result = new TaskEntity.Task(Guid.NewGuid(), name, description, project.Id, Id, priority);
+            _createdTasks ??= new List<TaskEntity.Task>();
+            if (!_createdTasks.Contains(result))
+            {
+                _createdTasks.Add(result);
+                project.AddTask(result);
+            }
+            return result.Clone();
+        }
+
+        internal void BecomeAContractorOfTask(TaskEntity.Task task)
+        {
+            if (task == null)
+                throw new ArgumentNullException(nameof(task));
+            _executableTasks ??= new List<TaskEntity.Task>();
+            if (!_executableTasks.Contains(task))
+            {
+                _executableTasks.Add(task);
+            }
+            else
+                throw new InvalidOperationException("This employee is already the contractor of this task");
+        }
+
+        internal void StopBeingAContractorOfTask(TaskEntity.Task task)
+        {
+            if (task == null)
+                throw new ArgumentNullException(nameof(task));
+            _executableTasks ??= new List<TaskEntity.Task>();
+            if (_executableTasks.Contains(task))
+            {
+                _executableTasks.Remove(task);
+            }
+            else
+                throw new InvalidOperationException($"Employee (id: {Id}) not execute task (id: {task.Id})");
+        }
+
+        public void StartTask(Project project, TaskEntity.Task task)
+        {
+            ThrowIfNotValid(project, task, "start");
+            project.StartTask(task);
+        }
+
+        public void SuspendTask(Project project, TaskEntity.Task task)
+        {
+            ThrowIfNotValid(project, task, "suspend");
+            project.SuspendTask(task);
+        }
+
+        public void CompleteTask(Project project, TaskEntity.Task task)
+        {
+            ThrowIfNotValid(project, task, "complete");
+            //StopBeingAContractorOfTask(task);  // is it true?
+            project.CompleteTask(task);
+        }
+
+        private void ThrowIfNotValid(Project project, TaskEntity.Task task, string operation)
+        {
+            if (task == null)
+                throw new ArgumentNullException(nameof(task));
+            if (project == null)
+                throw new ArgumentNullException(nameof(task));
+            _executableTasks ??= new List<TaskEntity.Task>();
+            if (!_executableTasks.Contains(task))
+                throw new InvalidOperationException($"Employee (id: {Id}) can not {operation} task (id: {task.Id}) " +
+                    $"because is not a contractor of this task");
         }
     }
 }

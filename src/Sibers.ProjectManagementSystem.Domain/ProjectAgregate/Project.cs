@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Sibers.ProjectManagementSystem.Domain.EmployeeAgregate;
 using Sibers.ProjectManagementSystem.Domain.ProjectAgregate.Events;
+using Task = Sibers.ProjectManagementSystem.Domain.TaskEntity.Task;
+using TaskStatus = Sibers.ProjectManagementSystem.Domain.TaskEntity.TaskStatus;
 
 namespace Sibers.ProjectManagementSystem.Domain.ProjectAgregate
 {
@@ -18,6 +20,9 @@ namespace Sibers.ProjectManagementSystem.Domain.ProjectAgregate
         public Priority Priority { get; protected set; }
         public string NameOfTheCustomerCompany { get; protected set; }
         public string NameOfTheContractorCompany { get; protected set; }
+
+        private List<Task> _tasks = new List<Task>();
+        public IReadOnlyCollection<Task> Tasks => _tasks.AsReadOnly();
 
         private List<EmployeeOnProject> _employeesOnProject = new List<EmployeeOnProject>();
         public IReadOnlyCollection<Employee> Employees => _employeesOnProject
@@ -184,6 +189,104 @@ namespace Sibers.ProjectManagementSystem.Domain.ProjectAgregate
             if (priority == null)
                 throw new ArgumentException("Priority cannot be null");
             Priority = priority;
+        }
+
+        internal void AddTask(Task task)
+        {
+            if (task == null)
+                throw new ArgumentNullException(nameof(task));
+            _tasks ??= new List<TaskEntity.Task>();
+            if (!_tasks.Contains(task))
+            {
+                _tasks.Add(task);
+                AddDomainEvent(new TaskAddedDomainEvent(task, Id));
+            }
+        }
+
+        public void RemoveTask(Task? task, int employeeId)
+        {
+            if (task != null)
+            {
+                _tasks?.Remove(task);
+                AddDomainEvent(new TaskRemovedDomainEvent(Id, task, employeeId));
+            }
+        }
+
+        public void ChangeTasksContractor(Task task, Employee newContractor)
+        {
+            if (newContractor == null)
+                throw new InvalidOperationException("New contractor is null. Use RemoveContractorOfTask() method instead");
+            if (!Employees.Contains(newContractor))
+                throw new InvalidOperationException($"No such employee (id: {newContractor.Id}) on this project." +
+                    $" Employee must work on project to become a contractor.");
+            if (task != null)
+            {
+                _tasks ??= new List<TaskEntity.Task>();
+                if (_tasks.Contains(task))
+                {
+                    Task? toChange = _tasks.Find(t => t.Id == task.Id);
+                    toChange.ChangeContractor(newContractor.Id);
+                    Employee oldContractor = Employees.FirstOrDefault(e => e.Id == task.ContractorEmployeeId);
+                    oldContractor?.StopBeingAContractorOfTask(toChange);
+                    newContractor.BecomeAContractorOfTask(toChange);
+                    task.ChangeContractor(newContractor.Id);
+                    AddDomainEvent(new ContractorChangedDomainEvent(Id, task, newContractor.Id));
+                }
+                else
+                    throw new InvalidOperationException($"No such task (id: {task.Id}) on a project.");
+            }
+            else
+                throw new InvalidOperationException("Task is null.");
+        }
+
+        public void RemoveContractorOfTask(Task task)
+        {
+            if (task == null)
+                throw new ArgumentNullException(nameof(task));
+            _tasks ??= new List<TaskEntity.Task>();
+            if (_tasks.Contains(task))
+            {
+                Task? toChange = _tasks.Find(t => t.Id == task.Id);
+                toChange.RemoveContractor();
+                Employee oldContractor = Employees.FirstOrDefault(e => e.Id == task.ContractorEmployeeId);
+                oldContractor?.StopBeingAContractorOfTask(toChange);
+                task.RemoveContractor();
+            }
+            else
+                throw new InvalidOperationException($"No such task (id: {task.Id}) on a project.");
+        }
+
+        internal void StartTask(Task task)
+        {
+            ThrowIfNotValidTask(task);
+            _tasks.First(t => t.Id == task.Id).Start();
+            if (task.TaskStatus != TaskStatus.InProgress)
+                task.Start();
+        }
+
+        internal void SuspendTask(Task task)
+        {
+            ThrowIfNotValidTask(task);
+            _tasks.First(t => t.Id == task.Id).Suspend();
+            if (task.TaskStatus != TaskStatus.ToDo)
+                task.Suspend();
+        }
+
+        internal void CompleteTask(Task task)
+        {
+            ThrowIfNotValidTask(task);
+            _tasks.First(t => t.Id == task.Id).Complete();
+            if (task.TaskStatus != TaskStatus.Completed)
+                task.Complete();
+        }
+
+        private void ThrowIfNotValidTask(Task task)
+        {
+            if (task == null)
+                throw new ArgumentNullException("Task is null");
+            _tasks ??= new List<TaskEntity.Task>();
+            if (!_tasks.Contains(task))
+                throw new InvalidOperationException($"No such task (id: {task.Id}) on project (id: {Id}).");
         }
     }
 }
