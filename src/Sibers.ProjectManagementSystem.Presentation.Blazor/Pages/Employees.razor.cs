@@ -46,7 +46,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Pages
                 else
                 {
                     _employeesList = new List<EmployeeViewModel>();
-                    Snackbar.Add(result.Errors.AsOneString(), Severity.Error);
+                    Snackbar.Add("Не удалось загрузить сотрудников", Severity.Info);
                 }
             }
             catch (Exception e)
