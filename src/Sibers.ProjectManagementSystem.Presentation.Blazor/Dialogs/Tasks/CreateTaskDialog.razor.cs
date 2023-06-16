@@ -40,6 +40,10 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Tasks
         [Parameter]
         public EmployeeViewModel Author { get; set; }
 
+        private EmployeeViewModel _contractor = new EmployeeViewModel();
+
+        private string _contractorFullName = "";
+
         protected override void OnInitialized()
         {
             base.OnInitialized();
@@ -55,6 +59,11 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Tasks
                 MudDialog.Cancel();
                 return;
             }
+        }
+
+        private async Task OnSelectContractor()
+        {
+
         }
 
         private async Task Submit()

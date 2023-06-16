@@ -1,6 +1,38 @@
 ﻿<MudDialog>
     <DialogContent>
-
+        <MudGrid>
+            <MudItem xs="6">
+                <MudStack Row="true" Spacing="1">
+                    <MudText>Название проекта:</MudText>
+                    <MudText>@ProjectOfTask?.Name</MudText>
+                </MudStack>
+            </MudItem>
+            <MudItem xs="6">
+                <MudStack Row="true" Spacing="1">
+                    <MudText>Автор:</MudText>
+                    <MudText>@Author?.FirstName @Author?.LastName @Author?.Patronymic</MudText>
+                </MudStack>
+            </MudItem>
+        </MudGrid>
+        <EditForm Model="@_taskToCreate">
+            <MudTextField Class="mb-3" Label="Название" @bind-Value="_taskToCreate.Name" Required="true"
+                          RequiredError="Это обязательное поле!" />
+             <MudGrid>
+                 <MudItem xs="8">
+                    <MudTextField ReadOnly="true"  Class="mb-3" Label="ФИО исполнителя" @bind-Value="_contractorFullName" />
+                 </MudItem>
+                 <MudItem xs="4">
+                    <MudButton OnClick="OnSelectContractor" Color="Color.Info">Назначить исполнителя</MudButton>
+                 </MudItem>
+             </MudGrid>
+            <MudNumericField Class="mb-3" Min="0" Label="Приоритет" @bind-Value="_taskToCreate.Priority" Required="true"
+                             RequiredError="Это обязательное поле!" />
+            <MudTextField T="string" Label="Описание" Variant="Variant.Outlined" Text="@_taskToCreate.Description" Lines="3" />
+        </EditForm>
     </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Отмена</MudButton>
+        <MudButton Color="Color.Success" Variant="Variant.Filled" OnClick="Submit">Создать</MudButton>
+    </DialogActions>
 </MudDialog>
 
