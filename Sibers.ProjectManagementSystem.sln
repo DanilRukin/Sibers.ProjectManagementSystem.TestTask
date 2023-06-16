@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sibers.ProjectManagementSys
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sibers.ProjectManagementSystem.Api", "src\Sibers.ProjectManagementSystem.Api\Sibers.ProjectManagementSystem.Api.csproj", "{A3D933C3-D966-4579-8779-5C22A33B6550}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sibers.ProjectManagementSystem.Data.Postgres", "src\Sibers.ProjectManagementSystem.Data.Postgres\Sibers.ProjectManagementSystem.Data.Postgres.csproj", "{D6D5F59C-74BF-4AE5-A213-22FB151C0C40}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sibers.ProjectManagementSystem.Data.Postgres", "src\Sibers.ProjectManagementSystem.Data.Postgres\Sibers.ProjectManagementSystem.Data.Postgres.csproj", "{D6D5F59C-74BF-4AE5-A213-22FB151C0C40}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

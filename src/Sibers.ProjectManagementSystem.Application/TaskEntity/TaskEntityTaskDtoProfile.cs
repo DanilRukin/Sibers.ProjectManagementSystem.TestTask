@@ -11,7 +11,8 @@ namespace Sibers.ProjectManagementSystem.Application.TaskEntity
     {
         public TaskEntityTaskDtoProfile() 
         {
-            CreateMap<Domain.TaskEntity.Task, TaskDto>();
+            CreateMap<Domain.TaskEntity.Task, TaskDto>()
+                .ForMember(dto => dto.Priority, opt => opt.MapFrom(src => src.Priority.Value));
         }
     }
 }

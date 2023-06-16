@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
-using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Dtos;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.ViewModels;
 
 namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Profiles
 {
-    public class ProjectViewModelProjectDtoProfile : Profile
+    public class TaskViewModelTaskDtoProfile : Profile
     {
-        public ProjectViewModelProjectDtoProfile()
+        public TaskViewModelTaskDtoProfile() 
         {
-            CreateMap<ProjectDto, ProjectViewModel>()
+            CreateMap<Dtos.TaskDto, TaskViewModel>()
+                .ForMember(vm => vm.TaskStatusViewModel, opt => opt.MapFrom(dto => dto.TaskStatus))
                 .ReverseMap();
         }
     }

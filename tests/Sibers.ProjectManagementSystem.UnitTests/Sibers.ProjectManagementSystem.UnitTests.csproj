@@ -24,8 +24,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Sibers.ProjectManagementSystem.Application\Sibers.ProjectManagementSystem.Application.csproj" />
     <ProjectReference Include="..\..\src\Sibers.ProjectManagementSystem.Data\Sibers.ProjectManagementSystem.Data.csproj" />
     <ProjectReference Include="..\..\src\Sibers.ProjectManagementSystem.Domain\Sibers.ProjectManagementSystem.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Sibers.ProjectManagementSystem.Presentation.Blazor\Sibers.ProjectManagementSystem.Presentation.Blazor.csproj" />
     <ProjectReference Include="..\..\src\Sibers.ProjectManagementSystem.SharedKernel\Sibers.ProjectManagementSystem.SharedKernel.csproj" />
   </ItemGroup>
 
