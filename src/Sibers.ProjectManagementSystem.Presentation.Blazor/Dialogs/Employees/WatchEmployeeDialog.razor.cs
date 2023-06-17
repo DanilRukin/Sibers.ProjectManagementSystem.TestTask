@@ -2,10 +2,12 @@
 using MediatR;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Tasks;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Dtos;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Employees.Queries;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Extensions;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Projects.Queries;
+using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Tasks.Queries;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.ViewModels;
 using Sibers.ProjectManagementSystem.SharedKernel.Results;
 
@@ -13,6 +15,9 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Employees
 {
     public partial class WatchEmployeeDialog
     {
+        [Inject]
+        public IDialogService DialogService { get; set; }
+
         [Inject]
         public IMapper Mapper { get; set; }
 
@@ -33,9 +38,14 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Employees
 
         private ICollection<ProjectViewModel> _projects;
 
+        private ICollection<TaskViewModel> _executableTasks;
+        private ICollection<TaskViewModel> _createdTasks;
+
         protected override async Task OnInitializedAsync()
         {
             await LoadProjects();
+            await LoadCreatedTasks();
+            await LoadExecutableTasks();
         }
 
         private async Task LoadProjects()
@@ -69,6 +79,67 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Employees
             {
                 Snackbar.Add("Не удалось получить сотрудника.", Severity.Warning);
                 EmployeeToWatch = new EmployeeViewModel();
+            }
+        }
+
+        private async Task LoadCreatedTasks()
+        {
+            if (EmployeeToWatch != null)
+            {
+                GetRangeOfTasksQuery query = new(EmployeeToWatch.CreatedTasksIds);
+                var response = await Mediator.Send(query);
+                if (!response.IsSuccess)
+                {
+                    Snackbar.Add($"Не удалось получить задачи, созданные сотрудником. Причина: {response.Errors.AsOneString()}", Severity.Error);
+                }
+                else
+                {
+                    _createdTasks = Mapper.Map<IEnumerable<TaskDto>, ICollection<TaskViewModel>>(response.Value);
+                }
+            }
+            else
+            {
+                Snackbar.Add("Не удалось получить сотрудника.", Severity.Warning);
+                EmployeeToWatch = new EmployeeViewModel();
+            }
+        }
+
+        private async Task LoadExecutableTasks()
+        {
+            if (EmployeeToWatch != null)
+            {
+                GetRangeOfTasksQuery query = new(EmployeeToWatch.ExecutableTasksIds);
+                var response = await Mediator.Send(query);
+                if (!response.IsSuccess)
+                {
+                    Snackbar.Add($"Не удалось получить задачи, выполняемые сотрудником. Причина: {response.Errors.AsOneString()}", Severity.Error);
+                }
+                else
+                {
+                    _executableTasks = Mapper.Map<IEnumerable<TaskDto>, ICollection<TaskViewModel>>(response.Value);
+                }
+            }
+            else
+            {
+                Snackbar.Add("Не удалось получить сотрудника.", Severity.Warning);
+                EmployeeToWatch = new EmployeeViewModel();
+            }
+        }
+
+        private void OnTaskWatch(Guid taskId)
+        {
+            TaskViewModel? task = _createdTasks.FirstOrDefault(t => t.Id == taskId);
+            if (task == null)
+                task = _executableTasks.FirstOrDefault(t => t.Id == taskId);
+            if (task == null)
+                Snackbar.Add("Невозможно просмотреть задачу, т.к. ее нет", Severity.Info);
+            else
+            {
+                DialogParameters parameters = new DialogParameters()
+                {
+                    { nameof(WatchTaskDialog.TaskToWatch), task }
+                };
+                DialogService.Show<WatchTaskDialog>("Просмотр задачи", parameters);
             }
         }
 

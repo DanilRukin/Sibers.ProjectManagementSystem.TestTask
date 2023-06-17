@@ -14,5 +14,7 @@ namespace Sibers.ProjectManagementSystem.Application.EmployeeAgregate
         public string Email { get; set; } = string.Empty;
         public int Id { get; set; }
         public List<int> ProjectsIds { get; set; } = new List<int>();
+        public IEnumerable<Guid> CreatedTasksIds { get; set; } = new List<Guid>();
+        public IEnumerable<Guid> ExecutableTasksIds { get; set; } = new List<Guid>();
     }
 }

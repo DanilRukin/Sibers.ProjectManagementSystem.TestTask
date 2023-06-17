@@ -16,36 +16,100 @@
                     <MudText Align="Align.Center" GutterBottom="true" Typo="Typo.h6">
                         (@EmployeeToWatch.Email)
                     </MudText>
-                }                
-                <MudText Typo="Typo.h5" GutterBottom="true" Class="mt-5">
-                    Задействован на проектах
-                </MudText>
-                @if (EmployeeToWatch.ProjectsIds == null)
-                {
-                    <MudProgressCircular Indeterminate="true"></MudProgressCircular>
-                }
-                else
-                {
-                    <MudTable Items="_projects" Hover="true">
-                        <HeaderContent>
-                            <MudTh>
-                                Название проекта
-                            </MudTh>
-                            <MudTh>
-                                Роль на проекте
-                            </MudTh>
-                        </HeaderContent>
-                        <RowTemplate Context="ep">
-                            <MudTd DataLabel="Название проекта">@ep.Name</MudTd>
-                            <MudTd DataLabel="Роль на проекте">
-                                @ShowRole(ep)
-                            </MudTd>
-                        </RowTemplate>
-                        <PagerContent>
-                            <MudTablePager PageSizeOptions="new int[] { 5, 10, 15}" />
-                        </PagerContent>
-                    </MudTable>
-                }
+                }    
+                <MudGrid>
+                    <MudItem xs="6">
+                        <MudText Typo="Typo.h5" GutterBottom="true" Class="mt-5">
+                            Задействован на проектах
+                        </MudText>
+                        @if (EmployeeToWatch.ProjectsIds == null)
+                        {
+                            <MudProgressCircular Indeterminate="true"></MudProgressCircular>
+                        }
+                        else
+                        {
+                            <MudTable Items="_projects" Hover="true">
+                                <HeaderContent>
+                                    <MudTh>
+                                        Название проекта
+                                    </MudTh>
+                                    <MudTh>
+                                        Роль на проекте
+                                    </MudTh>
+                                </HeaderContent>
+                                <RowTemplate Context="ep">
+                                    <MudTd DataLabel="Название проекта">@ep.Name</MudTd>
+                                    <MudTd DataLabel="Роль на проекте">
+                                        @ShowRole(ep)
+                                    </MudTd>
+                                </RowTemplate>
+                                <PagerContent>
+                                    <MudTablePager PageSizeOptions="new int[] { 5, 10, 15}" />
+                                </PagerContent>
+                            </MudTable>
+                        }
+                    </MudItem>
+                    <MudItem xs="3">
+                        <MudText Typo="Typo.h5">Выполняемые задачи</MudText>
+                        @if (_executableTasks == null)
+                        {
+                            <MudProgressCircular Indeterminate="true"></MudProgressCircular>
+                        }
+                        else
+                        {
+                            <MudTable Items="_executableTasks" FixedHeader="true" Height="400px">
+                                <HeaderContent>
+                                    <MudTh>
+                                        Название
+                                    </MudTh>
+                                    <MudTh>
+                                        Описание
+                                    </MudTh>
+                                </HeaderContent>
+                                <RowTemplate>
+                                    <MudTd DataLabel="Название">
+                                        @context.Name
+                                        <MudIconButton Color="Color.Dark" Variant="Variant.Text" Icon="@Icons.Material.Filled.RemoveRedEye" @onclick="@(() => OnTaskWatch(@context.Id))" />
+                                    </MudTd>
+                                    <MudTd DataLabel="Описание">@context.Description?</MudTd>
+                                </RowTemplate>
+                                <PagerContent>
+                                    <MudTablePager PageSizeOptions="new int[] {5, 10, 15 }"/>
+                                </PagerContent>
+                            </MudTable>
+                        }
+                    </MudItem>
+                    <MudItem xs="3">
+                        <MudText Typo="Typo.h5">Созданные задачи</MudText>
+                        @if (_createdTasks == null)
+                        {
+                            <MudProgressCircular Indeterminate="true"></MudProgressCircular>
+                        }
+                        else
+                        {
+                            <MudTable Items="_createdTasks" FixedHeader="true" Height="400px">
+                                <HeaderContent>
+                                    <MudTh>
+                                        Название
+                                    </MudTh>
+                                    <MudTh>
+                                        Описание
+                                    </MudTh>
+                                </HeaderContent>
+                                <RowTemplate>
+                                    <MudTd DataLabel="Название">
+                                        @context.Name
+                                        <MudIconButton Color="Color.Dark" Variant="Variant.Text" Icon="@Icons.Material.Filled.RemoveRedEye" @onclick="@(() => OnTaskWatch(@context.Id))" />
+                                    </MudTd>
+                                    <MudTd DataLabel="Описание">@context.Description?</MudTd>
+                                </RowTemplate>
+                                <PagerContent>
+                                    <MudTablePager PageSizeOptions="new int[] {5, 10, 15 }" />
+                                </PagerContent>
+                            </MudTable>
+                        }
+                    </MudItem>
+                </MudGrid>               
             }
         </MudContainer>
     </DialogContent>

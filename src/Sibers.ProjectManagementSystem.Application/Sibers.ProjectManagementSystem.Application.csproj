@@ -17,8 +17,4 @@
     <ProjectReference Include="..\Sibers.ProjectManagementSystem.Domain\Sibers.ProjectManagementSystem.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="TaskEntity\Queries\" />
-  </ItemGroup>
-
 </Project>

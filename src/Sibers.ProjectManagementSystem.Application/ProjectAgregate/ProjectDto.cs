@@ -17,5 +17,6 @@ namespace Sibers.ProjectManagementSystem.Application.ProjectAgregate
         public string NameOfTheContractorCompany { get; set; } = string.Empty;
         public List<int> EmployeesIds { get; set; } = new List<int>();
         public int ManagerId { get; set; }
+        public IEnumerable<Guid> TasksIds { get; set; } = new List<Guid>();
     }
 }

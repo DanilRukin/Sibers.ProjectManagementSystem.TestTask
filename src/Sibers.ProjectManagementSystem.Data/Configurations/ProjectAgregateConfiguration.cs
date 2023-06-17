@@ -22,6 +22,7 @@ namespace Sibers.ProjectManagementSystem.Data.Configurations
             builder.Ignore(p => p.DomainEvents);
             builder.Ignore(p => p.Employees);
             builder.Ignore(p => p.Manager);
+            builder.Ignore(p => p.Tasks);
 
             builder.OwnsOne(p => p.Priority);
 

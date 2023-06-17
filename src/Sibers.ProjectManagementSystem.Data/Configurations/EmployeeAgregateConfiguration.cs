@@ -25,6 +25,8 @@ namespace Sibers.ProjectManagementSystem.Data.Configurations
             builder.Ignore(e => e.OnTheseProjectsIsManager);
             builder.Ignore(e => e.OnTheseProjectsIsEmployee);
             builder.Ignore(e => e.Projects);
+            builder.Ignore(e => e.CreatedTasks);
+            builder.Ignore(e => e.ExecutableTasks);
 
             builder.HasMany<EmployeeOnProject>(DataConstants.EMPLOYEE_ON_PROJECTS)
                 .WithOne(eop => eop.Employee)
