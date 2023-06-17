@@ -2,10 +2,18 @@
 using MediatR;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Employees;
+using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Dtos;
+using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Employees.Commands;
+using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Extensions;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.ViewModels;
 
 namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Tasks
 {
+    /// <summary>
+    /// Диалог создания задачи. В случае успеха <see cref="MudBlazor.DialogResult"/> вернет <see cref="TaskViewModel"/> созданной задачи.
+    /// В противном случае будет возвращен <see cref="MudBlazor.DialogResult.Ok{T}(T)"/>
+    /// </summary>
     public partial class CreateTaskDialog
     {
         [Inject]
@@ -63,14 +71,48 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Tasks
 
         private async Task OnSelectContractor()
         {
-
+            DialogParameters parameters = new DialogParameters
+            {
+                { nameof(SelectEmployeesDialog.Multiselection), false },
+                { nameof(SelectEmployeesDialog.LoadEmloyees), true },
+                { nameof(SelectEmployeesDialog.IncludeOnly), new List<int>(ProjectOfTask.EmployeesIds).Remove(_contractor.Id) },
+            };
+            var dialog = DialogService.Show<SelectEmployeesDialog>("Выбор исполнителя", parameters);
+            var task = dialog.Result;
+            var result = await task;
+            if (result != null && !result.Canceled)
+            {
+                if (result.Data is EmployeeViewModel employee)
+                {
+                    _contractor = employee;
+                    _contractorFullName = $"{_contractor.FirstName} {_contractor.LastName} {_contractor.Patronymic}";
+                }
+            }
         }
-
+        /// <summary>
+        /// Метод, вызываемый при нажатии на кнопку "Создать". 
+        /// В случае успеха, создается <see cref="TaskViewModel"/> созданной задачи и возвращается в <see cref="MudBlazor.DialogResult"/>.
+        /// </summary>
+        /// <returns></returns>
         private async Task Submit()
         {
             try
             {
-                
+                _taskToCreate.ProjectId = ProjectOfTask.Id;
+                _taskToCreate.AuthorEmployeeId = Author.Id;
+                _taskToCreate.ContractorEmployeeId = _contractor.Id;
+                CreateTaskCommand createTaskCommand = new(Mapper.Map<TaskDto>(_taskToCreate));
+                var response = await Mediator.Send(createTaskCommand);
+                if (!response.IsSuccess)
+                {
+                    Snackbar.Add($"Задача не была создана. Причина: {response.Errors.AsOneString()}", Severity.Error);
+                    MudDialog.Close(DialogResult.Ok(false));
+                }
+                else
+                {
+                    Snackbar.Add("Задача создана!", Severity.Success);
+                    MudDialog.Close(DialogResult.Ok(Mapper.Map<TaskViewModel>(response.Value)));
+                }
             }
             catch (Exception e)
             {

@@ -44,6 +44,8 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Empl
             public static string CompleteTask(Guid taskId, int employeeId, int projectId)
                 => $"{Api}/CompleteTask/{taskId}/{projectId}/{employeeId}";
             public static string Update() => $"{Api}/update";
+
+            public static string UpdateTask() => $"{Api}/updatetask";
         }
 
         public static class Delete

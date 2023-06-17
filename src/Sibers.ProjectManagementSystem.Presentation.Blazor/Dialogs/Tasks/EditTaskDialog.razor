@@ -1,0 +1,51 @@
+﻿@using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.ViewModels;
+<MudDialog>
+    <DialogContent>
+        <MudGrid>
+            <MudItem xs="6">
+                <MudStack Row="true" Spacing="1">
+                    <MudText>Название проекта:</MudText>
+                    <MudText>@_projectOfTask.Name</MudText>
+                </MudStack>
+            </MudItem>
+            <MudItem xs="6">
+                <MudStack Row="true" Spacing="1">
+                    <MudText>Автор:</MudText>
+                    <MudText>@_author?.FirstName @_author?.LastName @_author?.Patronymic</MudText>
+                </MudStack>
+            </MudItem>
+        </MudGrid>
+        <EditForm Model="@TaskToEdit">
+            <MudTextField Class="mb-3" Label="Название" @bind-Value="TaskToEdit.Name" Required="true"
+                          RequiredError="Это обязательное поле!" />
+            <MudGrid>
+                <MudItem xs="8">
+                    <MudTextField ReadOnly="true" Class="mb-3" Label="ФИО исполнителя" @bind-Value="_contractorFullName" />
+                </MudItem>
+                <MudItem xs="4">
+                    <MudButton OnClick="OnSelectContractor" Color="Color.Info">Сменить исполнителя</MudButton>
+                </MudItem>
+            </MudGrid>
+            <MudGrid>
+                <MudItem xs="4">
+                    <MudNumericField Class="mb-3" Min="0" Label="Приоритет" @bind-Value="TaskToEdit.Priority" Required="true"
+                                     RequiredError="Это обязательное поле!" />
+                </MudItem>
+                <MudItem xs="8">
+                    <MudSelect @bind-Value="TaskToEdit.TaskStatusViewModel" Label="Статус задачи" AdornmentColor="Color.Secondary">
+                        @foreach (TaskStatusViewModel item in Enum.GetValues(typeof(TaskStatusViewModel)))
+                        {
+                            <MudSelectItem Value="@item">@item</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+            </MudGrid>
+            
+            <MudTextField T="string" Label="Описание" Variant="Variant.Outlined" Text="@TaskToEdit.Description" Lines="3" />
+        </EditForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Отмена</MudButton>
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Submit">Применить</MudButton>
+    </DialogActions>
+</MudDialog>
