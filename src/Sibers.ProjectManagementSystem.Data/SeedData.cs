@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using Task = Sibers.ProjectManagementSystem.Domain.TaskEntity.Task;
 
 namespace Sibers.ProjectManagementSystem.Data
 {
@@ -19,6 +19,11 @@ namespace Sibers.ProjectManagementSystem.Data
         public static Employee Employee1_WorksOnProject1 { get; private set; }
         public static Employee Employee2_WorksOnProject1And2 { get; private set; }
         public static Employee Employee3_WorksOnProject2 { get; private set; }
+
+        public static Task TaskByEmployee1_OnProject1_Employee2_Executor { get; private set; }
+        public static Task TaskByEmployee2_OnProject2_Employee3_Executor { get; private set; }
+        public static Task TaskByEmployee1_OnProject2_Employee2_Executor { get; private set; }
+
 
         public static void ApplyMigrationAndFillDatabase(ProjectManagementSystemContext context)
         {
@@ -61,6 +66,15 @@ namespace Sibers.ProjectManagementSystem.Data
                 Project2.AddEmployee(Employee3_WorksOnProject2);
                 context.SaveChanges();
 
+                TaskByEmployee1_OnProject1_Employee2_Executor = Employee1_WorksOnProject1.CreateTask(Project1, "name");
+                Project1.ChangeTasksContractor(TaskByEmployee1_OnProject1_Employee2_Executor, Employee2_WorksOnProject1And2);
+                TaskByEmployee1_OnProject2_Employee2_Executor = Employee1_WorksOnProject1.CreateTask(Project2, "name");
+                Project2.ChangeTasksContractor(TaskByEmployee1_OnProject2_Employee2_Executor, Employee2_WorksOnProject1And2);
+                TaskByEmployee2_OnProject2_Employee3_Executor = Employee2_WorksOnProject1And2.CreateTask(Project2, "name");
+                Project2.ChangeTasksContractor(TaskByEmployee2_OnProject2_Employee3_Executor, Employee3_WorksOnProject2);
+
+                context.SaveChanges();
+
                 _empty = false;
             }
         }
@@ -69,17 +83,24 @@ namespace Sibers.ProjectManagementSystem.Data
         {
             if (context.Projects.Any())
                 context.Projects.RemoveRange(context.Projects);
+            if (context.Tasks.Any())
+                context.Tasks.RemoveRange(context.Tasks);
             if (context.Employees.Any())
                 context.Employees.RemoveRange(context.Employees);
             if (context.EmployeesOnProjects.Any())
                 context.EmployeesOnProjects.RemoveRange(context.EmployeesOnProjects);
             context.SaveChanges();
+
             Project1 = null;
             Project2 = null;
 
             Employee1_WorksOnProject1 = null;
             Employee2_WorksOnProject1And2 = null;
             Employee3_WorksOnProject2 = null;
+
+            TaskByEmployee1_OnProject1_Employee2_Executor = null;
+            TaskByEmployee2_OnProject2_Employee3_Executor = null;
+            TaskByEmployee1_OnProject2_Employee2_Executor = null;
 
             _empty = true;
         }
