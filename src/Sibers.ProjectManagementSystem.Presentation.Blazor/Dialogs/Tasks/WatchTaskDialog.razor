@@ -1,0 +1,71 @@
+﻿<MudDialog>
+    <DialogContent>
+        <MudText Typo="Typo.h3" Align="Align.Center">@TaskToWatch.Name</MudText>
+        <MudText>(@TaskToWatch.Priority)</MudText>
+        <br />
+        <br />
+        <MudDivider/>
+        <br />
+        <MudGrid>
+            <MudItem xs="12">
+                <MudGrid Justify="Justify.FlexStart">
+                    <MudItem xs="4">
+                        <MudText>Проект:</MudText>
+                    </MudItem>
+                    <MudItem xs="8">
+                        <MudStack Row="true">
+                            <MudText>@_projectOfTask.Name</MudText>
+                            <MudIconButton Color="Color.Dark" Variant="Variant.Text" Icon="@Icons.Material.Filled.RemoveRedEye" @onclick="@OnProjectWatch" />
+                        </MudStack>
+                    </MudItem>
+                </MudGrid>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudGrid Justify="Justify.FlexStart">
+                    <MudItem xs="4">
+                        <MudText>Автор:</MudText>
+                    </MudItem>
+                    <MudItem xs="8">
+                        <MudStack Row="true">
+                            <MudText>@_author?.FirstName @_author?.LastName @_author?.Patronymic</MudText>
+                            <MudIconButton Color="Color.Dark" Variant="Variant.Text" Icon="@Icons.Material.Filled.RemoveRedEye" @onclick="@(() => OnEmployeeWatch(TaskToWatch.AuthorEmployeeId))" />
+                        </MudStack>
+                    </MudItem>
+                </MudGrid>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudGrid Justify="Justify.FlexStart">
+                    <MudItem xs="4">
+                        <MudText>Исполнитель:</MudText>
+                    </MudItem>
+                    <MudItem xs="8">
+                        <MudStack Row="true">
+                            <MudText>@_contractor?.FirstName @_contractor?.LastName @_contractor?.Patronymic</MudText>
+                            <MudIconButton Color="Color.Dark" Variant="Variant.Text" Icon="@Icons.Material.Filled.RemoveRedEye" @onclick="@(() => OnEmployeeWatch(TaskToWatch.ContractorEmployeeId))" />
+                        </MudStack>
+                    </MudItem>
+                </MudGrid>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudGrid Justify="Justify.FlexStart">
+                    <MudItem xs="4">
+                        <MudText>Статус:</MudText>
+                    </MudItem>
+                    <MudItem xs="8">
+                        <MudText>@TaskToWatch.TaskStatusViewModel</MudText>
+                    </MudItem>
+                </MudGrid>
+            </MudItem>
+
+        </MudGrid>
+        <br />
+        <br />
+        <MudTextField ReadOnly="true" T="string" Label="Описание" Variant="Variant.Outlined" Text="@TaskToWatch.Description" Lines="3" />
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Закрыть</MudButton>
+    </DialogActions>
+</MudDialog>
