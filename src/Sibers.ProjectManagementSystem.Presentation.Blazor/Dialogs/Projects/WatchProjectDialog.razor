@@ -1,7 +1,7 @@
 ﻿@using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.ViewModels;
 <MudDialog DisableSidePadding="true">
     <DialogContent>
-        <MudContainer Style="max-height: 700px; overflow-y: scroll">
+        <MudContainer Style="max-height: 800px; overflow-y: scroll">
             @if (Project == null)
             {
                 <MudProgressCircular Indeterminate="true"></MudProgressCircular>
@@ -36,47 +36,79 @@
                     }
                 </MudText>
                 <MudDivider Class="mb-5" />
-                <MudText GutterBottom="true" Typo="Typo.h5">Сотрудники на проекте</MudText>
-                @if (_employees == null)
-                {
-                    <MudProgressCircular Indeterminate="true"></MudProgressCircular>
-                }
-                else
-                {
-                    <MudTable Items="_employees" FixedHeader="true" FixedFooter="true" Hover="true" SortLabel="Sort by">
-                        <HeaderContent>
-                            <MudTh>
-                                <MudTableSortLabel SortBy="new Func<EmployeeViewModel, object>(e => e.FirstName)">
-                                    Фамилия
-                                </MudTableSortLabel>
-                            </MudTh>
-                            <MudTh>
-                                <MudTableSortLabel SortBy="new Func<EmployeeViewModel, object>(e => e.LastName)">
-                                    Имя
-                                </MudTableSortLabel>
-                            </MudTh>
-                            <MudTh>
-                                <MudTableSortLabel SortBy="new Func<EmployeeViewModel, object>(e => e.Patronymic)">
-                                    Отчество
-                                </MudTableSortLabel>
-                            </MudTh>
-                            <MudTh>
-                                <MudTableSortLabel SortBy="new Func<EmployeeViewModel, object>(e => e.Email)">
-                                    Email
-                                </MudTableSortLabel>
-                            </MudTh>
-                        </HeaderContent>
-                        <RowTemplate Context="emp">
-                            <MudTd DataLabel="Фамилия">@emp.FirstName</MudTd>
-                            <MudTd DataLabel="Имя">@emp.LastName</MudTd>
-                            <MudTd DataLabel="Отчество">@emp.Patronymic</MudTd>
-                            <MudTd DataLabel="Email">@emp.Email</MudTd>
-                        </RowTemplate>
-                        <PagerContent>
-                            <MudTablePager PageSizeOptions="new int[] { 10, 25, 50, 100 }" />
-                        </PagerContent>
-                    </MudTable>
-                }
+                <MudGrid>
+                    <MudItem xs="8">
+                        <MudText GutterBottom="true" Typo="Typo.h5">Сотрудники на проекте</MudText>
+                        @if (_employees == null)
+                        {
+                            <MudProgressCircular Indeterminate="true"></MudProgressCircular>
+                        }
+                        else
+                        {
+                            <MudTable Items="_employees" FixedHeader="true" FixedFooter="true" Hover="true" Height="400px" SortLabel="Sort by">
+                                <HeaderContent>
+                                    <MudTh>
+                                        <MudTableSortLabel SortBy="new Func<EmployeeViewModel, object>(e => e.FirstName)">
+                                            Фамилия
+                                        </MudTableSortLabel>
+                                    </MudTh>
+                                    <MudTh>
+                                        <MudTableSortLabel SortBy="new Func<EmployeeViewModel, object>(e => e.LastName)">
+                                            Имя
+                                        </MudTableSortLabel>
+                                    </MudTh>
+                                    <MudTh>
+                                        <MudTableSortLabel SortBy="new Func<EmployeeViewModel, object>(e => e.Patronymic)">
+                                            Отчество
+                                        </MudTableSortLabel>
+                                    </MudTh>
+                                    <MudTh>
+                                        <MudTableSortLabel SortBy="new Func<EmployeeViewModel, object>(e => e.Email)">
+                                            Email
+                                        </MudTableSortLabel>
+                                    </MudTh>
+                                </HeaderContent>
+                                <RowTemplate Context="emp">
+                                    <MudTd DataLabel="Фамилия">@emp.FirstName</MudTd>
+                                    <MudTd DataLabel="Имя">@emp.LastName</MudTd>
+                                    <MudTd DataLabel="Отчество">@emp.Patronymic</MudTd>
+                                    <MudTd DataLabel="Email">@emp.Email</MudTd>
+                                </RowTemplate>
+                                <PagerContent>
+                                    <MudTablePager PageSizeOptions="new int[] { 10, 25, 50, 100 }" />
+                                </PagerContent>
+                            </MudTable>
+                        }
+                    </MudItem>
+                    <MudItem xs="4">
+                        <MudText GutterBottom="true" Typo="Typo.h5">Задачи на проекте</MudText>
+                        @if(_tasks == null)
+                        {
+                            <MudProgressCircular Indeterminate="true"></MudProgressCircular>
+                        }
+                        else
+                        {
+                            <MudTable Items="_tasks" Height="400px" FixedFooter="true" FixedHeader="true">
+                                <HeaderContent>
+                                    <MudTh>
+                                        <MudTableSortLabel SortBy="new Func<TaskViewModel, object>(t => t.Name)">
+                                            Названиe
+                                        </MudTableSortLabel>
+                                    </MudTh>
+                                </HeaderContent>
+                                <RowTemplate>
+                                    <MudTd DataLabel="Название">
+                                        @context.Name
+                                        <MudIconButton Color="Color.Dark" Variant="Variant.Text" Icon="@Icons.Material.Filled.RemoveRedEye" @onclick="@(() => OnTaskWatch(@context.Id))" />
+                                    </MudTd>
+                                </RowTemplate>
+                                <PagerContent>
+                                    <MudTablePager PageSizeOptions="new int[] { 10, 25, 50, 100 }" />
+                                </PagerContent>
+                            </MudTable>
+                        }                        
+                    </MudItem>
+                </MudGrid>                
             }
         </MudContainer>
     </DialogContent>

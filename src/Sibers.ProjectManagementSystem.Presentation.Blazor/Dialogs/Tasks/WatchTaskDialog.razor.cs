@@ -115,7 +115,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Tasks
                 {
                     { nameof(WatchProjectDialog.Project), _projectOfTask }
                 };
-                DialogService.Show<WatchProjectDialog>("Просмотр проекта");
+                DialogService.Show<WatchProjectDialog>("Просмотр проекта", parameters);
             }
         }
 
