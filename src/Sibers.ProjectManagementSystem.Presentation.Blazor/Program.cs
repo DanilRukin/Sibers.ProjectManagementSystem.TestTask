@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor;
 using MudBlazor.Services;
 using Sibers.ProjectManagementSystem.Presentation.Blazor;
+using System.Security.Claims;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
@@ -18,6 +20,13 @@ builder.Services.AddHttpClient("", client =>
 
 
 //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+
+builder.Services.AddOptions();  // для авторизации
+builder.Services.AddAuthorizationCore(); // для авторизации
+builder.Services.AddScoped<AuthenticationStateProvider, TokenAuthenticationStateProvider>(); // для авторизации
+
+
+
 builder.Services.AddMudServices(config =>
 {
     config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.BottomLeft;
@@ -34,3 +43,14 @@ builder.Services.AddMediatR(conf => conf.RegisterServicesFromAssembly(typeof(Mar
 builder.Services.AddAutoMapper(typeof(Marker).Assembly);
 
 await builder.Build().RunAsync();
+
+
+internal class TokenAuthenticationStateProvider : AuthenticationStateProvider
+{
+    public override Task<AuthenticationState> GetAuthenticationStateAsync()
+    {
+        ClaimsIdentity anonymousClaim = new ClaimsIdentity();
+        ClaimsPrincipal anonymousPrincipal = new ClaimsPrincipal(anonymousClaim);
+        return Task.FromResult(new AuthenticationState(anonymousPrincipal));
+    }
+}

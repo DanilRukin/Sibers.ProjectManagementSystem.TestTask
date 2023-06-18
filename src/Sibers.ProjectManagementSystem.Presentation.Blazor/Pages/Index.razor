@@ -2,7 +2,16 @@
 
 <PageTitle>Домашняя страница</PageTitle>
 
-<MudText Typo="Typo.h1" GutterBottom="true">Добро пожаловать!</MudText>
+<AuthorizeView>
+    <Authorized>
+        <MudText Typo="Typo.h1" GutterBottom="true">Добро пожаловать, @context.User.Identity?.Name!</MudText>
+    </Authorized>
+    <NotAuthorized>
+        <MudText Typo="Typo.h1" GutterBottom="true">Добро пожаловать!</MudText>
+    </NotAuthorized>
+</AuthorizeView>
+
+
 <MudText Class="mb-8">Добро пожаловать в систему управления проектами <b>ProjectManagementSystem</b>, созданную, как тестовое задание для <b>Sibers</b></MudText>
 
 <MudDivider />
