@@ -59,6 +59,8 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Proj
                 $"{_api}/removerangeofemployees/{projectId}";
             public static string RemoveRangeOfTasks(int projectId, int employeeId)
                 => $"{_api}/removerangeoftasks/{projectId}/{employeeId}";
+            public static string RemoveTaskFromProject(int projectId, int employeeId, Guid taskId)
+                => $"{_api}/removetask/{projectId}/{employeeId}/{taskId}";
         }
 
         public static class Post

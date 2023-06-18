@@ -5,6 +5,9 @@ using Sibers.ProjectManagementSystem.Api.Services;
 using Sibers.ProjectManagementSystem.Application.EmployeeAgregate.Commands;
 using Sibers.ProjectManagementSystem.Application.EmployeeAgregate.Queries;
 using Sibers.ProjectManagementSystem.Application.EmployeeAgregate;
+using Sibers.ProjectManagementSystem.Application.TaskEntity;
+using Sibers.ProjectManagementSystem.Application.TaskEntity.Commands;
+using Microsoft.EntityFrameworkCore.Update.Internal;
 
 namespace Sibers.ProjectManagementSystem.Api.Controllers
 {
@@ -105,6 +108,21 @@ namespace Sibers.ProjectManagementSystem.Api.Controllers
             var response = await _mediator.Send(query);
             if (response.IsSuccess)
                 return Ok();
+            else
+                return ResultErrorsHandler.Handle(response);
+        }
+
+        [HttpPut("updatetask")]
+        [ProducesResponseType(StatusCodes.Status202Accepted)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<TaskDto>> UpdateTask([FromBody]TaskDto task)
+        {
+            UpdateTasksDataCommand command = new UpdateTasksDataCommand(task);
+            var response = await _mediator.Send(command);
+            if (response.IsSuccess)
+                return Ok(response.Value);
             else
                 return ResultErrorsHandler.Handle(response);
         }

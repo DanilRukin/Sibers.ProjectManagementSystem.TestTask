@@ -19,11 +19,11 @@
             <MudTextField Class="mb-3" Label="Название" @bind-Value="TaskToEdit.Name" Required="true"
                           RequiredError="Это обязательное поле!" />
             <MudGrid>
-                <MudItem xs="8">
+                <MudItem xs="6">
                     <MudTextField ReadOnly="true" Class="mb-3" Label="ФИО исполнителя" @bind-Value="_contractorFullName" />
                 </MudItem>
-                <MudItem xs="4">
-                    <MudButton OnClick="OnSelectContractor" Color="Color.Info">Сменить исполнителя</MudButton>
+                <MudItem xs="6">
+                    <MudButton OnClick="OnSelectContractor" Variant="Variant.Filled" Color="Color.Info">Сменить исполнителя</MudButton>
                 </MudItem>
             </MudGrid>
             <MudGrid>

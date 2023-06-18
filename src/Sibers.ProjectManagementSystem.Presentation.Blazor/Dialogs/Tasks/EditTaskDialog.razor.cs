@@ -85,11 +85,13 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Tasks
 
         private async Task OnSelectContractor()
         {
+            List<int> includeOnly = new List<int>(_projectOfTask.EmployeesIds);
+            includeOnly.Remove(_contractorOfTask.Id);
             DialogParameters parameters = new DialogParameters
             {
                 { nameof(SelectEmployeesDialog.Multiselection), false },
                 { nameof(SelectEmployeesDialog.LoadEmloyees), true },
-                { nameof(SelectEmployeesDialog.IncludeOnly), new List<int>(_projectOfTask.EmployeesIds).Remove(_contractorOfTask.Id) },
+                { nameof(SelectEmployeesDialog.IncludeOnly),  includeOnly},
             };
             var dialog = DialogService.Show<SelectEmployeesDialog>("Выбор исполнителя", parameters);
             var task = dialog.Result;

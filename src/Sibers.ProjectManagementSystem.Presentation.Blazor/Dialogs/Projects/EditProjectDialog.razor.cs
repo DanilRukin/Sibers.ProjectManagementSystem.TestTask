@@ -9,7 +9,7 @@ using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Employee
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Extensions;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Projects.Commands;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Projects.Queries;
-using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Tasks.Commands;
+using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Tasks.Queries;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.ViewModels;
 using Sibers.ProjectManagementSystem.SharedKernel.Results;
 using System.Xml.Linq;
@@ -97,6 +97,29 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
             await LoadEmployees(ProjectToEdit.EmployeesIds);
             await SetManager();
             _managerFullName = $"{_manager?.FirstName} {_manager?.LastName} {_manager?.Patronymic}";
+            await LoadTasks();
+        }
+
+        private async Task LoadTasks()
+        {
+            if (ProjectToEdit == null)
+            {
+                Snackbar.Add("Невозможно загрузить задачи, т.к. проекта нет", Severity.Error);
+            }
+            else
+            {
+                GetRangeOfTasksQuery query = new(ProjectToEdit.TasksIds);
+                var response = await Mediator.Send(query);
+                if (!response.IsSuccess)
+                {
+                    Snackbar.Add($"Не удалось загрузить задачи. Причина: {response.Errors.AsOneString()}", Severity.Info);
+                    _tasksToEdit = new List<TaskViewModel>();
+                }
+                else
+                {
+                    _tasksToEdit = Mapper.Map<IEnumerable<TaskDto>, ICollection<TaskViewModel>>(response.Value);
+                }
+            }
         }
 
         private async Task OnEmployeeRemovingFromProject(int employeeId)
@@ -370,11 +393,11 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
                 );
                 if (result != null && result == true)
                 {
-                    DeleteTaskCommand deleteCommand = new(taskId);
+                    DeleteTaskFromProjectCommand deleteCommand = new(ProjectToEdit.Id, 0, taskId); // TODO: currentuser must delete task
                     var response = await Mediator.Send(deleteCommand);
                     if (!response.IsSuccess)
                     {
-                        Snackbar.Add("Не удалось удалить задачу", Severity.Info);
+                        Snackbar.Add($"Не удалось удалить задачу. Причина: {response.Errors.AsOneString()}", Severity.Info);
                     }
                     else
                     {

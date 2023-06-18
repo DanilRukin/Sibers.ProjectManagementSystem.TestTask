@@ -231,5 +231,16 @@ namespace Sibers.ProjectManagementSystem.Api.Controllers
             else
                 return ResultErrorsHandler.Handle(response);
         }
+
+        [HttpPut("removetask/{projectId}/{employeeId}/{taskId}")]
+        public async Task<ActionResult> RemoveTaskFromProject(int projectId, int employeeId, string taskId)
+        {
+            DeleteTaskFromProjectCommand command = new DeleteTaskFromProjectCommand(projectId, employeeId, Guid.Parse(taskId));
+            var response = await _mediator.Send(command);
+            if (response.IsSuccess)
+                return Ok();
+            else
+                return ResultErrorsHandler.Handle(response);
+        }
     }
 }
