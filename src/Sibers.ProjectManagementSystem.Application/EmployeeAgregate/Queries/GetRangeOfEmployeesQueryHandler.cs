@@ -32,13 +32,14 @@ namespace Sibers.ProjectManagementSystem.Application.EmployeeAgregate.Queries
                 foreach (var option in request.Options)
                 {
                     employee = null;
+                    IQueryable<Employee> query = _context.Employees.AsQueryable();
                     if (option.IncludeProjects)
-                        employee = await _context.Employees
-                            .IncludeProjects()
-                            .FirstOrDefaultAsync(e => e.Id == option.EmployeeId, cancellationToken);
-                    else
-                        employee = await _context.Employees
-                            .FirstOrDefaultAsync(e => e.Id == option.EmployeeId, cancellationToken);
+                        query = query.IncludeProjects();
+                    if (option.IncludeCreatedTasks)
+                        query = query.IncludeCreatedTasks();
+                    if (option.IncludeExecutableTasks)
+                        query = query.IncludeExecutableTasks();
+                    employee = await query.FirstOrDefaultAsync(e => e.Id == option.EmployeeId, cancellationToken);
                     if (employee != null)
                         selectedEmployees.Add(employee);
                 }

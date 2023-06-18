@@ -52,9 +52,12 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Employees
         {
             if (EmployeeToWatch != null)
             {
-                if (EmployeeToWatch.ProjectsIds == null || EmployeeToWatch.ProjectsIds.Count == 0)
+                if (EmployeeToWatch.ProjectsIds == null 
+                    || EmployeeToWatch.ProjectsIds.Count == 0 
+                    || EmployeeToWatch.CreatedTasksIds.Count() == 0 
+                    || EmployeeToWatch.ExecutableTasksIds.Count() == 0)
                 {
-                    GetEmployeeByIdQuery query = new GetEmployeeByIdQuery(new EmployeeIncludeOptions(EmployeeToWatch.Id, true));
+                    GetEmployeeByIdQuery query = new GetEmployeeByIdQuery(new EmployeeIncludeOptions(EmployeeToWatch.Id, true, true, true));
                     Result<EmployeeDto> employeeResult = await Mediator.Send(query);
                     if (!employeeResult.IsSuccess)
                     {
@@ -65,7 +68,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Employees
                         EmployeeToWatch = Mapper.Map<EmployeeViewModel>(employeeResult.Value);
                     }
                 }
-                GetRangeOfProjectsQuery projectsQuery = new GetRangeOfProjectsQuery(EmployeeToWatch.ProjectsIds.Select(id => new ProjectIncludeOptions(id, true)));
+                GetRangeOfProjectsQuery projectsQuery = new GetRangeOfProjectsQuery(EmployeeToWatch.ProjectsIds.Select(id => new ProjectIncludeOptions(id, true, false)));
                 var projectsResult = await Mediator.Send(projectsQuery);
                 if (!projectsResult.IsSuccess)
                 {

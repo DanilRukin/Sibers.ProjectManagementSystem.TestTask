@@ -70,7 +70,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Employees
         {
             try
             {
-                GetEmployeeByIdQuery query = new(new EmployeeIncludeOptions(EmployeeToEdit.Id, true));
+                GetEmployeeByIdQuery query = new(new EmployeeIncludeOptions(EmployeeToEdit.Id, true, false, false));
                 Result<EmployeeDto> response = await Mediator.Send(query);
                 if (!response.IsSuccess)
                     return Result.Error("Не удалось загрузить данные сотрудника.");
@@ -88,7 +88,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Employees
 
         private async Task<Result> LoadProjects(IEnumerable<int> projectsIds)
         {
-            GetRangeOfProjectsQuery query = new(projectsIds.Select(id => new ProjectIncludeOptions(id, true)));
+            GetRangeOfProjectsQuery query = new(projectsIds.Select(id => new ProjectIncludeOptions(id, true, false)));
             Result<IEnumerable<ProjectDto>> response = await Mediator.Send(query);
             if (!response.IsSuccess)
                 return Result.Error($"Не удалось загрузить проекты сотрудника. Причина: {response.Errors.AsOneString()}");
@@ -117,7 +117,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Employees
                 {
                     if (ok)
                     {
-                        GetProjectByIdQuery query = new(new ProjectIncludeOptions(projectId, true));
+                        GetProjectByIdQuery query = new(new ProjectIncludeOptions(projectId, true, false));
                         Result<ProjectDto> projectResult = await Mediator.Send(query);
                         if (projectResult.IsSuccess)
                         {

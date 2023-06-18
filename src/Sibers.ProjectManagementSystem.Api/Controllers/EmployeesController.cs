@@ -34,14 +34,14 @@ namespace Sibers.ProjectManagementSystem.Api.Controllers
                 return ResultErrorsHandler.Handle(response);
         }
 
-        [HttpGet("{id:int}/{includeProjects:bool}")]
+        [HttpGet("{id:int}/{includeProjects:bool}/{includeCreatedTasks}/{includeExecutableTasks}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<EmployeeDto>> GetById(int id, bool includeProjects = false)
+        public async Task<ActionResult<EmployeeDto>> GetById(int id, bool includeProjects = false, bool includeCreatedTasks = false, bool includeExecutableTasks = false)
         {
-            GetEmployeeByIdQuery request = new(new EmployeeIncludeOptions(id, includeProjects));
+            GetEmployeeByIdQuery request = new(new EmployeeIncludeOptions(id, includeProjects, includeCreatedTasks, includeExecutableTasks));
             var response = await _mediator.Send(request);
             if (response.IsSuccess)
                 return Ok(response.Value);
@@ -64,14 +64,14 @@ namespace Sibers.ProjectManagementSystem.Api.Controllers
                 return ResultErrorsHandler.Handle(response);
         }
 
-        [HttpGet("all/{includeProjects:bool}")]
+        [HttpGet("all/{includeProjects:bool}/{includeCreatedTasks}/{includeExecutableTasks}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetALl([FromRoute] bool includeProjects = false)
+        public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetALl([FromRoute] bool includeProjects = false, bool includeCreatedTasks = false, bool includeExecutableTasks = false)
         {
-            GetAllEmployeesQuery query = new(includeProjects);
+            GetAllEmployeesQuery query = new(includeProjects, includeCreatedTasks, includeExecutableTasks);
             var response = await _mediator.Send(query);
             if (response.IsSuccess)
                 return Ok(response.Value);

@@ -1,7 +1,7 @@
 ﻿<MudDialog>
     <DialogContent>
         <MudText Typo="Typo.h3" Align="Align.Center">@TaskToWatch.Name</MudText>
-        <MudText>(@TaskToWatch.Priority)</MudText>
+        <MudText Typo="Typo.h5" Align="Align.Center">Приоритет = @TaskToWatch.Priority</MudText>
         <br />
         <br />
         <MudDivider/>
@@ -13,10 +13,10 @@
                         <MudText>Проект:</MudText>
                     </MudItem>
                     <MudItem xs="8">
-                        <MudStack Row="true">
-                            <MudText>@_projectOfTask.Name</MudText>
+                        <MudText>
+                            @_projectOfTask.Name
                             <MudIconButton Color="Color.Dark" Variant="Variant.Text" Icon="@Icons.Material.Filled.RemoveRedEye" @onclick="@OnProjectWatch" />
-                        </MudStack>
+                        </MudText>
                     </MudItem>
                 </MudGrid>
             </MudItem>
@@ -27,10 +27,10 @@
                         <MudText>Автор:</MudText>
                     </MudItem>
                     <MudItem xs="8">
-                        <MudStack Row="true">
-                            <MudText>@_author?.FirstName @_author?.LastName @_author?.Patronymic</MudText>
+                        <MudText>
+                            @_author?.FirstName @_author?.LastName @_author?.Patronymic
                             <MudIconButton Color="Color.Dark" Variant="Variant.Text" Icon="@Icons.Material.Filled.RemoveRedEye" @onclick="@(() => OnEmployeeWatch(TaskToWatch.AuthorEmployeeId))" />
-                        </MudStack>
+                        </MudText>             
                     </MudItem>
                 </MudGrid>
             </MudItem>
@@ -41,10 +41,10 @@
                         <MudText>Исполнитель:</MudText>
                     </MudItem>
                     <MudItem xs="8">
-                        <MudStack Row="true">
-                            <MudText>@_contractor?.FirstName @_contractor?.LastName @_contractor?.Patronymic</MudText>
+                        <MudText>
+                            @_contractor?.FirstName @_contractor?.LastName @_contractor?.Patronymic
                             <MudIconButton Color="Color.Dark" Variant="Variant.Text" Icon="@Icons.Material.Filled.RemoveRedEye" @onclick="@(() => OnEmployeeWatch(TaskToWatch.ContractorEmployeeId))" />
-                        </MudStack>
+                        </MudText>
                     </MudItem>
                 </MudGrid>
             </MudItem>

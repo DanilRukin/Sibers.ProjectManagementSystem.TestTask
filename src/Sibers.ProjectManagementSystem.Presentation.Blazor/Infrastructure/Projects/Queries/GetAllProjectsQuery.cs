@@ -7,10 +7,12 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Proj
     public class GetAllProjectsQuery : IRequest<Result<IEnumerable<ProjectDto>>>
     {
         public bool IncludeEmployees { get; private set; }
+        public bool IncludeTasks { get; private set; }
 
-        public GetAllProjectsQuery(bool includeEmployees)
+        public GetAllProjectsQuery(bool includeEmployees, bool includeTasks)
         {
             IncludeEmployees = includeEmployees;
+            IncludeTasks = includeTasks;
         }
     }
 }

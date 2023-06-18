@@ -65,7 +65,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
             }
             else
             {
-                GetProjectByIdQuery query = new GetProjectByIdQuery(new ProjectIncludeOptions(ProjectToEdit.Id, true));
+                GetProjectByIdQuery query = new GetProjectByIdQuery(new ProjectIncludeOptions(ProjectToEdit.Id, true, false));
                 var result = await Mediator.Send(query);
                 if (!result.IsSuccess)
                 {
@@ -265,7 +265,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
         {
             try
             {
-                GetRangeOfEmployeesQuery query = new(ids.Select(id => new EmployeeIncludeOptions(id, false)));
+                GetRangeOfEmployeesQuery query = new(ids.Select(id => new EmployeeIncludeOptions(id, false, false, false)));
                 Result<IEnumerable<EmployeeDto>> result = await Mediator.Send(query);
                 if (!result.IsSuccess)
                 {
@@ -299,7 +299,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
                 _manager = _employeesOnProject.FirstOrDefault(e => e.Id == ProjectToEdit.ManagerId);
                 if (_manager == null)
                 {
-                    GetEmployeeByIdQuery query = new(new EmployeeIncludeOptions(ProjectToEdit.ManagerId, false));
+                    GetEmployeeByIdQuery query = new(new EmployeeIncludeOptions(ProjectToEdit.ManagerId, false, false, false));
                     var response = await Mediator.Send(query);
                     if (response.IsSuccess)
                     {

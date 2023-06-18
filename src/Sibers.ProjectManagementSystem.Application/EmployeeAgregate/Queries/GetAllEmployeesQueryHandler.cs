@@ -28,14 +28,14 @@ namespace Sibers.ProjectManagementSystem.Application.EmployeeAgregate.Queries
             try
             {
                 List<Employee> employees;
+                IQueryable<Employee> query = _context.Employees.AsQueryable();
                 if (request.IncludeProjects)
-                    employees = await _context.Employees
-                        .IncludeProjects()
-                        .ToListAsync(cancellationToken);
-                else
-                    employees = await _context.Employees
-                        .IncludeProjects()
-                        .ToListAsync(cancellationToken);
+                    query = query.IncludeProjects();
+                if (request.IncludeCreatedTasks)
+                    query = query.IncludeCreatedTasks();
+                if (request.IncludeExecutableTasks)
+                    query = query.IncludeExecutableTasks();
+                employees = await query.ToListAsync(cancellationToken);
                 if (employees == null)
                     employees = new List<Employee>();
                 return Result.Success(_mapper.Map<List<Employee>, IEnumerable<EmployeeDto>>(employees));

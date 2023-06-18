@@ -21,7 +21,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Proj
         {
             try
             {
-                string route = ApiHelper.Get.ById(request.Options.ProjectId, request.Options.IncludeEmployees);
+                string route = ApiHelper.Get.ById(request.Options.ProjectId, request.Options.IncludeEmployees, request.Options.IncludeTasks);
                 ProjectDto? dto = await _client.GetFromJsonAsync<ProjectDto>(route, cancellationToken);
                 if (dto == null)
                     return Result<ProjectDto>.Error("Не был получен ответ с сервера.");

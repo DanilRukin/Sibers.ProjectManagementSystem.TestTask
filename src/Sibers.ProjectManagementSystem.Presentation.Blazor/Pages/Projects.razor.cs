@@ -38,7 +38,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Pages
         {
             try
             {
-                var response = await Mediator.Send(new GetAllProjectsQuery(false));
+                var response = await Mediator.Send(new GetAllProjectsQuery(false, false));
                 if (!response.IsSuccess)
                 {
                     Snackbar.Add("Не удалось загрузить проекты.", Severity.Info);
@@ -69,7 +69,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Pages
         private async Task OnWatchProject(int projectId)
         {
             DialogParameters parameters = new DialogParameters();
-            GetProjectByIdQuery query = new GetProjectByIdQuery(new ProjectIncludeOptions(projectId, false));
+            GetProjectByIdQuery query = new GetProjectByIdQuery(new ProjectIncludeOptions(projectId, false, false));
             Result<ProjectDto> projectResult = await Mediator.Send(query);
             if (!projectResult.IsSuccess)
             {
@@ -115,7 +115,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Pages
             {
                 if (ok)
                 {
-                    GetProjectByIdQuery query = new(new ProjectIncludeOptions(projectId, false));
+                    GetProjectByIdQuery query = new(new ProjectIncludeOptions(projectId, false, false));
                     Result<ProjectDto> updatedProjectResult = await Mediator.Send(query);
                     if (!updatedProjectResult.IsSuccess)
                     {

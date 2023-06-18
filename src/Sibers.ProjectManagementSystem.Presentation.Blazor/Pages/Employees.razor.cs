@@ -37,7 +37,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Pages
         {
             try
             {
-                GetAllEmployeesQuery query = new GetAllEmployeesQuery(false);
+                GetAllEmployeesQuery query = new GetAllEmployeesQuery(false, false, false);
                 Result<IEnumerable<EmployeeDto>> result = await Mediator.Send(query);
                 if (result == null)
                     _employeesList = new List<EmployeeViewModel>();
@@ -70,7 +70,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Pages
             var result = await task;
             if (result != null && !result.Cancelled && (result.Data is bool ok))
             {
-                GetEmployeeByIdQuery query = new(new EmployeeIncludeOptions(employeeId, false));
+                GetEmployeeByIdQuery query = new(new EmployeeIncludeOptions(employeeId, false, false, false));
                 Result<EmployeeDto> updatedResult = await Mediator.Send(query);
                 if (updatedResult.IsSuccess)
                 {

@@ -64,7 +64,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
 
         private async Task LoadEmployees()
         {
-            GetProjectByIdQuery projectQuery = new GetProjectByIdQuery(new ProjectIncludeOptions(Project.Id, true));
+            GetProjectByIdQuery projectQuery = new GetProjectByIdQuery(new ProjectIncludeOptions(Project.Id, true, false));
             Result<ProjectDto> projectResult = await Mediator.Send(projectQuery);
             if (!projectResult.IsSuccess)
             {
@@ -74,7 +74,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
             {
                 Project = Mapper.Map<ProjectViewModel>(projectResult.Value);
                 Project.EmployeesIds.Remove(Project.ManagerId);
-                GetRangeOfEmployeesQuery employeesQuery = new GetRangeOfEmployeesQuery(Project.EmployeesIds.Select(id => new EmployeeIncludeOptions(id, false)));
+                GetRangeOfEmployeesQuery employeesQuery = new GetRangeOfEmployeesQuery(Project.EmployeesIds.Select(id => new EmployeeIncludeOptions(id, false, false, false)));
                 Result<IEnumerable<EmployeeDto>> result = await Mediator.Send(employeesQuery);
                 if (!result.IsSuccess)
                 {
@@ -83,7 +83,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
                 }
                 else
                     _employees = Mapper.Map<IEnumerable<EmployeeDto>, ICollection<EmployeeViewModel>>(result.Value);
-                GetEmployeeByIdQuery managerQuery = new GetEmployeeByIdQuery(new EmployeeIncludeOptions(Project.ManagerId, false));
+                GetEmployeeByIdQuery managerQuery = new GetEmployeeByIdQuery(new EmployeeIncludeOptions(Project.ManagerId, false, false, false));
                 var managerResult = await Mediator.Send(managerQuery);
                 if (!managerResult.IsSuccess)
                     _manager = new EmployeeViewModel();

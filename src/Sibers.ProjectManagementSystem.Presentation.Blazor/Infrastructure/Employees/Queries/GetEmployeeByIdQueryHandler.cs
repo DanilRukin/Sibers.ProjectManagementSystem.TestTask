@@ -19,7 +19,8 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Empl
         {
             try
             {
-                string route = ApiHelper.Get.ById(request.Options.EmployeeId, request.Options.IncludeProjects);
+                string route = ApiHelper.Get.ById(request.Options.EmployeeId, request.Options.IncludeProjects,
+                    request.Options.IncludeCreatedTasks, request.Options.IncludeExecutableTasks);
                 EmployeeDto? employee = await _client.GetFromJsonAsync<EmployeeDto>(route);
                 if (employee == null)
                     return Result<EmployeeDto>.Error("Не был получен ответ с сервера.");

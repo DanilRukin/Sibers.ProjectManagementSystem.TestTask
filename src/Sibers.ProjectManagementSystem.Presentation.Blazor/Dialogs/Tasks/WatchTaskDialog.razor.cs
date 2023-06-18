@@ -41,7 +41,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Tasks
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
-            GetProjectByIdQuery projectQuery = new(new ProjectIncludeOptions(TaskToWatch.ProjectId, true));
+            GetProjectByIdQuery projectQuery = new(new ProjectIncludeOptions(TaskToWatch.ProjectId, true, false));
             var projectResponse = await Mediator.Send(projectQuery);
             if (!projectResponse.IsSuccess)
             {
@@ -51,7 +51,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Tasks
             {
                 _projectOfTask = Mapper.Map<ProjectViewModel>(projectResponse.Value);
             }
-            GetEmployeeByIdQuery authorQuery = new(new(TaskToWatch.AuthorEmployeeId, false));
+            GetEmployeeByIdQuery authorQuery = new(new(TaskToWatch.AuthorEmployeeId, false, false, false));
             var authorResponse = await Mediator.Send(authorQuery);
             if (!authorResponse.IsSuccess)
             {
@@ -63,7 +63,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Tasks
             }
             if (TaskToWatch.ContractorEmployeeId != null)
             {
-                GetEmployeeByIdQuery contractorQuery = new(new((int)TaskToWatch.ContractorEmployeeId, false));
+                GetEmployeeByIdQuery contractorQuery = new(new((int)TaskToWatch.ContractorEmployeeId, false, false, false));
                 var contractorResponse = await Mediator.Send(contractorQuery);
                 if (!contractorResponse.IsSuccess)
                 {
@@ -85,7 +85,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Tasks
             else
             {
                 EmployeeViewModel employee = new EmployeeViewModel();
-                GetEmployeeByIdQuery employeeQuery = new(new((int)employeeId, true));
+                GetEmployeeByIdQuery employeeQuery = new(new((int)employeeId, true, false, false));
                 var employeeResponse = await Mediator.Send(employeeQuery);
                 if (!employeeResponse.IsSuccess)
                 {
@@ -110,7 +110,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Tasks
                 Snackbar.Add("Невозможно отобразить данные проекта", Severity.Info);
             }
             else
-            {
+            {                
                 DialogParameters parameters = new DialogParameters
                 {
                     { nameof(WatchProjectDialog.Project), _projectOfTask }

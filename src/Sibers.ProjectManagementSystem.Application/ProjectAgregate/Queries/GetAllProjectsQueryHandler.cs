@@ -27,14 +27,12 @@ namespace Sibers.ProjectManagementSystem.Application.ProjectAgregate.Queries
         {
             try
             {
-                IList<Project> projects;
+                IQueryable<Project> query = _context.Projects.AsQueryable();
+                if (request.IncludeTasks)
+                    query = query.IncludeTasks();
                 if (request.IncludeEmployees)
-                    projects = await _context.Projects
-                        .IncludeEmployees()
-                        .ToListAsync(cancellationToken);
-                else
-                    projects = await _context.Projects
-                        .ToListAsync(cancellationToken);
+                    query = query.IncludeEmployees();
+                IList<Project> projects = await query.ToListAsync(cancellationToken);
                 if (projects == null)
                     return Result.Success(new List<ProjectDto>().AsEnumerable());
                 else

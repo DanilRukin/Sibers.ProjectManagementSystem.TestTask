@@ -8,10 +8,10 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Empl
         public static string Api { get; set; } = "api/employees";
         public static class Get
         {
-            public static string ById(int employeeId, bool includeProjects = false)
-                => $"{Api}/{employeeId}/{includeProjects}";
-            public static string All(bool includeAdditionalData = false)
-                => $"{Api}/all/{includeAdditionalData}";
+            public static string ById(int employeeId, bool includeProjects = false, bool includeCreatedTasks = false, bool includeExecutableTasks = false)
+                => $"{Api}/{employeeId}/{includeProjects}/{includeCreatedTasks}/{includeExecutableTasks}";
+            public static string All(bool includeProjects = false, bool includeCreatedTasks = false, bool includeExecutableTasks = false)
+                => $"{Api}/all/{includeProjects}/{includeCreatedTasks}/{includeExecutableTasks}";
             public static string Range(IEnumerable<EmployeeIncludeOptions> options, string optionParameterName)
                 => $"{Api}/range?{ToQuery(options, optionParameterName)}";
 
@@ -22,7 +22,9 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Empl
                 foreach (var option in options)
                 {
                     builder.Append($"{optionParameterName}[{index}].{nameof(EmployeeIncludeOptions.EmployeeId)}={option.EmployeeId}&" +
-                        $"{optionParameterName}[{index}].{nameof(EmployeeIncludeOptions.IncludeProjects)}={option.IncludeProjects}&");
+                        $"{optionParameterName}[{index}].{nameof(EmployeeIncludeOptions.IncludeProjects)}={option.IncludeProjects}&" +
+                        $"{optionParameterName}[{index}].{nameof(EmployeeIncludeOptions.IncludeCreatedTasks)}={option.IncludeCreatedTasks}&" +
+                        $"{optionParameterName}[{index}].{nameof(EmployeeIncludeOptions.IncludeExecutableTasks)}={option.IncludeExecutableTasks}&");
                     index++;
                 }
                 string result = builder.ToString();

@@ -13,10 +13,10 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Proj
 
         public static class Get
         {
-            public static string ById(int id, bool includeEmployees = false)
-                => $"{_api}/{id}/{includeEmployees}";
-            public static string All(bool includeEmployees = false)
-                => $"{_api}/all?includeEmployees={includeEmployees}";
+            public static string ById(int id, bool includeEmployees = false, bool includeTasks = false)
+                => $"{_api}/{id}/{includeEmployees}/{includeTasks}";
+            public static string All(bool includeEmployees = false, bool includeTasks = false)
+                => $"{_api}/all?includeEmployees={includeEmployees}&includeTasks={includeTasks}";
             public static string Range(IEnumerable<ProjectIncludeOptions> options, string optionParameterName)
                 => $"{_api}/range?{ToQuery(options, optionParameterName)}";
             public static string Tasks(int projectId)
@@ -29,7 +29,8 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Proj
                 foreach (var option in options)
                 {
                     builder.Append($"{optionParameterName}[{index}].{nameof(ProjectIncludeOptions.ProjectId)}={option.ProjectId}&" +
-                        $"{optionParameterName}[{index}].{nameof(ProjectIncludeOptions.IncludeEmployees)}={option.IncludeEmployees}&");
+                        $"{optionParameterName}[{index}].{nameof(ProjectIncludeOptions.IncludeEmployees)}={option.IncludeEmployees}&" +
+                        $"{optionParameterName}[{index}].{nameof(ProjectIncludeOptions.IncludeTasks)}={option.IncludeTasks}&");
                     index++;
                 }
                 string result = builder.ToString();

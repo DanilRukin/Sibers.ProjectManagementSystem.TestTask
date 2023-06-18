@@ -37,9 +37,9 @@ namespace Sibers.ProjectManagementSystem.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<ProjectDto>>> GetAll([FromQuery] bool includeEmployees = false)
+        public async Task<ActionResult<IEnumerable<ProjectDto>>> GetAll([FromQuery] bool includeEmployees = false, [FromQuery] bool includeTasks = false)
         {
-            GetAllProjectsQuery query = new GetAllProjectsQuery(includeEmployees);
+            GetAllProjectsQuery query = new GetAllProjectsQuery(includeEmployees, includeTasks);
             Result<IEnumerable<ProjectDto>> result = await _mediator.Send(query);
             if (result.IsSuccess)
                 return Ok(result.Value);
@@ -62,14 +62,14 @@ namespace Sibers.ProjectManagementSystem.Api.Controllers
                 return ResultErrorsHandler.Handle(response);
         }
 
-        [HttpGet("{id}/{includeEmployees}")]
+        [HttpGet("{id}/{includeEmployees}/{includeTasks}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<ProjectDto>> GetById([FromRoute] int id, [FromRoute] bool includeEmployees)
+        public async Task<ActionResult<ProjectDto>> GetById([FromRoute] int id, [FromRoute] bool includeEmployees, [FromRoute] bool includeTasks)
         {
-            GetProjectByIdQuery query = new GetProjectByIdQuery(new ProjectIncludeOptions(id, includeEmployees));
+            GetProjectByIdQuery query = new GetProjectByIdQuery(new ProjectIncludeOptions(id, includeEmployees, includeTasks));
             Result<ProjectDto> result = await _mediator.Send(query);
             if (result.IsSuccess)
                 return Ok(result.Value);

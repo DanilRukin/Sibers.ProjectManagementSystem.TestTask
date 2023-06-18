@@ -47,7 +47,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Tasks
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
-            GetProjectByIdQuery projectQuery = new(new ProjectIncludeOptions(TaskToEdit.ProjectId, true));
+            GetProjectByIdQuery projectQuery = new(new ProjectIncludeOptions(TaskToEdit.ProjectId, true, false));
             var projectResponse = await Mediator.Send(projectQuery);
             if (!projectResponse.IsSuccess) 
             {
@@ -57,7 +57,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Tasks
             {
                 _projectOfTask = Mapper.Map<ProjectViewModel>(projectResponse.Value);
             }
-            GetEmployeeByIdQuery authorQuery = new(new(TaskToEdit.AuthorEmployeeId, false));
+            GetEmployeeByIdQuery authorQuery = new(new(TaskToEdit.AuthorEmployeeId, false, false, false));
             var authorResponse = await Mediator.Send(authorQuery);
             if (!authorResponse.IsSuccess)
             {
@@ -69,7 +69,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Tasks
             }
             if (TaskToEdit.ContractorEmployeeId != null)
             {
-                GetEmployeeByIdQuery contractorQuery = new(new((int)TaskToEdit.ContractorEmployeeId, false));
+                GetEmployeeByIdQuery contractorQuery = new(new((int)TaskToEdit.ContractorEmployeeId, false, false, false));
                 var contractorResponse = await Mediator.Send(contractorQuery);
                 if (!contractorResponse.IsSuccess)
                 {

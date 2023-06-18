@@ -67,7 +67,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Employees
             IEnumerable<EmployeeDto>? employees = new List<EmployeeDto>();
             if (IncludeOnly == null || IncludeOnly.Count == 0)
             {
-                GetAllEmployeesQuery query = new GetAllEmployeesQuery(false);
+                GetAllEmployeesQuery query = new GetAllEmployeesQuery(false, false, false);
                 Result<IEnumerable<EmployeeDto>> result = await Mediator.Send(query);
                 if (result.IsSuccess)
                 {
@@ -89,7 +89,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Employees
             }
             else
             {
-                GetRangeOfEmployeesQuery query = new GetRangeOfEmployeesQuery(IncludeOnly.Select(id => new EmployeeIncludeOptions(id, false)));
+                GetRangeOfEmployeesQuery query = new GetRangeOfEmployeesQuery(IncludeOnly.Select(id => new EmployeeIncludeOptions(id, false, false, false)));
                 Result<IEnumerable<EmployeeDto>> result = await Mediator.Send(query);
                 if (!result.IsSuccess)
                 {

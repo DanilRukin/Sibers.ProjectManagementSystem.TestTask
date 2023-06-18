@@ -11,10 +11,12 @@ namespace Sibers.ProjectManagementSystem.Application.ProjectAgregate.Queries
     public class GetAllProjectsQuery : IRequest<Result<IEnumerable<ProjectDto>>>
     {
         public bool IncludeEmployees { get; }
+        public bool IncludeTasks { get; }
 
-        public GetAllProjectsQuery(bool includeEmployees)
+        public GetAllProjectsQuery(bool includeEmployees, bool includeTasks)
         {
             IncludeEmployees = includeEmployees;
+            IncludeTasks = includeTasks;
         }
     }
 }

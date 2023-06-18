@@ -28,13 +28,12 @@ namespace Sibers.ProjectManagementSystem.Application.ProjectAgregate.Queries
             try
             {
                 Project? project;
+                IQueryable<Project> query = _context.Projects.AsQueryable();
+                if (request.Options.IncludeTasks)
+                    query = query.IncludeTasks();
                 if (request.Options.IncludeEmployees)
-                    project = await _context.Projects
-                        .IncludeEmployees()
-                        .FirstOrDefaultAsync(p => p.Id == request.Options.ProjectId, cancellationToken);
-                else
-                    project = await _context.Projects
-                        .FirstOrDefaultAsync(p => p.Id == request.Options.ProjectId, cancellationToken);
+                    query = query.IncludeEmployees();
+                project = await query.FirstOrDefaultAsync(p => p.Id == request.Options.ProjectId, cancellationToken);
                 if (project == null)
                     return Result<ProjectDto>.NotFound($"no such project with id: {request.Options.ProjectId}");
                 else

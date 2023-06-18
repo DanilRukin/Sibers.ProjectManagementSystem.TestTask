@@ -19,7 +19,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Empl
         {
             try
             {
-                string route = ApiHelper.Get.All(request.IncludeProjects);
+                string route = ApiHelper.Get.All(request.IncludeProjects, request.IncludeCreatedTasks, request.IncludeExecutableTasks);
                 var result = await _client
                     .GetFromJsonAsync<IEnumerable<EmployeeDto>>(route, cancellationToken)
                     .ConfigureAwait(false);
