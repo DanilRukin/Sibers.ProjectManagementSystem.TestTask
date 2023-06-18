@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Employees;
+using Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Tasks;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Dtos;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Employees.Queries;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Extensions;
@@ -10,6 +11,7 @@ using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Projects
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Projects.Queries;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.ViewModels;
 using Sibers.ProjectManagementSystem.SharedKernel.Results;
+using System.Xml.Linq;
 
 
 namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
@@ -55,6 +57,15 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
         [Parameter]
         public ProjectViewModel ProjectToEdit { get; set; } = new ProjectViewModel();
 
+        /// <summary>
+        /// Задачи для отображения и редактирования
+        /// </summary>
+        private ICollection<TaskViewModel> _tasksToEdit = new List<TaskViewModel>();
+
+        /// <summary>
+        /// Изначальный набор задач
+        /// </summary>
+        private ICollection<TaskViewModel> _initialSetOfTasks = new List<TaskViewModel>();
 
         private async Task LoadProject()
         {
@@ -65,7 +76,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
             }
             else
             {
-                GetProjectByIdQuery query = new GetProjectByIdQuery(new ProjectIncludeOptions(ProjectToEdit.Id, true, false));
+                GetProjectByIdQuery query = new GetProjectByIdQuery(new ProjectIncludeOptions(ProjectToEdit.Id, true, true));
                 var result = await Mediator.Send(query);
                 if (!result.IsSuccess)
                 {
@@ -78,9 +89,6 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
                 }
             }
         }
-
-        private DateTime? _projectStartDate;
-        private DateTime? _projectEndDate;
 
         protected override async Task OnInitializedAsync()
         {
@@ -344,6 +352,60 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
                 {
                     _manager = futureManager;  // old manager in _oldManager. 
                     _managerFullName = $"{_manager.FirstName} {_manager.LastName} {_manager.Patronymic}";
+                }
+            }
+        }
+
+        private async Task OnTaskRemoving(Guid taskId)
+        {
+            TaskViewModel? task = _tasksToEdit.FirstOrDefault(t => t.Id == taskId);
+            if (task != null)
+            {
+                bool? result = await DialogService.ShowMessageBox(
+                title: $"Удаление задачи {task.Name}",
+                markupMessage: new MarkupString("Вы действительно хотите удалить задачу? Действие невозможно будет отменить"),
+                yesText: "Удалить",
+                cancelText: "Отмена"
+                );
+                if (result != null && result == true)
+                {
+                    _tasksToEdit.Remove(task);
+                }
+            }
+        }
+
+        private void OnTaskWatch(Guid taskId)
+        {
+            TaskViewModel? task = _tasksToEdit.FirstOrDefault(t => t.Id == taskId);
+            if (task != null)
+            {
+                DialogParameters parameters = new DialogParameters
+                {
+                    { nameof(WatchTaskDialog.TaskToWatch), task }
+                };
+                DialogService.Show<WatchTaskDialog>("Просмотр задачи", parameters);
+            }
+        }
+
+        private async Task OnTaskEdit(Guid taskId)
+        {
+            TaskViewModel? task = _tasksToEdit.FirstOrDefault(t => t.Id == taskId);
+            if (task != null)
+            {
+                DialogParameters parameters = new DialogParameters
+                {
+                    { nameof(EditTaskDialog.TaskToEdit), task }
+                };
+                var dialog = DialogService.Show<EditTaskDialog>("Просмотр задачи", parameters);
+                var t = dialog.Result;
+                var result = await t;
+                if (result != null && !result.Canceled)
+                {
+                    if (result.Data is TaskViewModel updatetdTask)
+                    {
+                        _tasksToEdit.RemoveWithCriterion(t => t.Id == updatetdTask.Id);
+                        _tasksToEdit.Add(updatetdTask);
+                    }
                 }
             }
         }

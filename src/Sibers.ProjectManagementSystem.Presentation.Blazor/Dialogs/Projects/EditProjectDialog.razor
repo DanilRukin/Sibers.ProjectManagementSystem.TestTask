@@ -47,60 +47,101 @@
             }
         </MudContainer>
 
-        @if (_employeesOnProject == null)
-        {
-            <MudProgressCircular Indeterminate="true"></MudProgressCircular>
-        }
-        else
-        {
-
-            <MudText Typo="Typo.h6" GutterBottom="true">Сотрудники на проекте</MudText>
-            <MudButton Variant="Variant.Filled" Color="Color.Success" Class="mb-3" @onclick="OnEmplyeesAdding">
-                Добавить сотрудника
-            </MudButton>
-            <MudTable Items="_employeesOnProject" FixedHeader="true" FixedFooter="true" Hover="true" SortLabel="Sort by">
-                <HeaderContent>
-                    <MudTh>
-                        <MudTableSortLabel SortBy="new Func<EmployeeViewModel, object>(e => e.FirstName)">
-                            Фамилия
-                        </MudTableSortLabel>
-                    </MudTh>
-                    <MudTh>
-                        <MudTableSortLabel SortBy="new Func<EmployeeViewModel, object>(e => e.LastName)">
-                            Имя
-                        </MudTableSortLabel>
-                    </MudTh>
-                    <MudTh>
-                        <MudTableSortLabel SortBy="new Func<EmployeeViewModel, object>(e => e.Patronymic)">
-                            Отчество
-                        </MudTableSortLabel>
-                    </MudTh>
-                    <MudTh>
-                        <MudTableSortLabel SortBy="new Func<EmployeeViewModel, object>(e => e.Email)">
-                            Email
-                        </MudTableSortLabel>
-                    </MudTh>
-                    <MudTh>
-                        Действие
-                    </MudTh>
-                </HeaderContent>
-                <RowTemplate Context="emp">
-                    <MudTd DataLabel="Фамилия">@emp.FirstName</MudTd>
-                    <MudTd DataLabel="Имя">@emp.LastName</MudTd>
-                    <MudTd DataLabel="Отчество">@emp.Patronymic</MudTd>
-                    <MudTd DataLabel="Email">@emp.Email</MudTd>
-                    <MudTd>
-                        <MudButton Color="Color.Error" Variant="Variant.Filled" @onclick="(() => OnEmployeeRemovingFromProject(emp.Id))">
-                            Снять с проекта
-                        </MudButton>
-                    </MudTd>
-                </RowTemplate>
-                <PagerContent>
-                    <MudTablePager PageSizeOptions="new int[] { 10, 25, 50, 100 }" />
-                </PagerContent>
-            </MudTable>
-        }
-
+        <MudGrid>
+            <MudItem xs="8">
+                <MudText Typo="Typo.h6" GutterBottom="true">Сотрудники на проекте</MudText>
+                @if (_employeesOnProject == null)
+                {
+                    <MudProgressCircular Indeterminate="true"></MudProgressCircular>
+                }
+                else
+                {
+                    <MudButton Variant="Variant.Filled" Color="Color.Success" Class="mb-3" @onclick="OnEmplyeesAdding">
+                        Добавить сотрудника
+                    </MudButton>
+                    <MudTable Items="_employeesOnProject" FixedHeader="true" FixedFooter="true" Hover="true" SortLabel="Sort by">
+                        <HeaderContent>
+                            <MudTh>
+                                <MudTableSortLabel SortBy="new Func<EmployeeViewModel, object>(e => e.FirstName)">
+                                    Фамилия
+                                </MudTableSortLabel>
+                            </MudTh>
+                            <MudTh>
+                                <MudTableSortLabel SortBy="new Func<EmployeeViewModel, object>(e => e.LastName)">
+                                    Имя
+                                </MudTableSortLabel>
+                            </MudTh>
+                            <MudTh>
+                                <MudTableSortLabel SortBy="new Func<EmployeeViewModel, object>(e => e.Patronymic)">
+                                    Отчество
+                                </MudTableSortLabel>
+                            </MudTh>
+                            <MudTh>
+                                <MudTableSortLabel SortBy="new Func<EmployeeViewModel, object>(e => e.Email)">
+                                    Email
+                                </MudTableSortLabel>
+                            </MudTh>
+                            <MudTh>
+                                Действие
+                            </MudTh>
+                        </HeaderContent>
+                        <RowTemplate Context="emp">
+                            <MudTd DataLabel="Фамилия">@emp.FirstName</MudTd>
+                            <MudTd DataLabel="Имя">@emp.LastName</MudTd>
+                            <MudTd DataLabel="Отчество">@emp.Patronymic</MudTd>
+                            <MudTd DataLabel="Email">@emp.Email</MudTd>
+                            <MudTd>
+                                <MudButton Color="Color.Error" Variant="Variant.Filled" @onclick="(() => OnEmployeeRemovingFromProject(emp.Id))">
+                                    Снять с проекта
+                                </MudButton>
+                            </MudTd>
+                        </RowTemplate>
+                        <PagerContent>
+                            <MudTablePager PageSizeOptions="new int[] { 10, 25, 50, 100 }" />
+                        </PagerContent>
+                    </MudTable>
+                }
+            </MudItem>
+            <MudItem xs="4">
+                <MudText Typo="Typo.h6" GutterBottom="true">Задачи на проекте</MudText>
+                @if (_tasksToEdit == null)
+                {
+                    <MudProgressCircular Indeterminate="true"></MudProgressCircular>
+                }
+                else
+                {
+                    <MudButton Variant="Variant.Filled" Color="Color.Success" Class="mb-3" @onclick="OnEmplyeesAdding">
+                        Добавить сотрудника
+                    </MudButton>
+                    <MudTable Items="_tasksToEdit" FixedHeader="true" FixedFooter="true" Hover="true" SortLabel="Sort by">
+                        <HeaderContent>
+                            <MudTh>
+                                <MudTableSortLabel SortBy="new Func<TaskViewModel, object>(e => e.Name)">
+                                    Название
+                                </MudTableSortLabel>
+                            </MudTh>
+                            <MudTh>
+                                Действие
+                            </MudTh>
+                        </HeaderContent>
+                        <RowTemplate Context="task">
+                            <MudTd DataLabel="Название">@task.Name</MudTd>
+                            <MudTd>
+                                <MudIconButton Color="Color.Info" Variant="Variant.Filled" Icon="@Icons.Material.Filled.RemoveRedEye" @onclick="@(() => OnTaskWatch(task.Id))">
+                                </MudIconButton>
+                                <MudIconButton Color="Color.Success" Variant="Variant.Filled" Icon="@Icons.Material.Filled.Edit" @onclick="@(() => OnTaskEdit(task.Id))">
+                                </MudIconButton>
+                                <MudIconButton Color="Color.Error" Variant="Variant.Filled" Icon="@Icons.Material.Filled.Delete" @onclick="@(() => OnTaskRemoving(task.Id))">
+                                </MudIconButton>
+                            </MudTd>
+                        </RowTemplate>
+                        <PagerContent>
+                            <MudTablePager PageSizeOptions="new int[] { 10, 25, 50, 100 }" />
+                        </PagerContent>
+                    </MudTable>
+                }
+            </MudItem>
+        </MudGrid>
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">Отмена</MudButton>
