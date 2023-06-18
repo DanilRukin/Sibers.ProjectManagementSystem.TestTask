@@ -23,5 +23,10 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Task
                 return result.Remove(result.Length - 1, 1);
             }
         }
+
+        public static class Delete
+        {
+            public static string ById(Guid taskId) => $"{Api}/{taskId}";
+        }
     }
 }

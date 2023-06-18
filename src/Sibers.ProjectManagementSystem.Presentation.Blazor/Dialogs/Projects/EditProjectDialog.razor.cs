@@ -9,6 +9,7 @@ using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Employee
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Extensions;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Projects.Commands;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Projects.Queries;
+using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Tasks.Commands;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.ViewModels;
 using Sibers.ProjectManagementSystem.SharedKernel.Results;
 using System.Xml.Linq;
@@ -369,7 +370,17 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
                 );
                 if (result != null && result == true)
                 {
-                    _tasksToEdit.Remove(task);
+                    DeleteTaskCommand deleteCommand = new(taskId);
+                    var response = await Mediator.Send(deleteCommand);
+                    if (!response.IsSuccess)
+                    {
+                        Snackbar.Add("Не удалось удалить задачу", Severity.Info);
+                    }
+                    else
+                    {
+                        Snackbar.Add("Задача удалена", Severity.Success);
+                        _tasksToEdit.Remove(task);
+                    }                   
                 }
             }
         }
@@ -396,7 +407,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
                 {
                     { nameof(EditTaskDialog.TaskToEdit), task }
                 };
-                var dialog = DialogService.Show<EditTaskDialog>("Просмотр задачи", parameters);
+                var dialog = DialogService.Show<EditTaskDialog>("Редактирование задачи", parameters);
                 var t = dialog.Result;
                 var result = await t;
                 if (result != null && !result.Canceled)
