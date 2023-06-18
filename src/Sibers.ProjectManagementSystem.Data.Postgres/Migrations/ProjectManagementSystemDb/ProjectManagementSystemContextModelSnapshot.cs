@@ -88,6 +88,45 @@ namespace Sibers.ProjectManagementSystem.Data.Postgres.Migrations.ProjectManagem
                     b.ToTable("Projects", (string)null);
                 });
 
+            modelBuilder.Entity("Sibers.ProjectManagementSystem.Domain.TaskEntity.Task", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("AuthorEmployeeId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("ContractorEmployeeId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("TaskStatus")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("text")
+                        .HasDefaultValue("ToDo")
+                        .HasColumnName("TaskStatus");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorEmployeeId");
+
+                    b.HasIndex("ContractorEmployeeId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("Tasks", (string)null);
+                });
+
             modelBuilder.Entity("Sibers.ProjectManagementSystem.Domain.EmployeeAgregate.Employee", b =>
                 {
                     b.OwnsOne("Sibers.ProjectManagementSystem.Domain.EmployeeAgregate.Email", "Email", b1 =>
@@ -180,14 +219,59 @@ namespace Sibers.ProjectManagementSystem.Data.Postgres.Migrations.ProjectManagem
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Sibers.ProjectManagementSystem.Domain.TaskEntity.Task", b =>
+                {
+                    b.HasOne("Sibers.ProjectManagementSystem.Domain.EmployeeAgregate.Employee", null)
+                        .WithMany("_createdTasks")
+                        .HasForeignKey("AuthorEmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Sibers.ProjectManagementSystem.Domain.EmployeeAgregate.Employee", null)
+                        .WithMany("_executableTasks")
+                        .HasForeignKey("ContractorEmployeeId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Sibers.ProjectManagementSystem.Domain.ProjectAgregate.Project", null)
+                        .WithMany("_tasks")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.OwnsOne("Sibers.ProjectManagementSystem.Domain.ProjectAgregate.Priority", "Priority", b1 =>
+                        {
+                            b1.Property<Guid>("TaskId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<int>("Value")
+                                .HasColumnType("integer");
+
+                            b1.HasKey("TaskId");
+
+                            b1.ToTable("Tasks");
+
+                            b1.WithOwner()
+                                .HasForeignKey("TaskId");
+                        });
+
+                    b.Navigation("Priority")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Sibers.ProjectManagementSystem.Domain.EmployeeAgregate.Employee", b =>
                 {
+                    b.Navigation("_createdTasks");
+
                     b.Navigation("_employeeOnProjects");
+
+                    b.Navigation("_executableTasks");
                 });
 
             modelBuilder.Entity("Sibers.ProjectManagementSystem.Domain.ProjectAgregate.Project", b =>
                 {
                     b.Navigation("_employeesOnProject");
+
+                    b.Navigation("_tasks");
                 });
 #pragma warning restore 612, 618
         }

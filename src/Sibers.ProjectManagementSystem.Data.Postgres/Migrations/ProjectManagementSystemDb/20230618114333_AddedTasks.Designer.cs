@@ -2,33 +2,36 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Sibers.ProjectManagementSystem.Data;
 
 #nullable disable
 
-namespace Sibers.ProjectManagementSystem.Data.MSSQL.Migrations.ProjectManagementSystemDb
+namespace Sibers.ProjectManagementSystem.Data.Postgres.Migrations.ProjectManagementSystemDb
 {
     [DbContext(typeof(ProjectManagementSystemContext))]
-    partial class ProjectManagementSystemContextModelSnapshot : ModelSnapshot
+    [Migration("20230618114333_AddedTasks")]
+    partial class AddedTasks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.5")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("Sibers.ProjectManagementSystem.Domain.EmployeeAgregate.Employee", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.HasKey("Id");
 
@@ -38,15 +41,15 @@ namespace Sibers.ProjectManagementSystem.Data.MSSQL.Migrations.ProjectManagement
             modelBuilder.Entity("Sibers.ProjectManagementSystem.Domain.EmployeeOnProject", b =>
                 {
                     b.Property<int>("ProjectId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Role")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(max)")
+                        .HasColumnType("text")
                         .HasDefaultValue("Employee")
                         .HasColumnName("Role");
 
@@ -61,27 +64,27 @@ namespace Sibers.ProjectManagementSystem.Data.MSSQL.Migrations.ProjectManagement
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("NameOfTheContractorCompany")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("NameOfTheCustomerCompany")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
@@ -91,28 +94,28 @@ namespace Sibers.ProjectManagementSystem.Data.MSSQL.Migrations.ProjectManagement
             modelBuilder.Entity("Sibers.ProjectManagementSystem.Domain.TaskEntity.Task", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<int>("AuthorEmployeeId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int?>("ContractorEmployeeId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<int>("ProjectId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<string>("TaskStatus")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(max)")
+                        .HasColumnType("text")
                         .HasDefaultValue("ToDo")
                         .HasColumnName("TaskStatus");
 
@@ -132,11 +135,11 @@ namespace Sibers.ProjectManagementSystem.Data.MSSQL.Migrations.ProjectManagement
                     b.OwnsOne("Sibers.ProjectManagementSystem.Domain.EmployeeAgregate.Email", "Email", b1 =>
                         {
                             b1.Property<int>("EmployeeId")
-                                .HasColumnType("int");
+                                .HasColumnType("integer");
 
                             b1.Property<string>("Value")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasColumnType("text");
 
                             b1.HasKey("EmployeeId");
 
@@ -149,19 +152,19 @@ namespace Sibers.ProjectManagementSystem.Data.MSSQL.Migrations.ProjectManagement
                     b.OwnsOne("Sibers.ProjectManagementSystem.Domain.EmployeeAgregate.PersonalData", "PersonalData", b1 =>
                         {
                             b1.Property<int>("EmployeeId")
-                                .HasColumnType("int");
+                                .HasColumnType("integer");
 
                             b1.Property<string>("FirstName")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasColumnType("text");
 
                             b1.Property<string>("LastName")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasColumnType("text");
 
                             b1.Property<string>("Patronymic")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasColumnType("text");
 
                             b1.HasKey("EmployeeId");
 
@@ -202,10 +205,10 @@ namespace Sibers.ProjectManagementSystem.Data.MSSQL.Migrations.ProjectManagement
                     b.OwnsOne("Sibers.ProjectManagementSystem.Domain.ProjectAgregate.Priority", "Priority", b1 =>
                         {
                             b1.Property<int>("ProjectId")
-                                .HasColumnType("int");
+                                .HasColumnType("integer");
 
                             b1.Property<int>("Value")
-                                .HasColumnType("int");
+                                .HasColumnType("integer");
 
                             b1.HasKey("ProjectId");
 
@@ -241,10 +244,10 @@ namespace Sibers.ProjectManagementSystem.Data.MSSQL.Migrations.ProjectManagement
                     b.OwnsOne("Sibers.ProjectManagementSystem.Domain.ProjectAgregate.Priority", "Priority", b1 =>
                         {
                             b1.Property<Guid>("TaskId")
-                                .HasColumnType("uniqueidentifier");
+                                .HasColumnType("uuid");
 
                             b1.Property<int>("Value")
-                                .HasColumnType("int");
+                                .HasColumnType("integer");
 
                             b1.HasKey("TaskId");
 
