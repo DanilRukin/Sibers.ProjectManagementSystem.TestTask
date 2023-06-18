@@ -5,6 +5,7 @@ using MudBlazor;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Employees;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Tasks;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Dtos;
+using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Employees.Commands;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Employees.Queries;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Extensions;
 using Sibers.ProjectManagementSystem.Presentation.Blazor.Infrastructure.Projects.Commands;
@@ -440,6 +441,24 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Dialogs.Projects
                         _tasksToEdit.RemoveWithCriterion(t => t.Id == updatetdTask.Id);
                         _tasksToEdit.Add(updatetdTask);
                     }
+                }
+            }
+        }
+
+        private async Task OnTaskAdding()
+        {
+            DialogParameters parameters = new DialogParameters
+            {
+                { nameof(CreateTaskDialog.ProjectOfTask), ProjectToEdit }
+            };
+            var dialog = DialogService.Show<CreateTaskDialog>("Создание задачи", parameters);
+            var t = dialog.Result;
+            var result = await t;
+            if (result != null && !result.Canceled)
+            {
+                if (result.Data is TaskViewModel createdTask)
+                {
+                    _tasksToEdit.Add(createdTask);
                 }
             }
         }
