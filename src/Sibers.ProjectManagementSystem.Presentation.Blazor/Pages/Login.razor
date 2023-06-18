@@ -1,0 +1,22 @@
+﻿@page "/login"
+
+<MudContainer>
+    <EditForm Model="@LoginViewModel" OnValidSubmit="LoginAsync">
+        <DataAnnotationsValidator/>
+        <MudCard>
+            <MudText GutterBottom="true" Typo="Typo.h3" Align="Align.Center">Вход</MudText>
+            <br />
+            <MudCardContent>
+                <MudTextField @bind-Value="LoginViewModel.UserName" Label="Имя пользователя" HelperText="Максимум 50 символов" 
+                    For="@(() => LoginViewModel.UserName)"/>
+                <MudTextField @bind-Value="LoginViewModel.Password" Label="Пароль" InputType="InputType.Password" 
+                    For="@(() => LoginViewModel.Password)"/>
+                <br />
+                <MudCheckBox @bind-Checked="@LoginViewModel.RememberMe" Color="Color.Secondary">Запомнить меня</MudCheckBox>             
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Войти</MudButton>
+            </MudCardActions>
+        </MudCard>
+    </EditForm>
+</MudContainer>
