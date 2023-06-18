@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 
 namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Components
 {
@@ -9,7 +10,7 @@ namespace Sibers.ProjectManagementSystem.Presentation.Blazor.Components
 
         protected override void OnInitialized()
         {
-            NavigationManager.NavigateTo("/login"); ;
+            NavigationManager.NavigateToLogin("authentication/login");
         }
     }
 }

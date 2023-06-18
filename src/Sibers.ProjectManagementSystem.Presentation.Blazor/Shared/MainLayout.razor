@@ -1,5 +1,7 @@
 ﻿@inherits LayoutComponentBase
 
+@inject NavigationManager Navigation
+
 <MudThemeProvider @bind-IsDarkMode="@_isDarkMode" Theme="_mudTheme" />
 <MudDialogProvider FullWidth="true"
                    MaxWidth="MaxWidth.Large"
@@ -15,6 +17,7 @@
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
         <MudSpacer />
         <MudSwitch @bind-Checked="@_isDarkMode" Color="Color.Primary" Class="ma-4" T="bool" Label="Темный/Светлый режим" />
+        <MudButton Color="Color.Surface" Variant="Variant.Outlined" OnClick="BeginLogOut">Выйти</MudButton>
     </MudAppBar>
     <MudDrawer @bind-Open="_drawerOpen" Elevation="1" Width="350px">
         <MudDrawerHeader>
@@ -43,5 +46,10 @@
     void DrawerToggle()
     {
         _drawerOpen = !_drawerOpen;
+    }
+
+    private void BeginLogOut()
+    {
+        Navigation.NavigateToLogout("authentication/logout");
     }
 }
